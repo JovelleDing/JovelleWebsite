@@ -629,7 +629,7 @@ zh:{
   rRent:"月租 (RM)", rTerm:"租期 (年)", rDep:"押金 (月)", rUtil:"水电押金 (月)", rAdv:"预付租金 (月)", rComm:"专业费用 (月租几个月)",
   rCopy:"包括副本印花税 RM10", rSst:"佣金加 8% SST",
   rFine:"租约费用 = 租约印花税（按 2026 年 LHDN 标准）+ 副本印花税 RM10 + RM310。专业费用已含 8% SST。计算结果仅供参考，以正式金额为准。",
-  saleH:"买卖费用明细", i1:"头期", i2:"买卖合同律师费 + 印花税", i3:"贷款合同律师费 + 印花税", i4:"估价费", i5:"Consent Fee", i6:"专业费用",
+  saleH:"买卖费用明细", i1:"头期", i2:"买卖合同律师费", i3:"贷款合同律师费", i4:"估价费", i5:"Consent Fee", i6:"专业费用",
   rDown:"成交价减去贷款额", rLegal:"律师费", rSst8:"8% SST", rMot:"转名印花税 MOT", rLoanDuty:"贷款印花税 0.5%", rExempt:"（首购屋豁免）",
   rValPending:"等候公司收费表更新", tbd:"待更新", rComm5:pct=>`中介专业费 ${pct}%`,
   spaL:"买卖合同价", priceL:"成交价", loanL:"贷款", totalL:"合计", totalExVal:"合计（未含待更新项目）",
@@ -675,7 +675,7 @@ en:{
   rRent:"Monthly rent (RM)", rTerm:"Tenancy (years)", rDep:"Security deposit (months)", rUtil:"Utility deposit (months)", rAdv:"Advance rental (months)", rComm:"Professional fee (months of rent)",
   rCopy:"Include RM10 duplicate copy stamp duty", rSst:"Add 8% SST to commission",
   rFine:"Tenancy agreement fee = stamp duty (2026 LHDN rates) + RM10 duplicate copy + RM310. The professional fee includes 8% SST. For reference only; official figures prevail.",
-  saleH:"Sale cost breakdown", i1:"Downpayment", i2:"SPA legal fee + stamp duty", i3:"Loan agreement legal fee + stamp duty", i4:"Valuation fee", i5:"Consent fee", i6:"Professional fee",
+  saleH:"Sale cost breakdown", i1:"Downpayment", i2:"SPA legal fee", i3:"Loan agreement legal fee", i4:"Valuation fee", i5:"Consent fee", i6:"Professional fee",
   rDown:"Price minus loan", rLegal:"Legal fee", rSst8:"8% SST", rMot:"MOT stamp duty", rLoanDuty:"Loan stamp duty 0.5%", rExempt:" (first-time buyer exempt)",
   rValPending:"Waiting for the company fee table", tbd:"TBC", rComm5:pct=>`Agency professional fee ${pct}%`,
   spaL:"SPA price", priceL:"Transaction price", loanL:"Loan", totalL:"Total", totalExVal:"Total (excl. items to be updated)",
@@ -934,7 +934,7 @@ function calcSale(){
   /* WhatsApp：金额全部粗体；每一项金额放下一行，对齐 */
   const IND="     ";
   /* 第 2、3 项（律师费 + 印花税）金额放下一行；其他同一行，冒号对齐 */
-  const nextLine = it => it.label===T("i2") || it.label===T("i3");
+  const nextLine = it => false;   /* 全部同一行 */
   const padSame=waNumPad(items.filter(i=>!nextLine(i)&&i.amt!==null).map(i=>rmNum(i.amt)));
   const padNext=waNumPad(items.filter(i=>nextLine(i)&&i.amt!==null).map(i=>rmNum(i.amt)));
   const amtWa = it => it.amt===null?(it.tbdText||T("tbd")):`*${waRM(it.amt,nextLine(it)?padNext:padSame)}${it.pm?" +/-":""}*`+(it.partial?` (${T("plusLegal")})`:"");
