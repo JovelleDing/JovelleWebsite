@@ -70,6 +70,9 @@ textarea{flex:1;min-width:0;resize:none;font:inherit;color:var(--ink);background
 .inv-item img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;background:#eee}
 .inv-row{display:flex;gap:6px;align-items:center}.inv-row b{font-size:13px;min-width:16px}
 .inv-row input{flex:1;min-width:0;font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink)}
+.inv-item img{cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.inv-item.dragging{opacity:.35}.inv-item.over{outline:2px dashed var(--brand);outline-offset:2px}
+.inv-ghost{position:fixed;z-index:999;pointer-events:none;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:.9;aspect-ratio:4/3;object-fit:cover}
 .inv-act{display:flex;gap:6px}.inv-act button{flex:1;font:inherit;padding:5px;border:1px solid var(--line);border-radius:7px;background:transparent;color:var(--ink);cursor:pointer}
 .inv-act button:disabled{opacity:.35;cursor:default}
 #pdfv{position:fixed;inset:0;z-index:1000;background:var(--bg,#fff);display:flex;flex-direction:column}
@@ -445,7 +448,7 @@ zh:{
   taTerm:"租期（年）", taRenew:"续约期（年）", taStart:"开始日期", taEnd:"结束日期", taRent:"月租 (RM)", taDep:"租金押金 (RM)", taUtil:"水电押金 (RM)",
   taBank:"Bank Name（有填户口号码就必填）", taAccName:"Account Holder Name", taAccNo:"Bank Account Number", taGen:"下载 TA",
   taFine:"Template 条款页照原文排版（Times New Roman 字体）。结束日期会按开始日期和租期自动算出，也可以自己改。押金默认是 2 个月、水电押金 0.5 个月，可以自己改。金额的英文大写会自动写好。",
-  taMissing:f=>`请先填写：${f}`, taMaking:"正在准备文件…", taSaved:"已下载。", invG:"Inventory List 照片（可不填）", invIntro:"上传屋子的照片，下载 TA 时会自动排在最后几页，每页 6 张，标题是 INVENTORY LIST。可以在每张照片下面写说明（请用英文，例如 Living hall – 1 sofa），也可以调顺序或删除。", invAdd:"＋ 上传照片", invCapPh:"说明（英文，可不填）", invLoading:"正在处理照片…", invCount:(n,p)=>`共 ${n} 张照片，会占 ${p} 页。`, invBad:n=>`有 ${n} 张照片打不开，请换成 JPG / PNG。`, pvShare:"转发 / 分享", pvDl:"下载", pvOpen:"新视窗打开", pvLoading:"正在显示…", pvTipShare:"按「转发 / 分享」可以直接 WhatsApp、Email 或存进档案。", pvTipDl:"按「下载」存档；手机上也可以按「新视窗打开」再分享。", pvTipFrame:"⚠ 你现在是在预览画面里打开，这里不能下载或分享。请把档案上传到网站后，用手机的 Chrome 或 Safari 打开。", pvShareFail:"这个浏览器不让分享档案。请按「下载」或「新视窗打开」，或改用手机的 Chrome / Safari 打开网站。", taNoDl:"下载失败，请再试一次。", taDeclined:"已取消下载。", taFail:"文件准备失败，请再试一次。",
+  taMissing:f=>`请先填写：${f}`, taMaking:"正在准备文件…", taSaved:"已下载。", invG:"Inventory List 照片（可不填）", invIntro:"上传屋子的照片，下载 TA 时会自动排在最后几页，每页 6 张，标题是 INVENTORY LIST。可以在每张照片下面写说明（请用英文，例如 Living hall – 1 sofa），要换顺序就按住照片拖到想要的位置（手机：按住照片约半秒再拖）。", invAdd:"＋ 上传照片", invDel:"删除", invCapPh:"说明（英文，可不填）", invLoading:"正在处理照片…", invCount:(n,p)=>`共 ${n} 张照片，会占 ${p} 页。`, invBad:n=>`有 ${n} 张照片打不开，请换成 JPG / PNG。`, pvShare:"转发 / 分享", pvDl:"下载", pvOpen:"新视窗打开", pvLoading:"正在显示…", pvTipShare:"按「转发 / 分享」可以直接 WhatsApp、Email 或存进档案。", pvTipDl:"按「下载」存档；手机上也可以按「新视窗打开」再分享。", pvTipFrame:"⚠ 你现在是在预览画面里打开，这里不能下载或分享。请把档案上传到网站后，用手机的 Chrome 或 Safari 打开。", pvShareFail:"这个浏览器不让分享档案。请按「下载」或「新视窗打开」，或改用手机的 Chrome / Safari 打开网站。", taNoDl:"下载失败，请再试一次。", taDeclined:"已取消下载。", taFail:"文件准备失败，请再试一次。",
   tabRoi:"ROI 计算", tabInst:"供期计算", tabAff:"购屋能力",
   roiPrice:"房价 (RM)", roiRent:"预计月租 (RM)", roiMaint:"每月管理费 (RM)", roiTax:"每年门牌税 + 地税 (RM)", roiCost:"买房杂费 (RM)",
   roiH:"投资回报", grossY:"毛租金回报率", netY:"净租金回报率", cashflow:"每月现金流", cashRoi:"现金回报率 (ROI)", cashIn:"投入现金（头期 + 杂费）", annualCf:"每年现金流",
@@ -491,7 +494,7 @@ en:{
   taTerm:"Fixed term (years)", taRenew:"Renewal term (years)", taStart:"Commencement date", taEnd:"Expiry date", taRent:"Monthly rent (RM)", taDep:"Rental deposit (RM)", taUtil:"Utilities deposit (RM)",
   taBank:"Bank name (required if account number is filled)", taAccName:"Account holder name", taAccNo:"Bank account number", taGen:"Download TA",
   taFine:"The expiry date is worked out from the start date and term, and you can change it. Deposits default to 2 months' and 0.5 month's rent; you can change them. Amounts in words are filled in automatically.",
-  taMissing:f=>`Please fill in: ${f}`, taMaking:"Preparing the file…", taSaved:"Downloaded.", invG:"Inventory list photos (optional)", invIntro:"Upload photos of the property. They are added as the last pages of the TA, 6 per page, titled INVENTORY LIST. You can add a caption under each photo (English, e.g. Living hall – 1 sofa), reorder or remove them.", invAdd:"+ Upload photos", invCapPh:"Caption (optional)", invLoading:"Processing photos…", invCount:(n,p)=>`${n} photos, ${p} page(s).`, invBad:n=>`${n} photo(s) could not be opened. Please use JPG / PNG.`, pvShare:"Share / Forward", pvDl:"Download", pvOpen:"Open in new tab", pvLoading:"Loading…", pvTipShare:"Tap “Share / Forward” to send by WhatsApp or email, or save to Files.", pvTipDl:"Tap “Download” to save; on a phone you can also open it in a new tab and share.", pvTipFrame:"⚠ This is a preview window, which blocks downloads and sharing. Upload the file to your website and open it in Chrome or Safari.", pvShareFail:"This browser does not allow sharing files. Tap “Download” or “Open in new tab”, or open the site in Chrome / Safari.", taNoDl:"Download failed. Please try again.", taDeclined:"Download cancelled.", taFail:"Couldn't prepare the file. Please try again.",
+  taMissing:f=>`Please fill in: ${f}`, taMaking:"Preparing the file…", taSaved:"Downloaded.", invG:"Inventory list photos (optional)", invIntro:"Upload photos of the property. They are added as the last pages of the TA, 6 per page, titled INVENTORY LIST. You can add a caption under each photo (English, e.g. Living hall – 1 sofa), drag a photo to reorder (on a phone, press and hold for half a second, then drag).", invAdd:"+ Upload photos", invDel:"Remove", invCapPh:"Caption (optional)", invLoading:"Processing photos…", invCount:(n,p)=>`${n} photos, ${p} page(s).`, invBad:n=>`${n} photo(s) could not be opened. Please use JPG / PNG.`, pvShare:"Share / Forward", pvDl:"Download", pvOpen:"Open in new tab", pvLoading:"Loading…", pvTipShare:"Tap “Share / Forward” to send by WhatsApp or email, or save to Files.", pvTipDl:"Tap “Download” to save; on a phone you can also open it in a new tab and share.", pvTipFrame:"⚠ This is a preview window, which blocks downloads and sharing. Upload the file to your website and open it in Chrome or Safari.", pvShareFail:"This browser does not allow sharing files. Tap “Download” or “Open in new tab”, or open the site in Chrome / Safari.", taNoDl:"Download failed. Please try again.", taDeclined:"Download cancelled.", taFail:"Couldn't prepare the file. Please try again.",
   tabRoi:"ROI", tabInst:"Instalment", tabAff:"Affordability",
   roiPrice:"Property price (RM)", roiRent:"Expected monthly rent (RM)", roiMaint:"Monthly maintenance (RM)", roiTax:"Yearly assessment + quit rent (RM)", roiCost:"Purchase costs (RM)",
   roiH:"Investment return", grossY:"Gross rental yield", netY:"Net rental yield", cashflow:"Monthly cash flow", cashRoi:"Cash-on-cash ROI", cashIn:"Cash invested (downpayment + costs)", annualCf:"Yearly cash flow",
@@ -2018,8 +2021,8 @@ const invShrink=file=>new Promise((res,rej)=>{ const url=URL.createObjectURL(fil
     URL.revokeObjectURL(url); res({src:c.toDataURL("image/jpeg",0.78), w:c.width, h:c.height}); };
   im.onerror=()=>{ URL.revokeObjectURL(url); rej(new Error("img")); }; im.src=url; });
 function renderInv(){
-  $("#inv-grid").innerHTML=INV.map((p,i)=>`<div class="inv-item"><img src="${p.src}" alt=""><div class="inv-row"><b>${i+1}</b><input type="text" data-cap="${i}" value="${esc(p.cap||"")}" placeholder="${T("invCapPh")}" maxlength="60"></div>
-    <div class="inv-act"><button type="button" data-mv="${i}" data-d="-1" aria-label="move left" ${i?"":"disabled"}>←</button><button type="button" data-mv="${i}" data-d="1" aria-label="move right" ${i<INV.length-1?"":"disabled"}>→</button><button type="button" data-rm="${i}" aria-label="remove">✕</button></div></div>`).join("");
+  $("#inv-grid").innerHTML=INV.map((p,i)=>`<div class="inv-item" data-i="${i}"><img src="${p.src}" alt="" draggable="false"><div class="inv-row"><b>${i+1}</b><input type="text" data-cap="${i}" value="${esc(p.cap||"")}" placeholder="${T("invCapPh")}" maxlength="60"></div>
+    <div class="inv-act"><button type="button" data-rm="${i}" aria-label="remove">✕ ${T("invDel")}</button></div></div>`).join("");
   $("#inv-status").textContent=INV.length?T("invCount")(INV.length,Math.ceil(INV.length/6)):"";
 }
 $("#inv-file").addEventListener("change",async e=>{ const files=[...e.target.files]; e.target.value=""; if(!files.length) return;
@@ -2027,9 +2030,33 @@ $("#inv-file").addEventListener("change",async e=>{ const files=[...e.target.fil
   for(const f of files){ try{ INV.push(await invShrink(f)); }catch(err){ bad++; } }
   renderInv(); if(bad) $("#inv-status").textContent+=" "+T("invBad")(bad); });
 $("#inv-grid").addEventListener("input",e=>{ const i=e.target.dataset.cap; if(i!==undefined) INV[+i].cap=e.target.value; });
-$("#inv-grid").addEventListener("click",e=>{ const m=e.target.closest("[data-mv]"), r=e.target.closest("[data-rm]");
-  if(m){ const i=+m.dataset.mv, j=i+(+m.dataset.d); [INV[i],INV[j]]=[INV[j],INV[i]]; renderInv(); }
-  if(r){ INV.splice(+r.dataset.rm,1); renderInv(); } });
+$("#inv-grid").addEventListener("click",e=>{ const r=e.target.closest("[data-rm]"); if(r){ INV.splice(+r.dataset.rm,1); renderInv(); } });
+/* 拖拉照片换位置：电脑直接拖；手机按住照片约半秒再拖 */
+let invDrag=null, invPress=null;
+function invStart(item,x,y){ const r=item.getBoundingClientRect(), g=item.querySelector("img").cloneNode();
+  g.className="inv-ghost"; g.style.width=r.width+"px"; document.body.appendChild(g);
+  invDrag={from:+item.dataset.i,to:+item.dataset.i,item,g,dx:x-r.left,dy:y-r.top}; item.classList.add("dragging"); invMove(x,y); navigator.vibrate?.(15); }
+function invMove(x,y){ if(!invDrag) return; const d=invDrag; d.g.style.left=(x-d.dx)+"px"; d.g.style.top=(y-d.dy)+"px";
+  d.g.style.display="none"; const over=document.elementFromPoint(x,y)?.closest(".inv-item"); d.g.style.display="";
+  document.querySelectorAll(".inv-item.over").forEach(el=>el.classList.remove("over"));
+  if(over && over.parentElement.id==="inv-grid"){ d.to=+over.dataset.i; if(over!==d.item) over.classList.add("over"); } }
+function invEnd(){ if(!invDrag) return; const {from,to,g}=invDrag; g.remove(); invDrag=null;
+  if(to!==from){ const it=INV.splice(from,1)[0]; INV.splice(to,0,it); } renderInv(); }
+const grid=$("#inv-grid");
+grid.addEventListener("mousedown",e=>{ const img=e.target.closest(".inv-item img"); if(!img||e.button!==0) return; e.preventDefault();
+  const item=img.closest(".inv-item"), sx=e.clientX, sy=e.clientY;
+  const mm=ev=>{ if(!invDrag && Math.hypot(ev.clientX-sx,ev.clientY-sy)>5) invStart(item,ev.clientX,ev.clientY); else invMove(ev.clientX,ev.clientY); };
+  const mu=()=>{ document.removeEventListener("mousemove",mm); document.removeEventListener("mouseup",mu); invEnd(); };
+  document.addEventListener("mousemove",mm); document.addEventListener("mouseup",mu); });
+grid.addEventListener("touchstart",e=>{ const img=e.target.closest(".inv-item img"); if(!img||e.touches.length>1) return;
+  const t=e.touches[0], item=img.closest(".inv-item"); clearTimeout(invPress?.timer);
+  invPress={x:t.clientX,y:t.clientY,timer:setTimeout(()=>{ invStart(item,invPress.x,invPress.y); },350)}; },{passive:true});
+grid.addEventListener("touchmove",e=>{ const t=e.touches[0];
+  if(invDrag){ e.preventDefault(); invMove(t.clientX,t.clientY); return; }
+  if(invPress && Math.hypot(t.clientX-invPress.x,t.clientY-invPress.y)>8){ clearTimeout(invPress.timer); invPress=null; } else if(invPress){ invPress.x=t.clientX; invPress.y=t.clientY; } },{passive:false});
+const invTouchEnd=()=>{ if(invPress){ clearTimeout(invPress.timer); invPress=null; } invEnd(); };
+grid.addEventListener("touchend",invTouchEnd); grid.addEventListener("touchcancel",invTouchEnd);
+grid.addEventListener("contextmenu",e=>{ if(e.target.closest(".inv-item img")) e.preventDefault(); });
 async function appendInventory(PDFLib, bytes, photos, addr){
   const {PDFDocument, StandardFonts, rgb}=PDFLib; const doc=await PDFDocument.load(bytes);
   const F=await doc.embedFont(StandardFonts.Helvetica), B=await doc.embedFont(StandardFonts.HelveticaBold);
