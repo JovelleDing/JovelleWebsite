@@ -938,10 +938,10 @@ function calcSale(){
   const padSame=waNumPad(items.filter(i=>!nextLine(i)&&i.amt!==null).map(i=>rmNum(i.amt)));
   const padNext=waNumPad(items.filter(i=>nextLine(i)&&i.amt!==null).map(i=>rmNum(i.amt)));
   const amtWa = it => it.amt===null?(it.tbdText||T("tbd")):`*${waRM(it.amt,nextLine(it)?padNext:padSame)}${it.pm?" +/-":""}*`+(it.partial?` (${T("plusLegal")})`:"");
-  const padTop=waNumPad([rmNum(spa),rmNum(price)]);
+  const padTop=waNumPad([rmNum(spa),rmNum(price),rmNum(loan)]);
   const sameIdx = items.map((it,i)=>i).filter(i=>!nextLine(items[i]));
   const aligned = waAlign(sameIdx.map(i=>[`${i+1}) ${items[i].label}`, amtWa(items[i])]));
-  saleText = [T("waSale"), ...waAlign([[T("spaL"),`*${waRM(spa,padTop)}*`],[T("priceL"),`*${waRM(price,padTop)}*`],[T("loanL"),`${margin}% (*${RM(loan)}*)`]]), "",
+  saleText = [T("waSale"), ...waAlign([[T("spaL"),`*${waRM(spa,padTop)}*`],[T("priceL"),`*${waRM(price,padTop)}*`],[T("loanL"),`*${waRM(loan,padTop)}* (${margin}%)`]]), "",
       `*${T("monthly")}: ${RM(monthly)}*`, `(${rate}% · ${years} ${T("yearsU")})`, ""]
     .concat(items.flatMap((it,i)=> nextLine(it) ? [`${i+1}) ${it.label}:`, IND+amtWa(it)] : [aligned[sameIdx.indexOf(i)]]))
     .concat(["", `*${totalLabel}: ${RM(total)} +/-*`, "", T("waNote")]).join("\n");
