@@ -159,6 +159,23 @@ html[lang="en"] .zh-only{display:none}
 .pcard .tel{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;user-select:all}
 .pcard button{grid-row:1 / span 3;grid-column:2;font:inherit;font-size:.8rem;border:1px solid var(--line);background:var(--surface);color:var(--brand);border-radius:8px;padding:6px 10px;cursor:pointer}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.lst-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.msel{position:relative}
+.msel-btn{width:100%;box-sizing:border-box;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:9px 30px 9px 11px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative}
+.msel-btn::after{content:"";position:absolute;right:12px;top:50%;width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:translateY(-70%) rotate(45deg)}
+.msel-btn.ph{color:var(--muted)}
+.msel-panel{position:absolute;z-index:30;top:calc(100% + 4px);right:0;min-width:100%;width:max-content;max-width:min(320px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:6px;max-height:300px;overflow:auto;box-sizing:border-box}
+.msel-panel label{display:flex;gap:10px;align-items:center;padding:8px;border-radius:7px;font-size:.92rem;cursor:pointer;color:var(--ink)}
+.msel-panel label:hover{background:var(--brand-soft)}
+.msel-panel input{width:18px;height:18px;flex:none;margin:0}
+.msel-done{display:block;width:100%;margin-top:4px;font:inherit;font-size:.88rem;border:0;border-radius:8px;padding:8px;background:var(--brand);color:var(--surface);cursor:pointer}
+.rq-brow{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:8px}
+.rq-tags{margin-top:8px}.rq-tags:empty{display:none}
+.lst-chips{display:flex;flex-wrap:wrap;gap:8px}
+.lst-chip{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer}
+.lst-chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--surface)}
+.lst-out{width:100%;box-sizing:border-box;font:inherit;font-size:.92rem;line-height:1.5;color:var(--ink);background:var(--brand-soft);border:1px solid var(--line);border-radius:12px;padding:12px 14px;resize:vertical;min-height:300px}
+a.btn{text-decoration:none;display:inline-block}
 </style>
 
 <div class="wrap">
@@ -180,7 +197,7 @@ html[lang="en"] .zh-only{display:none}
       <button class="tab" role="tab" id="tab-inst" data-view="inst" aria-selected="false" data-i18n="tabInst"></button>
       <button class="tab" role="tab" id="tab-aff" data-view="aff" aria-selected="false" data-i18n="tabAff"></button>
       <button class="tab" role="tab" id="tab-ta" data-view="ta" aria-selected="false" data-i18n="tabTaGroup"></button>
-      <button class="tab" role="tab" id="tab-letters" data-view="fl" aria-selected="false" data-i18n="tabLetters"></button><button class="tab" role="tab" id="tab-cdd" data-view="cdd" aria-selected="false" data-i18n="cddTab"></button>
+      <button class="tab" role="tab" id="tab-letters" data-view="fl" aria-selected="false" data-i18n="tabLetters"></button><button class="tab" role="tab" id="tab-cdd" data-view="cdd" aria-selected="false" data-i18n="cddTab"></button><button class="tab" role="tab" id="tab-lst" data-view="lst" aria-selected="false" data-i18n="lstTab"></button><button class="tab" role="tab" id="tab-rq" data-view="rq" aria-selected="false" data-i18n="rqTab"></button>
     </div>
   </header>
 
@@ -360,6 +377,154 @@ html[lang="en"] .zh-only{display:none}
       <div class="copyrow"><button class="btn" type="button" id="cdd-gen" data-i18n="cddGen"></button><span class="copied" id="cdd-status" role="status"></span></div>
     </section>
   </div>
+  <div class="view" id="view-lst" hidden>
+    <section class="calc">
+      <p class="fine" data-i18n="lstIntro"></p>
+      <div class="ta-group"><h3 data-i18n="lstG1"></h3><div class="fields">
+        <div class="field"><label for="lst-kind" data-i18n="lstKind"></label><select id="lst-kind" data-lst-opts="kind"></select></div>
+        <div class="field"><label for="lst-style" data-i18n="lstStyle"></label><select id="lst-style"><option value="plain" data-i18n="lstStPlain"></option><option value="bold" selected data-i18n="lstStBold"></option><option value="emoji" data-i18n="lstStEmoji"></option></select></div>
+        <div class="field"><label for="lst-lang" data-i18n="lstLangL"></label><select id="lst-lang"><option value="en" data-i18n="lstLangEn"></option><option value="zh" data-i18n="lstLangZh"></option><option value="both" data-i18n="lstLangBoth"></option></select></div>
+      </div></div>
+      <div class="ta-group"><h3 data-i18n="lstG2"></h3><div class="fields">
+        <div class="field wide"><label for="lst-tag" data-i18n="lstTag"></label><input id="lst-tag" type="text" autocomplete="off" data-i18n-ph="lstTagPh"></div>
+        <div class="field wide"><label for="lst-area" data-i18n="lstArea"></label><input id="lst-area" type="text" autocomplete="off" data-i18n-ph="lstAreaPh"></div>
+        <div class="field"><label for="lst-cn" data-i18n="lstCn"></label><input id="lst-cn" type="text" autocomplete="off" data-i18n-ph="lstCnPh"></div>
+        <div class="field"><label for="lst-type" data-i18n="lstType"></label><select id="lst-type" data-lst-opts="type"></select></div>
+        <div class="field" id="lst-typeo-f" hidden><label for="lst-typeo" data-i18n="lstTypeO"></label><input id="lst-typeo" type="text" autocomplete="off"></div>
+        <div class="field" data-lst-hide="land,ind"><label for="lst-land" data-i18n="lstLand"></label><input id="lst-land" type="text" autocomplete="off" placeholder="22x70"></div>
+        <div class="field" data-lst-hide="land"><label for="lst-bu" data-i18n="lstBu"></label><input id="lst-bu" type="text" inputmode="decimal" autocomplete="off" data-num></div>
+        <div class="field lst-pair" data-lst-hide="res"><div class="field"><label for="lst-larea" data-i18n="lstLArea"></label><input id="lst-larea" type="text" inputmode="decimal" autocomplete="off" data-num></div><div class="field"><label for="lst-lunit" data-i18n="lstLUnit"></label><select id="lst-lunit" data-lst-opts="lunit"></select></div></div>
+        <div class="field lst-pair" data-lst-hide="land,ind"><div class="field"><label for="lst-bed" data-i18n="lstBed"></label><select id="lst-bed"><option value=""></option><option value="Studio">Studio</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select></div><div class="field"><label for="lst-bedx" data-i18n="lstBedX"></label><select id="lst-bedx"><option value=""></option><option value="1">+ 1</option><option value="2">+ 2</option><option value="3">+ 3</option></select></div></div>
+        <div class="field lst-pair" data-lst-hide="land,ind"><div class="field"><label for="lst-bath" data-i18n="lstBath"></label><select id="lst-bath"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select></div><div class="field"><label for="lst-toilet" data-i18n="lstToilet"></label><select id="lst-toilet"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+        <div class="field" data-lst-hide="land"><label for="lst-lot" data-i18n="lstLot"></label><select id="lst-lot" data-lst-opts="lot"></select></div>
+        <div class="field" data-lst-hide="land,ind"><label for="lst-facing" data-i18n="lstFacing"></label><select id="lst-facing" data-lst-opts="facing"></select></div>
+        <div class="field" data-lst-hide="land,ind"><label for="lst-floor" data-i18n="lstFloor"></label><input id="lst-floor" type="text" autocomplete="off" data-i18n-ph="lstFloorPh"></div>
+        <div class="field"><label for="lst-bumi" data-i18n="lstBumi"></label><select id="lst-bumi" data-lst-opts="bumi"></select></div>
+        <div class="field"><label for="lst-tenure" data-i18n="lstTenure"></label><select id="lst-tenure" data-lst-opts="tenure"></select></div>
+        <div class="field" id="lst-lease-f" hidden><label for="lst-lease" data-i18n="lstLease"></label><input id="lst-lease" type="text" inputmode="numeric" autocomplete="off" placeholder="99"></div>
+        <div class="field"><label for="lst-title" data-i18n="lstTitle"></label><select id="lst-title" data-lst-opts="title"></select></div>
+        <div class="field" data-lst-hide="land,ind"><label for="lst-furn" data-i18n="lstFurn"></label><select id="lst-furn" data-lst-opts="furn"></select></div>
+        <div class="field" data-lst-hide="land"><label for="lst-security" data-i18n="lstSecurity"></label><select id="lst-security" data-lst-opts="security"></select></div>
+        <div class="field" data-lst-hide="land"><label for="lst-mf" data-i18n="lstMf"></label><input id="lst-mf" type="text" inputmode="decimal" autocomplete="off" data-num></div>
+        <div class="field" data-lst-hide="land"><label for="lst-status" data-i18n="lstStatus"></label><select id="lst-status" data-lst-opts="status"></select></div>
+        <div class="field" id="lst-crent-f" hidden><label for="lst-crent" data-i18n="lstCrent"></label><input id="lst-crent" type="text" inputmode="decimal" autocomplete="off" data-num></div>
+      </div></div>
+      <div class="ta-group" data-lst-hide="res,ind"><h3 data-i18n="lstGLand"></h3><div class="fields">
+        <div class="field"><label for="lst-lcat" data-i18n="lstLCat"></label><select id="lst-lcat" data-lst-opts="lcat"></select></div>
+        <div class="field"><label for="lst-conv" data-i18n="lstConv"></label><select id="lst-conv" data-lst-opts="conv"></select></div>
+        <div class="field" id="lst-convto-f" hidden><label for="lst-convto" data-i18n="lstConvTo"></label><select id="lst-convto" data-lst-opts="convto"></select></div>
+        <div class="field"><label for="lst-terrain" data-i18n="lstTerrain"></label><select id="lst-terrain" data-lst-opts="terrain"></select></div>
+        <div class="field" id="lst-terraino-f" hidden><label for="lst-terraino" data-i18n="lstOtherL"></label><input id="lst-terraino" type="text" autocomplete="off"></div>
+        <div class="field"><label for="lst-road" data-i18n="lstRoad"></label><select id="lst-road" data-lst-opts="road"></select></div>
+        <div class="field" id="lst-roado-f" hidden><label for="lst-roado" data-i18n="lstOtherL"></label><input id="lst-roado" type="text" autocomplete="off"></div>
+        <div class="field"><label for="lst-front" data-i18n="lstFront"></label><input id="lst-front" type="text" inputmode="decimal" autocomplete="off" placeholder="200"></div>
+        <div class="field"><label for="lst-lstatus" data-i18n="lstLStatus"></label><select id="lst-lstatus" data-lst-opts="lstatus"></select></div>
+        <div class="field" id="lst-lstatuso-f" hidden><label for="lst-lstatuso" data-i18n="lstOtherL"></label><input id="lst-lstatuso" type="text" autocomplete="off"></div>
+        <div class="field"><label for="lst-zone" data-i18n="lstZone"></label><input id="lst-zone" type="text" autocomplete="off" data-i18n-ph="lstZonePh"></div>
+      </div></div>
+      <div class="ta-group" data-lst-hide="res,land"><h3 data-i18n="lstGInd"></h3><div class="fields">
+        <div class="field"><label for="lst-itype" data-i18n="lstIType"></label><select id="lst-itype" data-lst-opts="itype"></select></div>
+        <div class="field"><label for="lst-ceil" data-i18n="lstCeil"></label><input id="lst-ceil" type="text" inputmode="decimal" autocomplete="off" placeholder="30"></div>
+        <div class="field"><label for="lst-power" data-i18n="lstPower"></label><input id="lst-power" type="text" autocomplete="off" placeholder="3 phase 200A"></div>
+        <div class="field"><label for="lst-loadf" data-i18n="lstLoadF"></label><input id="lst-loadf" type="text" autocomplete="off" placeholder="10 kN/m²"></div>
+        <div class="field"><label for="lst-access" data-i18n="lstAccess"></label><select id="lst-access" data-lst-opts="access"></select></div>
+        <div class="field"><label for="lst-crane" data-i18n="lstCrane"></label><input id="lst-crane" type="text" autocomplete="off" placeholder="5 ton"></div>
+        <div class="field"><label for="lst-office" data-i18n="lstOffice"></label><input id="lst-office" type="text" autocomplete="off" data-i18n-ph="lstOfficePh"></div>
+        <div class="field"><label for="lst-ccc" data-i18n="lstCcc"></label><select id="lst-ccc" data-lst-opts="ccc"></select></div>
+      </div></div>
+      <div class="ta-group"><h3 data-i18n="lstG3"></h3>
+        <div class="fields" data-lst-hide="land,ind"><div class="field"><label for="lst-cond" data-i18n="lstCond"></label><select id="lst-cond"><option value="reno" data-i18n="lstCondReno"></option><option value="orig" data-i18n="lstCondOrig"></option></select></div></div>
+        <div id="lst-reno-box" class="ta-group">
+        <p class="fine" data-i18n="lstRenoHint"></p>
+        <div class="lst-chips" id="lst-reno"></div>
+        <div class="fields"><div class="field wide"><label for="lst-renox" data-i18n="lstRenoX"></label><textarea id="lst-renox" rows="3"></textarea></div></div>
+        </div>
+        <div class="fields">
+          <div class="field wide"><label for="lst-hl" data-i18n="lstHl"></label><textarea id="lst-hl" rows="3" data-i18n-ph="lstHlPh"></textarea></div>
+        </div>
+      </div>
+      <div class="ta-group"><h3 data-i18n="lstG4"></h3><div class="fields">
+        <div class="field lst-pair" id="lst-pp-f"><div class="field" id="lst-price-f"><label for="lst-price" data-i18n="lstPrice"></label><input id="lst-price" type="text" inputmode="decimal" autocomplete="off" data-num></div>
+        <div class="field" id="lst-punit-f"><label for="lst-punit" data-i18n="lstPUnit"></label><select id="lst-punit" data-lst-opts="punit"></select></div></div>
+        <div class="field" id="lst-bv-f"><label for="lst-bv" data-i18n="lstBv"></label><input id="lst-bv" type="text" inputmode="decimal" autocomplete="off" data-num></div>
+        <div class="field" id="lst-rent-f" hidden><label for="lst-rent" data-i18n="lstRent"></label><input id="lst-rent" type="text" inputmode="decimal" autocomplete="off" data-num></div>
+        <div class="field" id="lst-neg-f"><label for="lst-neg" data-i18n="lstNeg"></label><select id="lst-neg"><option value="" data-i18n="lstNegNo"></option><option value="neg" data-i18n="lstNegYes"></option></select></div>
+      </div>
+      <label class="chk" id="lst-psf-f"><input type="checkbox" id="lst-psf"><span data-i18n="lstPsf"></span></label></div>
+      <div class="ta-group"><h3 data-i18n="lstG5"></h3><div class="fields">
+        <div class="field"><label for="lst-agency" data-i18n="lstAgency"></label><input id="lst-agency" type="text" autocomplete="off" value="TRREAG"></div>
+        <div class="field"><label for="lst-name" data-i18n="lstName"></label><input id="lst-name" type="text" autocomplete="off"></div>
+        <div class="field"><label for="lst-phone" data-i18n="lstPhone"></label><input id="lst-phone" type="tel" autocomplete="off" placeholder="0123456789"></div>
+        <div class="field"><label for="lst-slug" data-i18n="lstSlug"></label><input id="lst-slug" type="text" autocomplete="off"></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="lst-wasap" checked><span data-i18n="lstWasap"></span></label>
+      <p class="fine" data-i18n="lstAgentNote"></p></div>
+      <div class="ta-group"><h3 data-i18n="lstG6"></h3>
+        <textarea class="lst-out" id="lst-out" rows="16" aria-label="WhatsApp"></textarea>
+        <p class="fine" data-i18n="lstEditNote"></p>
+      </div>
+      <div class="copyrow"><button class="btn" type="button" id="lst-copy" data-i18n="copyWa"></button><a class="btn ghost" id="lst-wa" target="_blank" rel="noopener" data-i18n="lstSendWa"></a><button class="btn ghost" type="button" id="lst-clear" data-i18n="lstClear"></button><span class="copied" id="lst-copied" role="status"></span></div>
+      <textarea class="fallback" id="lst-fallback" readonly hidden aria-label="WhatsApp"></textarea>
+    </section>
+  </div>
+  <div class="view" id="view-rq" hidden>
+    <section class="calc">
+      <p class="fine" data-i18n="rqIntro"></p>
+      <div class="ta-group"><h3 data-i18n="lstG1"></h3><div class="fields">
+        <div class="field"><label for="rq-kind" data-i18n="rqKind"></label><select id="rq-kind" data-rq-opts="kind"></select></div>
+        <div class="field"><label for="rq-style" data-i18n="lstStyle"></label><select id="rq-style"><option value="plain" data-i18n="lstStPlain"></option><option value="bold" selected data-i18n="lstStBold"></option><option value="emoji" data-i18n="lstStEmoji"></option></select></div>
+        <div class="field"><label for="rq-lang" data-i18n="lstLangL"></label><select id="rq-lang"><option value="en" data-i18n="lstLangEn"></option><option value="zh" data-i18n="lstLangZh"></option><option value="both" data-i18n="lstLangBoth"></option></select></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="rq-urgent"><span data-i18n="rqUrgent"></span></label></div>
+      <div class="ta-group"><h3 data-i18n="rqG2"></h3><div class="fields">
+        <div class="field wide"><label for="rq-area" data-i18n="rqArea"></label><input id="rq-area" type="text" autocomplete="off" data-i18n-ph="rqAreaPh"></div>
+      </div>
+        <div class="fields">
+        <div class="field wide"><div class="lst-pair"><div class="field"><label for="rq-tcat" data-i18n="rqTCat"></label><select id="rq-tcat" data-rq-opts="tcat"></select></div><div class="field" id="rq-type-pick-f"><label data-i18n="rqTypeL"></label><div class="msel" id="rq-type-ms"></div></div></div></div>
+        <div class="field" id="rq-storey-f" hidden><label for="rq-storey" data-i18n="rqStorey"></label><select id="rq-storey" data-rq-opts="storey"></select></div>
+        <div class="field" id="rq-storeyo-f" hidden><label for="rq-storeyo" data-i18n="rqStoreyO"></label><input id="rq-storeyo" type="text" autocomplete="off" placeholder="3.5 Storey"></div>
+        <div class="field" id="rq-hbed-f" hidden><label for="rq-hbed" data-i18n="rqHBed"></label><select id="rq-hbed" data-rq-opts="hbed"></select></div>
+        <div class="field" id="rq-flr-f" hidden><label data-i18n="rqFloorL"></label><div class="msel" id="rq-flr-ms"></div></div>
+        <div class="field" id="rq-typeo-f" hidden><label for="rq-typeo" data-i18n="rqTypeO"></label><input id="rq-typeo" type="text" autocomplete="off"></div>
+        <div class="field" id="rq-bu-f" hidden><label for="rq-bu" data-i18n="rqBu"></label><input id="rq-bu" type="text" inputmode="decimal" autocomplete="off" data-num></div>
+        <div class="field" id="rq-land-f" hidden><label for="rq-land" data-i18n="rqLand"></label><input id="rq-land" type="text" autocomplete="off" data-i18n-ph="rqLandPh"></div>
+        <div class="field" id="rq-lot-f"><label data-i18n="rqLotL"></label><div class="msel" id="rq-lot-ms"></div></div>
+        <div class="field" id="rq-cond-f"><label data-i18n="rqCondL"></label><div class="msel" id="rq-cond-ms"></div></div>
+        <div class="field" id="rq-security-f"><label for="rq-security" data-i18n="lstSecurity"></label><select id="rq-security" data-rq-opts="security"></select></div>
+        <div class="field" id="rq-furn-f" data-rq-only="rent"><label for="rq-furn" data-i18n="lstFurn"></label><select id="rq-furn" data-rq-opts="furn"></select></div>
+      </div></div>
+      <div class="ta-group"><h3 data-i18n="rqG3"></h3><div class="fields">
+        <div class="field wide rq-brow" id="rq-brow" data-rq-only="buy"><div class="field"><label for="rq-bmode" data-i18n="rqBuyL"></label><select id="rq-bmode" data-rq-opts="bmode"></select></div><div class="field" id="rq-b1-f"><label for="rq-b1" id="rq-b1-l"></label><input id="rq-b1" type="text" inputmode="decimal" autocomplete="off" data-num></div><div class="field" id="rq-b2-f"><label for="rq-b2" data-i18n="rqTo"></label><input id="rq-b2" type="text" inputmode="decimal" autocomplete="off" data-num></div></div>
+        <div class="field wide rq-brow" id="rq-rrow" data-rq-only="rent"><div class="field"><label for="rq-rmode" data-i18n="rqRentL"></label><select id="rq-rmode" data-rq-opts="bmode"></select></div><div class="field" id="rq-r1-f"><label for="rq-r1" id="rq-r1-l"></label><input id="rq-r1" type="text" inputmode="decimal" autocomplete="off" data-num></div><div class="field" id="rq-r2-f"><label for="rq-r2" data-i18n="rqTo"></label><input id="rq-r2" type="text" inputmode="decimal" autocomplete="off" data-num></div></div>
+      </div></div>
+      <div class="ta-group" data-rq-only="buy"><h3 data-i18n="rqGBuy"></h3><div class="fields">
+        <div class="field"><label for="rq-purpose" data-i18n="rqPurpose"></label><select id="rq-purpose" data-rq-opts="purpose"></select></div>
+      </div></div>
+      <div class="ta-group" data-rq-only="rent"><h3 data-i18n="rqGRent"></h3><div class="fields">
+        <div class="field"><label for="rq-move" data-i18n="rqMove"></label><label class="chk" style="margin:2px 0 4px"><input type="checkbox" id="rq-asap"><span>ASAP</span></label><input id="rq-move" type="date"></div>
+        <div class="field"><label for="rq-period" data-i18n="rqPeriod"></label><select id="rq-period" data-rq-opts="period"></select></div>
+        <div class="field" id="rq-pax-f"><label for="rq-pax" data-i18n="rqPax"></label><select id="rq-pax"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select></div>
+        <div class="field" id="rq-pets-f"><label for="rq-pets" data-i18n="rqPets"></label><select id="rq-pets" data-rq-opts="pets"></select></div>
+        <div class="field wide"><label for="rq-profile" data-i18n="rqProfile"></label><input id="rq-profile" type="text" autocomplete="off" data-i18n-ph="rqProfilePh"></div>
+      </div></div>
+      <div class="ta-group"><h3 data-i18n="rqG4"></h3><div class="fields">
+        <div class="field wide"><label for="rq-remarks" data-i18n="rqRemarks"></label><textarea id="rq-remarks" rows="3" data-i18n-ph="rqRemarksPh"></textarea></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="rq-cobroke" checked><span data-i18n="rqCobroke"></span></label></div>
+      <div class="ta-group"><h3 data-i18n="lstG5"></h3><div class="fields">
+        <div class="field"><label for="rq-agency" data-i18n="lstAgency"></label><input id="rq-agency" type="text" autocomplete="off" value="TRREAG"></div>
+        <div class="field"><label for="rq-name" data-i18n="lstName"></label><input id="rq-name" type="text" autocomplete="off"></div>
+        <div class="field"><label for="rq-phone" data-i18n="lstPhone"></label><input id="rq-phone" type="tel" autocomplete="off" placeholder="0123456789"></div>
+      </div><p class="fine" data-i18n="rqAgentNote"></p>
+      <label class="chk"><input type="checkbox" id="rq-wasap" checked><span data-i18n="lstWasap"></span></label></div>
+      <div class="ta-group"><h3 data-i18n="lstG6"></h3>
+        <textarea class="lst-out" id="rq-out" rows="16" aria-label="WhatsApp"></textarea>
+        <p class="fine" data-i18n="lstEditNote"></p>
+      </div>
+      <div class="copyrow"><button class="btn" type="button" id="rq-copy" data-i18n="copyWa"></button><a class="btn ghost" id="rq-wa" target="_blank" rel="noopener" data-i18n="lstSendWa"></a><button class="btn ghost" type="button" id="rq-clear" data-i18n="rqClear"></button><span class="copied" id="rq-copied" role="status"></span></div>
+      <textarea class="fallback" id="rq-fallback" readonly hidden aria-label="WhatsApp"></textarea>
+    </section>
+  </div>
   <div class="view" id="view-roi" hidden>
     <section class="calc">
       <div class="fields">
@@ -453,7 +618,7 @@ zh:{
   copyWa:"复制", copied:"已复制，可以贴到 WhatsApp", copyFail:"无法自动复制，请长按下面的文字复制。",
   waSale:"*EAG 买卖费用预算*", waRent:"*EAG 租赁费用预算*", waNote:"_以上金额仅供参考，以正式文件为准_",
   rentL:"月租", termL:"租期", monthsU:"个月",
-  tabTaGroup:"租约 TA", tabLetters:"信件", cddTab:"CDD", cddTitle:"Customer Due Diligence (CDD)（客户尽职调查）", cddPick:"— 请选择 —", cddGTfs:"Targeted Financial Sanctions (TFS)（定向金融制裁）", cddTfsAct:"Positive name match 的处理（可多选）", cddGCrp:"Customer Risk Profiling (CRP)（客户风险评估）", cddAdvNote:"Adverse remark：请注明", cddGEdd:"EDD（有 3rd party 才填）", cddEddName:"Individual name of higher risk customer / PEP（高风险客户 / PEP 名字）", cddSof:"Source of Fund / Source of Wealth（资金 / 财富来源）", cddQ1:"最后一页第 1 题：客户可疑，需要通知 Compliance officer 报 STR 吗？", cddG4:"最后一页", oMY:"Malaysia（马来西亚）", oSG:"Singapore（新加坡）", oMYn:"Malaysian（马来西亚人）", bt_private:"Private Limited Company（私人有限公司 Sdn Bhd）", bt_sole:"Sole Proprietorship（独资）", bt_partnership:"Partnership（合伙）", bt_llp:"Limited Liability Partnership（有限责任合伙 LLP）", bt_public:"Public Company（公共公司 Berhad）", bt_trust:"Trust（信托）", bt_club:"Club/Society/Charity（俱乐部 / 社团 / 慈善机构）", bt_other:"Other（其他）", oYes:"Yes（是）", oNo:"No（不是）", oREN:"REN 谈判员", oPEA:"PEA 见习经纪", oREA:"REA 注册经纪", co_tfs_negative:"Negative name match（没有符合）", co_tfs_positive:"Positive name match（有符合）", co_pep_foreign:"Foreign PEP（外国 PEP）", co_pep_domestic:"Domestic PEP（本国 PEP）", co_nat_my:"Malaysian（马来西亚人）", co_nat_fr:"Foreigner（外国人）", co_hnw_yes:"Yes（是）", co_hnw_no:"No（不是）", co_ctype_new:"New customer（新客户）", co_ctype_rep:"Repeating customer（回头客户）", co_ctype_occ:"Occasional / One-Off（偶尔 / 一次性）", co_size_large:"Large and complex structure（大型、复杂）", co_size_small:"Small and simple structure（小型、简单）", co_occup_lower:"Lower risk occupation/business（低风险）", co_occup_higher:"Higher risk (cash intensive)（高风险，现金密集）", co_adverse_no:"No（不是）", co_adverse_yes:"Yes（是）", co_geo_low:"Low risk countries（低风险国家）", co_geo_strategic:"Countries having strategic AML/CFT deficiencies（反洗钱有缺陷的国家）", co_geo_fatf:"Countries subject to a FATF call（FATF 点名的国家）", co_anon_yes:"Yes（是）", co_anon_no:"No（不是）", co_comm_yes:"Yes（是）", co_comm_no:"No（不是）", co_complex_yes:"Yes（是）", co_complex_no:"No（不是）", co_nominee_yes:"Yes（是）", co_nominee_no:"No（不是）", co_nomsh_yes:"Yes（是）", co_nomsh_no:"No（不是）", co_cross_yes:"Yes（是）", co_cross_no:"No（不是）", co_pay_bank:"Bank transfer or cheques（银行转账 / 支票）", co_pay_cash:"Physical cash（现金）", co_deliv_f2f:"Face-to-face（面对面）", co_deliv_agent:"Through agent / intermediaries（通过中介）", co_deliv_non:"Non face-to-face（非面对面）", co_overall_low:"Low（低）", co_overall_medium:"Medium（中）", co_overall_high:"High（高）", cOthers:"Others（其他）", cOtherCountry:"请填写国家", cOtherNat:"请填写国籍", cddDateL:"日期 Date", cq_tfs:"TFS: name screening result（TFS 名字筛查结果）", cq_pep:"Foreign or domestic PEP?（是不是外国 / 本国政治人物 PEP？不是就不用选）", cq_nat:"Nationality（国籍）", cq_hnw:"High Net Worth individual?（是不是高净值人士？）", cq_ctype:"Type of customer（客户类型）", cq_size:"Size and structure of business（业务规模和结构）", cq_occup:"Type of occupation / business（职业 / 业务类型）", cq_adverse:"Any adverse remark (e.g. from Google)?（Google 等查到负面资料吗？）", cq_geo:"Geographical risk（地区风险：客户 / 业务所在国家）", cq_anon:"Product provides anonymity to the customer?（产品 / 服务让客户可以匿名吗？）", cq_comm:"Product commensurate with the customer’s profile?（产品 / 服务符合客户背景吗？）", cq_complex:"Complex and unusual transaction?（交易复杂或不寻常吗？）", cq_nominee:"Customer requires nominee services?（客户需要代名人服务吗？）", cq_nomsh:"Company has nominee shareholder(s) / director(s)?（公司有代名股东 / 董事吗？）", cq_cross:"Cross-border transactions?（有跨境交易吗？）", cq_pay:"Mode of payment（付款方式）", cq_deliv:"Delivery channel（交易渠道）", cq_overall:"Overall risk assessment（整体风险评估）", cddIntro:"填好资料，按「下载 CDD」就会得到填好的 TRR Customer Due Diligence form（PDF）。Form 本身不改，只把资料填进格子里。先选 Individual 或 Company：选 Individual，Part 2 会放空；选 Company，Part 1 会放空。TFS、CRP 用下拉选打勾；EDD 只有 3rd party 才填；最后一页只填第 1 题和 Prepared by，其他部分保持空白。", cddGen:"下载 CDD", cddG0:"表格资料", cddAgent:"Agent Name（Agent Name、REN 和日期也会填进最后一页的 Prepared by）", cddSerial:"Booking Form Serial Number（Booking Form 编号）", cddType:"客户类型", cddTInd:"Individual 个人", cddTCo:"Company 公司 (Legal Person / Arrangement)", cddG1:"1) Individual 个人", cddG2:"2) Company 公司", cName:"Full Name 全名", cNric:"NRIC / Passport No.（身份证 / 护照号码）", cDob:"Date of Birth 出生日期", cResAddr:"Residential Address 住址", cTown:"Town（城镇）", cState:"State（州属）", cPost:"Postcode（邮区编号）", cCountry:"Country（国家）", cMSame:"Mailing address same as above（跟住址一样）", cPSame:"Principal place of business same as above（主要营业地点跟注册办事处一样）", cMail:"Mailing Address（跟住址不同才填）", cMTown:"Mailing Town（通讯城镇）", cMState:"Mailing State（通讯州属）", cMPost:"Mailing Postcode（通讯邮区编号）", cMCountry:"Mailing Country（通讯国家）", cNat:"Nationality 国籍", cOcc:"Occupation Type 职业", cEmp:"Name of Employer / Nature of Business（雇主名称 / 业务性质）", cTel:"Contact Number 电话", cPurpose:"Purpose of Transaction 交易目的", cCoName:"Company / Business Name 公司名", cRegNo:"Business Registration No.（公司注册号码）", cBType:"Business Type（业务类型）", cBOther:"Other（请注明）", cInc:"Country of Incorporation / Registration（注册国家）", cRAddr:"Address of Registered Office（注册办事处地址）", cRTown:"Registered Office Town（注册办事处城镇）", cRState:"Registered Office State（注册办事处州属）", cRPost:"Registered Office Postcode（注册办事处邮区编号）", cRCountry:"Registered Office Country（注册办事处国家）", cPAddr:"Principal Place of Business（不同才填）", cPTown:"Principal Place Town（主要营业地点城镇）", cPState:"Principal Place State（主要营业地点州属）", cPPost:"Principal Place Postcode（主要营业地点邮区编号）", cPCountry:"Principal Place Country（主要营业地点国家）", cPBiz:"Principle Business 主要业务", cCoTel:"Contact No.（联络电话）", cDir:"Name of Director(s) / Partner(s)（董事 / 合伙人名字）", cShTitle:"Shareholder(s) / Beneficial Owner(s)（股东 / 实益拥有人）", cShName:"Shareholder 姓名", cShType:"Types of shares（股份类型）", cShPct:"Percentage %（持股百分比）", cBoTitle:"Beneficial Owners through other means (e.g. nominee)（通过其他方式的实益拥有人，例如代名人）", cBoName:"Name（名字）", cBoType:"Type of ownership / control / relationship（拥有权 / 控制权 / 关系类型）", cSenior:"Name of Senior Management（高层管理人员名字）", cLaTitle:"B) Legal Arrangement（Trust 才需要填）", cLaName:"Name（名字）", cLaId:"ID（身份证号码）", cLaAddr:"Address（地址）", cTrustRel:"Relationship with trust（与信托的关系）", cddG3:"3rd Party 资料（Person transacting on behalf）", cdd3p:"有没有 3rd party transfer？", cdd3pNo:"没有", cdd3pYes:"有（要填 3rd party 资料）", cddG4x:"", cPrepName:"Prepared by：Name", cPrepRen:"REN / PEA / REA 号码", cPrepDate:"Prepared by：Date", cConcName:"Concurred by (Group Leader)：Name（可不填）", cConcRen:"Concurred by：REN / PEA / REA No.", cConcDate:"Concurred by：Date", tabLa:"Authorisation", laIntro:"填好资料，按「下载 Letter」就会得到填好的 Letter of Authorisation（PDF），由买方 / 租客授权另一个人向 The Roof Realty 领取退还的 booking fee。信的内容照 template 不变，只填原本黄色的资料。", laRefund:"退还金额 (RM，不填 = 跟订金一样)", laG5:"被授权领钱的人", laAName:"被授权人姓名", tabTd:"TA Drafted", tdIntro:"填好资料，按「下载 Letter」就会得到填好的 Tenancy Agreement Drafted 信（PDF），由屋主和租客一起签名给 The Roof Realty，确认 TA 由双方自己准备。信的内容照 template 不变，只填原本黄色的资料。", tdRole:"信里写 “the undersigned being the …”", tabNs:"Not Stamp TA", nsIntro:"填好资料，按「下载 Letter」就会得到填好的 Mutual Agreement in relation to Stamping of Tenancy Agreement（PDF），由屋主和租客一起签名给 The Roof Realty，确认不 stamp TA。信的内容照 template 不变，只填原本黄色的资料。", nsG2:"屋主 Owner", nsG3:"租客 Tenant", nsTaDate:"TA 日期 (tenancy agreement dated)", nsBearer:"迟交罚款 (late penalty) 由谁负责", tabRc:"Release Comm", rcIntro:"填好资料，按「下载 Letter」就会得到填好的 Letter Of Consent To Release Commission（PDF），由卖方签名给 The Roof Realty。信的内容照 template 不变，只填原本黄色的资料。", rcSerial:"Serial Number", rcParty:"谁签这封信（第 1 段的身份）", rcG2:"卖方 Vendor / 屋主 Landlord", rcG3:"买方 Purchaser / 租客 Tenant", rcIcNote:"NRIC 只会出现在签名栏，不会出现在 Subject。", rcAmt:"佣金 Commission (RM，含 8% SST)", rcG5:"负责中介 Appointed Agent", rcAgent:"中介姓名", tabRd:"Release Deposit", rdIntro:"填好资料，按「下载 Letter」就会得到填好的 Letter of Confirmation to Release Deposit（PDF），由买方 / 租客发给 The Roof Realty。信的内容照 template 不变，只填原本黄色的资料。", rdG2:"From：买方 / 租客 (Purchaser / Tenant)", rdG3:"卖方 / 屋主 (Vendor / Owner)", rdTo:"订金释放给", rdToOther:"请填写释放对象", rdDays:"几天内释放 (days)", tabRb:"Refund Booking Fee", rbIntro:"填好资料，按「下载 Letter」就会得到填好的 Letter of Confirmation to Refund the Booking Fee / Deposit（PDF）。信的内容照 template 不变，只填原本黄色的资料。", rbDeal:"交易类型（Purchase / Tenancy）", rbAmt:"Booking Fee 金额 (RM)", tabFl:"Forfeit Letter", flIntro:"填好资料，按「下载 Letter」就会得到填好的 Letter of Confirmation to Forfeit Deposit（PDF）。信的内容照 template 不变，只填原本黄色的资料。", flG1:"信件资料", flG2:"From：卖方 / 屋主 (Vendor / Owner)", flG3:"To：买方 / 租客 (Purchaser / Tenant)", flG4:"交易资料", flDate:"信件日期", flCase:"Case Number", flIc:"NRIC 号码", flProp:"产业地址（一行）", flType:"交易类型（第 2 点）", flDep:"订金 Deposit (RM)", flOffer:"Offer Letter 日期", flAck:"买方确认日期（可不填）", flGen:"下载 Letter", flMissing:f=>`请先填写：${f}`, tabHl:"Hee & Lim TA", taTitleCs:"Chee Sun TA", taTitleHl:"Hee & Lim TA", taIntroHl:"填好顾客资料，按「下载 TA」就会得到填好的 Hee & Lim Tenancy Agreement（PDF）。第 1 页是 Cover，条款不会改动，只填 Cover、4.1(b) 银行户口、签名处、First Schedule、Second Schedule 和 Appendix。", taDue:"每月租金几号前付（Due On）", taHlG:"Hee & Lim 专用资料", taPtype:"产业类型（First Schedule Section 4）", taPtitle:"Cover 上的地契 / 产业资料（可不填，不填就用产业地址）", taFrent:"续约租金（Section 11）", taFixtures:"房东的家具与装置（Appendix，一行一项；不填就写 -NIL-）", taSpecialHl:"一行一条。会加在 Second Schedule 原有的 3 条 Special Conditions 后面，从第 4 条开始编号。", tabTa:"Chee Sun TA", taIntro:"填好顾客资料，按「下载 TA」就会得到填好的 Tenancy Agreement（PDF）。Template 的条款不会改动，只填 First Schedule、签名处和 Special Conditions。", taCharErr:"资料里有 PDF 不支持的字（例如中文），请用英文填写。", taG1:"Part 1 · 签约日期", taG2:"Part 2 · 房东 Landlord", taG3:"Part 3 · 租客 Tenant", taG4:"Part 4 · 产业地址", taG5:"Part 5–7 · 租期", taG6:"Part 8–10 · 租金与押金", taG7:"Part 8 · 房东银行户口", taG8:"Special Conditions（可不填）", taG9:"Part 11 · 用途", taUse:"Permitted Use", taUseOther:"Others（自己填）", taUseOtherL:"请填写用途", taSpecial:"一行一条，会自动编号。有填才会加进 TA，放在 “[The remainder of this page is intentionally left blank]” 下面。",
+  lstTab:"货源分享", rqTab:"征求产业", rqDone:"完成", rqCondL:"屋况（可多选）", rqStorey:"几层 Storey", rqStoreyO:"请填写层数", rqHBed:"几房", rqFloorL:"楼层（可多选）", rqTCat:"产业类别", rqBuyL:"买：预算", rqRentL:"租：预算", rqPrice:"价钱 (RM)", rqFrom:"从 (RM)", rqTo:"到 (RM)", rqPerMonth:"/月", rqTypeL:"类型（可多选）", rqLotL:"Lot 位置（可多选）", rqPickMulti:"— 选择（可多选）—", rqMarket:"Follow market（跟市价，不写预算数字）", rqIntro:"帮买家 / 租客征求产业。填好资料，下面会自动排好要发进群组的征求文字，按「复制」贴进 WhatsApp 群组就可以。不填的项目不会出现。格式和语言跟「货源分享」一样可以选。", rqKind:"WTB / WTR", rqUrgent:"急征（加 Urgent 急）", rqG2:"要找的产业", rqArea:"地区（可以填几个，用逗号或 / 分开）", rqAreaPh:"例如 Mount Austin, Setia Indah, Taman Molek", rqTypeHint:"产业类型（可以点选几个，再点一次取消）：", rqTypeO:"其他类型（可不填）", rqBu:"Built-up 最少 (sqft，可不填)", rqLand:"土地面积（可不填）", rqLandPh:"例如 22x70 以上 / 1 acre", rqBed:"最少几间房", rqBath:"最少几间浴室", rqG3:"预算", rqBMin:"买：最低 (RM)", rqBMax:"买：最高 (RM)", rqRMin:"租：最低 (RM/月)", rqRMax:"租：最高 (RM/月)", rqBudgetNote:"只填最高 = “below RM…”；只填最低 = “RM… and above”；两个都填 = “RM… – RM…”。", rqGBuy:"买家资料（可不填）", rqFin:"付款方式", rqPurpose:"购买目的", rqWhen:"什么时候要买", rqWhenPh:"例如 ASAP / Within 3 months", rqGRent:"租客资料（可不填）", rqMove:"什么时候入住（勾 ASAP 或选日期）", rqMovePh:"例如 ASAP / 1 Dec 2026", rqPeriod:"租期", rqPax:"几个人住", rqPets:"宠物", rqProfile:"租客背景", rqProfilePh:"例如 Family, working in Singapore", rqG4:"其他", rqRemarks:"特别要求 Special requirements（一行一项，可不填）", rqRemarksPh:"例如 Near school\nNo main road facing", rqCobroke:"加 “If you have any available listing, feel free to contact me”（如有合适的产业，欢迎联系我）", rqAgentNote:"Agent 资料跟「货源分享」共用，改一边另一边也会跟着改。", rqClear:"清空征求资料", lstOtherL:"请填写（其他）", lstPUnit:"价钱单位", lstLArea:"土地面积", lstLUnit:"单位", lstGLand:"地皮资料", lstLCat:"土地类型", lstConv:"可以转换 (Allow convert)？", lstConvTo:"可转换为", lstTerrain:"地形", lstRoad:"道路", lstFront:"门面宽度 Frontage (尺，可不填)", lstLStatus:"现况 / 种植", lstZone:"规划 Zoning（可不填）", lstZonePh:"例如 Residential zone", lstGInd:"工厂资料", lstIType:"工业类型", lstCeil:"天花板高度 (尺)", lstPower:"电力 Power supply", lstLoadF:"地板承重 Floor loading", lstAccess:"货车进出", lstCrane:"吊车 Crane（可不填）", lstOffice:"办公室（可不填）", lstOfficePh:"例如 2-storey office / Mezzanine", lstCcc:"CCC / CF", lstTag:"卖点标题（可不填，会放在 WTS 出售 的下面）", lstTagPh:"例如 Below market value! 低过市价！", lstLangL:"文字语言", lstLangEn:"English 英文版", lstLangZh:"华语版", lstLangBoth:"英文 + 华语（双语）", lstCond:"屋况", lstBedX:"额外房间（例如 4 + 1）", lstCondReno:"Renovated（有装修）", lstCondOrig:"Original condition（原装）", lstFacing:"方向 Facing（可不填）", lstSecurity:"保安 Security（可不填）", lstMf:"管理费 Maintenance fee (RM/月，可不填)", lstCrent:"现租金 Current rental (RM/月)", lstIntro:"填好资料，下面会自动排好要发进群组的货源文字。按「复制」后直接贴进 WhatsApp 群组；用手机的话也可以按「发去 WhatsApp」选群组。不填的项目不会出现。", lstG1:"类型和格式", lstKind:"WTS / WTL", lstStyle:"文字格式", lstStPlain:"简单（跟原本一样）", lstStBold:"重点加粗（WhatsApp *粗体*）", lstStEmoji:"加粗 + Emoji", lstG2:"产业资料", lstArea:"地点 / 花园名（英文）", lstAreaPh:"例如 Jalan Perwira @ Taman Ungku Tun Aminah", lstCn:"中文名（可不填）", lstCnPh:"例如 皇后花园", lstType:"产业类型", lstTypeO:"请填写产业类型", lstLand:"Land size 土地面积（例如 22x70）", lstBu:"Built-up 建筑面积 (sqft，可不填)", lstBed:"Bedrooms 房间", lstBath:"Bathrooms 浴室", lstToilet:"Toilets 厕所", lstLot:"Lot 位置", lstFloor:"楼层（高楼才填）", lstFloorPh:"例如 High floor / 18th floor", lstBumi:"Bumi 状态", lstTenure:"Tenure 地契", lstLease:"Leasehold 剩余年份（可不填）", lstTitle:"Title 地契类型（可不填）", lstFurn:"Furnishing 家私（可不填）", lstStatus:"现况（可不填）", lstG3:"装修和卖点", lstRenoHint:"点选有的装修（再点一次取消）：", lstRenoX:"其他装修（一行一项）", lstHl:"卖点 / 附近设施（一行一项，可不填）", lstHlPh:"例如 Walking distance to school\nNear AEON Tebrau", lstG4:"价钱", lstPrice:"Selling price 售价 (RM)", lstBv:"Bank Value 银行估价 (RM，可不填)", lstRent:"Rental 月租 (RM)", lstNeg:"可议价？", lstNegNo:"不显示", lstNegYes:"显示 Negotiable", lstPsf:"显示每平方尺价钱 (psf，要填 Built-up 或土地面积)", lstG5:"Agent 资料", lstAgency:"Agency / 团队", lstName:"名字", lstPhone:"电话", lstSlug:"wasap.my 链接后面的字（自动生成，可改）", lstWasap:"加 wasap.my 链接", lstAgentNote:"Agent 资料会记在这个浏览器，下次不用再填。", lstG6:"预览（可以直接在这里改）", lstEditNote:"在预览里改的字，复制时会照改；但改上面的资料会重新排过。", lstSendWa:"发去 WhatsApp", lstClear:"清空产业资料", lstCleared:"已清空产业资料（Agent 资料保留）", tabTaGroup:"租约 TA", tabLetters:"信件", cddTab:"CDD", cddTitle:"Customer Due Diligence (CDD)（客户尽职调查）", cddPick:"— 请选择 —", cddGTfs:"Targeted Financial Sanctions (TFS)（定向金融制裁）", cddTfsAct:"Positive name match 的处理（可多选）", cddGCrp:"Customer Risk Profiling (CRP)（客户风险评估）", cddAdvNote:"Adverse remark：请注明", cddGEdd:"EDD（有 3rd party 才填）", cddEddName:"Individual name of higher risk customer / PEP（高风险客户 / PEP 名字）", cddSof:"Source of Fund / Source of Wealth（资金 / 财富来源）", cddQ1:"最后一页第 1 题：客户可疑，需要通知 Compliance officer 报 STR 吗？", cddG4:"最后一页", oMY:"Malaysia（马来西亚）", oSG:"Singapore（新加坡）", oMYn:"Malaysian（马来西亚人）", bt_private:"Private Limited Company（私人有限公司 Sdn Bhd）", bt_sole:"Sole Proprietorship（独资）", bt_partnership:"Partnership（合伙）", bt_llp:"Limited Liability Partnership（有限责任合伙 LLP）", bt_public:"Public Company（公共公司 Berhad）", bt_trust:"Trust（信托）", bt_club:"Club/Society/Charity（俱乐部 / 社团 / 慈善机构）", bt_other:"Other（其他）", oYes:"Yes（是）", oNo:"No（不是）", oREN:"REN 谈判员", oPEA:"PEA 见习经纪", oREA:"REA 注册经纪", co_tfs_negative:"Negative name match（没有符合）", co_tfs_positive:"Positive name match（有符合）", co_pep_foreign:"Foreign PEP（外国 PEP）", co_pep_domestic:"Domestic PEP（本国 PEP）", co_nat_my:"Malaysian（马来西亚人）", co_nat_fr:"Foreigner（外国人）", co_hnw_yes:"Yes（是）", co_hnw_no:"No（不是）", co_ctype_new:"New customer（新客户）", co_ctype_rep:"Repeating customer（回头客户）", co_ctype_occ:"Occasional / One-Off（偶尔 / 一次性）", co_size_large:"Large and complex structure（大型、复杂）", co_size_small:"Small and simple structure（小型、简单）", co_occup_lower:"Lower risk occupation/business（低风险）", co_occup_higher:"Higher risk (cash intensive)（高风险，现金密集）", co_adverse_no:"No（不是）", co_adverse_yes:"Yes（是）", co_geo_low:"Low risk countries（低风险国家）", co_geo_strategic:"Countries having strategic AML/CFT deficiencies（反洗钱有缺陷的国家）", co_geo_fatf:"Countries subject to a FATF call（FATF 点名的国家）", co_anon_yes:"Yes（是）", co_anon_no:"No（不是）", co_comm_yes:"Yes（是）", co_comm_no:"No（不是）", co_complex_yes:"Yes（是）", co_complex_no:"No（不是）", co_nominee_yes:"Yes（是）", co_nominee_no:"No（不是）", co_nomsh_yes:"Yes（是）", co_nomsh_no:"No（不是）", co_cross_yes:"Yes（是）", co_cross_no:"No（不是）", co_pay_bank:"Bank transfer or cheques（银行转账 / 支票）", co_pay_cash:"Physical cash（现金）", co_deliv_f2f:"Face-to-face（面对面）", co_deliv_agent:"Through agent / intermediaries（通过中介）", co_deliv_non:"Non face-to-face（非面对面）", co_overall_low:"Low（低）", co_overall_medium:"Medium（中）", co_overall_high:"High（高）", cOthers:"Others（其他）", cOtherCountry:"请填写国家", cOtherNat:"请填写国籍", cddDateL:"日期 Date", cq_tfs:"TFS: name screening result（TFS 名字筛查结果）", cq_pep:"Foreign or domestic PEP?（是不是外国 / 本国政治人物 PEP？不是就不用选）", cq_nat:"Nationality（国籍）", cq_hnw:"High Net Worth individual?（是不是高净值人士？）", cq_ctype:"Type of customer（客户类型）", cq_size:"Size and structure of business（业务规模和结构）", cq_occup:"Type of occupation / business（职业 / 业务类型）", cq_adverse:"Any adverse remark (e.g. from Google)?（Google 等查到负面资料吗？）", cq_geo:"Geographical risk（地区风险：客户 / 业务所在国家）", cq_anon:"Product provides anonymity to the customer?（产品 / 服务让客户可以匿名吗？）", cq_comm:"Product commensurate with the customer’s profile?（产品 / 服务符合客户背景吗？）", cq_complex:"Complex and unusual transaction?（交易复杂或不寻常吗？）", cq_nominee:"Customer requires nominee services?（客户需要代名人服务吗？）", cq_nomsh:"Company has nominee shareholder(s) / director(s)?（公司有代名股东 / 董事吗？）", cq_cross:"Cross-border transactions?（有跨境交易吗？）", cq_pay:"Mode of payment（付款方式）", cq_deliv:"Delivery channel（交易渠道）", cq_overall:"Overall risk assessment（整体风险评估）", cddIntro:"填好资料，按「下载 CDD」就会得到填好的 TRR Customer Due Diligence form（PDF）。Form 本身不改，只把资料填进格子里。先选 Individual 或 Company：选 Individual，Part 2 会放空；选 Company，Part 1 会放空。TFS、CRP 用下拉选打勾；EDD 只有 3rd party 才填；最后一页只填第 1 题和 Prepared by，其他部分保持空白。", cddGen:"下载 CDD", cddG0:"表格资料", cddAgent:"Agent Name（Agent Name、REN 和日期也会填进最后一页的 Prepared by）", cddSerial:"Booking Form Serial Number（Booking Form 编号）", cddType:"客户类型", cddTInd:"Individual 个人", cddTCo:"Company 公司 (Legal Person / Arrangement)", cddG1:"1) Individual 个人", cddG2:"2) Company 公司", cName:"Full Name 全名", cNric:"NRIC / Passport No.（身份证 / 护照号码）", cDob:"Date of Birth 出生日期", cResAddr:"Residential Address 住址", cTown:"Town（城镇）", cState:"State（州属）", cPost:"Postcode（邮区编号）", cCountry:"Country（国家）", cMSame:"Mailing address same as above（跟住址一样）", cPSame:"Principal place of business same as above（主要营业地点跟注册办事处一样）", cMail:"Mailing Address（跟住址不同才填）", cMTown:"Mailing Town（通讯城镇）", cMState:"Mailing State（通讯州属）", cMPost:"Mailing Postcode（通讯邮区编号）", cMCountry:"Mailing Country（通讯国家）", cNat:"Nationality 国籍", cOcc:"Occupation Type 职业", cEmp:"Name of Employer / Nature of Business（雇主名称 / 业务性质）", cTel:"Contact Number 电话", cPurpose:"Purpose of Transaction 交易目的", cCoName:"Company / Business Name 公司名", cRegNo:"Business Registration No.（公司注册号码）", cBType:"Business Type（业务类型）", cBOther:"Other（请注明）", cInc:"Country of Incorporation / Registration（注册国家）", cRAddr:"Address of Registered Office（注册办事处地址）", cRTown:"Registered Office Town（注册办事处城镇）", cRState:"Registered Office State（注册办事处州属）", cRPost:"Registered Office Postcode（注册办事处邮区编号）", cRCountry:"Registered Office Country（注册办事处国家）", cPAddr:"Principal Place of Business（不同才填）", cPTown:"Principal Place Town（主要营业地点城镇）", cPState:"Principal Place State（主要营业地点州属）", cPPost:"Principal Place Postcode（主要营业地点邮区编号）", cPCountry:"Principal Place Country（主要营业地点国家）", cPBiz:"Principle Business 主要业务", cCoTel:"Contact No.（联络电话）", cDir:"Name of Director(s) / Partner(s)（董事 / 合伙人名字）", cShTitle:"Shareholder(s) / Beneficial Owner(s)（股东 / 实益拥有人）", cShName:"Shareholder 姓名", cShType:"Types of shares（股份类型）", cShPct:"Percentage %（持股百分比）", cBoTitle:"Beneficial Owners through other means (e.g. nominee)（通过其他方式的实益拥有人，例如代名人）", cBoName:"Name（名字）", cBoType:"Type of ownership / control / relationship（拥有权 / 控制权 / 关系类型）", cSenior:"Name of Senior Management（高层管理人员名字）", cLaTitle:"B) Legal Arrangement（Trust 才需要填）", cLaName:"Name（名字）", cLaId:"ID（身份证号码）", cLaAddr:"Address（地址）", cTrustRel:"Relationship with trust（与信托的关系）", cddG3:"3rd Party 资料（Person transacting on behalf）", cdd3p:"有没有 3rd party transfer？", cdd3pNo:"没有", cdd3pYes:"有（要填 3rd party 资料）", cddG4x:"", cPrepName:"Prepared by：Name", cPrepRen:"REN / PEA / REA 号码", cPrepDate:"Prepared by：Date", cConcName:"Concurred by (Group Leader)：Name（可不填）", cConcRen:"Concurred by：REN / PEA / REA No.", cConcDate:"Concurred by：Date", tabLa:"Authorisation", laIntro:"填好资料，按「下载 Letter」就会得到填好的 Letter of Authorisation（PDF），由买方 / 租客授权另一个人向 The Roof Realty 领取退还的 booking fee。信的内容照 template 不变，只填原本黄色的资料。", laRefund:"退还金额 (RM，不填 = 跟订金一样)", laG5:"被授权领钱的人", laAName:"被授权人姓名", tabTd:"TA Drafted", tdIntro:"填好资料，按「下载 Letter」就会得到填好的 Tenancy Agreement Drafted 信（PDF），由屋主和租客一起签名给 The Roof Realty，确认 TA 由双方自己准备。信的内容照 template 不变，只填原本黄色的资料。", tdRole:"信里写 “the undersigned being the …”", tabNs:"Not Stamp TA", nsIntro:"填好资料，按「下载 Letter」就会得到填好的 Mutual Agreement in relation to Stamping of Tenancy Agreement（PDF），由屋主和租客一起签名给 The Roof Realty，确认不 stamp TA。信的内容照 template 不变，只填原本黄色的资料。", nsG2:"屋主 Owner", nsG3:"租客 Tenant", nsTaDate:"TA 日期 (tenancy agreement dated)", nsBearer:"迟交罚款 (late penalty) 由谁负责", tabRc:"Release Comm", rcIntro:"填好资料，按「下载 Letter」就会得到填好的 Letter Of Consent To Release Commission（PDF），由卖方签名给 The Roof Realty。信的内容照 template 不变，只填原本黄色的资料。", rcSerial:"Serial Number", rcParty:"谁签这封信（第 1 段的身份）", rcG2:"卖方 Vendor / 屋主 Landlord", rcG3:"买方 Purchaser / 租客 Tenant", rcIcNote:"NRIC 只会出现在签名栏，不会出现在 Subject。", rcAmt:"佣金 Commission (RM，含 8% SST)", rcG5:"负责中介 Appointed Agent", rcAgent:"中介姓名", tabRd:"Release Deposit", rdIntro:"填好资料，按「下载 Letter」就会得到填好的 Letter of Confirmation to Release Deposit（PDF），由买方 / 租客发给 The Roof Realty。信的内容照 template 不变，只填原本黄色的资料。", rdG2:"From：买方 / 租客 (Purchaser / Tenant)", rdG3:"卖方 / 屋主 (Vendor / Owner)", rdTo:"订金释放给", rdToOther:"请填写释放对象", rdDays:"几天内释放 (days)", tabRb:"Refund Booking Fee", rbIntro:"填好资料，按「下载 Letter」就会得到填好的 Letter of Confirmation to Refund the Booking Fee / Deposit（PDF）。信的内容照 template 不变，只填原本黄色的资料。", rbDeal:"交易类型（Purchase / Tenancy）", rbAmt:"Booking Fee 金额 (RM)", tabFl:"Forfeit Letter", flIntro:"填好资料，按「下载 Letter」就会得到填好的 Letter of Confirmation to Forfeit Deposit（PDF）。信的内容照 template 不变，只填原本黄色的资料。", flG1:"信件资料", flG2:"From：卖方 / 屋主 (Vendor / Owner)", flG3:"To：买方 / 租客 (Purchaser / Tenant)", flG4:"交易资料", flDate:"信件日期", flCase:"Case Number", flIc:"NRIC 号码", flProp:"产业地址（一行）", flType:"交易类型（第 2 点）", flDep:"订金 Deposit (RM)", flOffer:"Offer Letter 日期", flAck:"买方确认日期（可不填）", flGen:"下载 Letter", flMissing:f=>`请先填写：${f}`, tabHl:"Hee & Lim TA", taTitleCs:"Chee Sun TA", taTitleHl:"Hee & Lim TA", taIntroHl:"填好顾客资料，按「下载 TA」就会得到填好的 Hee & Lim Tenancy Agreement（PDF）。第 1 页是 Cover，条款不会改动，只填 Cover、4.1(b) 银行户口、签名处、First Schedule、Second Schedule 和 Appendix。", taDue:"每月租金几号前付（Due On）", taHlG:"Hee & Lim 专用资料", taPtype:"产业类型（First Schedule Section 4）", taPtitle:"Cover 上的地契 / 产业资料（可不填，不填就用产业地址）", taFrent:"续约租金（Section 11）", taFixtures:"房东的家具与装置（Appendix，一行一项；不填就写 -NIL-）", taSpecialHl:"一行一条。会加在 Second Schedule 原有的 3 条 Special Conditions 后面，从第 4 条开始编号。", tabTa:"Chee Sun TA", taIntro:"填好顾客资料，按「下载 TA」就会得到填好的 Tenancy Agreement（PDF）。Template 的条款不会改动，只填 First Schedule、签名处和 Special Conditions。", taCharErr:"资料里有 PDF 不支持的字（例如中文），请用英文填写。", taG1:"Part 1 · 签约日期", taG2:"Part 2 · 房东 Landlord", taG3:"Part 3 · 租客 Tenant", taG4:"Part 4 · 产业地址", taG5:"Part 5–7 · 租期", taG6:"Part 8–10 · 租金与押金", taG7:"Part 8 · 房东银行户口", taG8:"Special Conditions（可不填）", taG9:"Part 11 · 用途", taUse:"Permitted Use", taUseOther:"Others（自己填）", taUseOtherL:"请填写用途", taSpecial:"一行一条，会自动编号。有填才会加进 TA，放在 “[The remainder of this page is intentionally left blank]” 下面。",
   taDate:"签约日期", taName:"姓名 / 公司名", taIc:"号码", taName2:"第二位姓名（可不填）", taIc2:"第二位号码", taIdType:"号码类别", taNric:"NRIC", taPass:"Passport", taCo:"公司注册号 (Co. No)", taAddr:"地址（可分行）", taPAddr:"产业地址（可分行）",
   taTerm:"租期（年）", taRenew:"续约期（年）", taStart:"开始日期", taEnd:"结束日期", taRent:"月租 (RM)", taDep:"租金押金 (RM)", taUtil:"水电押金 (RM)",
   taBank:"Bank Name（有填户口号码就必填）", taAccName:"Account Holder Name", taAccNo:"Bank Account Number", taGen:"下载 TA",
@@ -499,7 +664,7 @@ en:{
   copyWa:"Copy", copied:"Copied. Paste it into WhatsApp.", copyFail:"Couldn't copy automatically. Press and hold the text below to copy.",
   waSale:"*EAG Sale Cost Estimate*", waRent:"*EAG Rental Cost Estimate*", waNote:"_Figures are estimates only. Official documents prevail._",
   rentL:"Monthly rent", termL:"Tenancy", monthsU:"months",
-  tabTaGroup:"Tenancy (TA)", tabLetters:"Letters", cddTab:"CDD", cddTitle:"Customer Due Diligence (CDD)", cddPick:"— Select —", cddGTfs:"Targeted Financial Sanctions (TFS)", cddTfsAct:"If positive name match (tick all that apply)", cddGCrp:"Customer Risk Profiling (CRP)", cddAdvNote:"Adverse remark: please state", cddGEdd:"EDD (only with a 3rd party)", cddEddName:"Individual name of higher risk customer / PEP", cddSof:"Source of Fund / Source of Wealth", cddQ1:"Last page Q1: is the client suspicious (inform Compliance officer to file STR)?", cddG4:"Last page", oMY:"Malaysia", oSG:"Singapore", oMYn:"Malaysian", bt_private:"Private Limited Company", bt_sole:"Sole Proprietorship", bt_partnership:"Partnership", bt_llp:"Limited Liability Partnership", bt_public:"Public Company", bt_trust:"Trust", bt_club:"Club/Society/Charity", bt_other:"Other", oYes:"Yes", oNo:"No", oREN:"REN", oPEA:"PEA", oREA:"REA", co_tfs_negative:"Negative name match", co_tfs_positive:"Positive name match", co_pep_foreign:"Foreign PEP", co_pep_domestic:"Domestic PEP", co_nat_my:"Malaysian", co_nat_fr:"Foreigner", co_hnw_yes:"Yes", co_hnw_no:"No", co_ctype_new:"New customer", co_ctype_rep:"Repeating customer", co_ctype_occ:"Occasional / One-Off", co_size_large:"Large and complex structure", co_size_small:"Small and simple structure", co_occup_lower:"Lower risk occupation/business", co_occup_higher:"Higher risk (cash intensive)", co_adverse_no:"No", co_adverse_yes:"Yes", co_geo_low:"Low risk countries", co_geo_strategic:"Countries having strategic AML/CFT deficiencies", co_geo_fatf:"Countries subject to a FATF call", co_anon_yes:"Yes", co_anon_no:"No", co_comm_yes:"Yes", co_comm_no:"No", co_complex_yes:"Yes", co_complex_no:"No", co_nominee_yes:"Yes", co_nominee_no:"No", co_nomsh_yes:"Yes", co_nomsh_no:"No", co_cross_yes:"Yes", co_cross_no:"No", co_pay_bank:"Bank transfer or cheques", co_pay_cash:"Physical cash", co_deliv_f2f:"Face-to-face", co_deliv_agent:"Through agent / intermediaries", co_deliv_non:"Non face-to-face", co_overall_low:"Low", co_overall_medium:"Medium", co_overall_high:"High", cOthers:"Others", cOtherCountry:"Type the country", cOtherNat:"Type the nationality", cddDateL:"Date", cq_tfs:"TFS: name screening result", cq_pep:"Foreign or domestic PEP? (leave blank if neither)", cq_nat:"Nationality", cq_hnw:"High Net Worth individual?", cq_ctype:"Type of customer", cq_size:"Size and structure of business", cq_occup:"Type of occupation / business", cq_adverse:"Any adverse remark (e.g. from Google)?", cq_geo:"Geographical risk (country of origin / business)", cq_anon:"Product provides anonymity to the customer?", cq_comm:"Product commensurate with the customer’s profile?", cq_complex:"Complex and unusual transaction?", cq_nominee:"Customer requires nominee services?", cq_nomsh:"Company has nominee shareholder(s) / director(s)?", cq_cross:"Cross-border transactions?", cq_pay:"Mode of payment", cq_deliv:"Delivery channel", cq_overall:"Overall risk assessment", cddIntro:"Fill in the details and tap “Download CDD” to get the completed TRR Customer Due Diligence form (PDF). The form itself is unchanged; the details are typed into its boxes. Choose Individual or Company first: Individual leaves Part 2 blank, Company leaves Part 1 blank. TFS and CRP are ticked from the drop-downs; EDD is filled only when there is a 3rd party; on the last page only Q1 and Prepared by are filled.", cddGen:"Download CDD", cddG0:"Form details", cddAgent:"Agent Name (name, REN and date are also used for Prepared by on the last page)", cddSerial:"Booking Form Serial Number", cddType:"Customer type", cddTInd:"Individual", cddTCo:"Company (Legal Person / Arrangement)", cddG1:"1) Individual", cddG2:"2) Company / Legal Person", cName:"Full Name", cNric:"NRIC / Passport No.", cDob:"Date of Birth", cResAddr:"Residential Address", cTown:"Town", cState:"State", cPost:"Postcode", cCountry:"Country", cMSame:"Mailing address same as above", cPSame:"Principal place of business same as above", cMail:"Mailing Address (if different)", cMTown:"Mailing Town", cMState:"Mailing State", cMPost:"Mailing Postcode", cMCountry:"Mailing Country", cNat:"Nationality", cOcc:"Occupation Type", cEmp:"Name of Employer / Nature of Business", cTel:"Contact Number", cPurpose:"Purpose of Transaction", cCoName:"Company / Business Name", cRegNo:"Business Registration No.", cBType:"Business Type", cBOther:"Other (please state)", cInc:"Country of Incorporation / Registration", cRAddr:"Address of Registered Office", cRTown:"Registered Office Town", cRState:"Registered Office State", cRPost:"Registered Office Postcode", cRCountry:"Registered Office Country", cPAddr:"Principal Place of Business (if different)", cPTown:"Principal Place Town", cPState:"Principal Place State", cPPost:"Principal Place Postcode", cPCountry:"Principal Place Country", cPBiz:"Principle Business", cCoTel:"Contact No.", cDir:"Name of Director(s) / Partner(s)", cShTitle:"Shareholder(s) / Beneficial Owner(s)", cShName:"Shareholder name", cShType:"Types of shares", cShPct:"Percentage %", cBoTitle:"Beneficial Owners through other means (e.g. nominee)", cBoName:"Name", cBoType:"Type of ownership / control / relationship", cSenior:"Name of Senior Management", cLaTitle:"B) Legal Arrangement (trusts only)", cLaName:"Name", cLaId:"ID", cLaAddr:"Address", cTrustRel:"Relationship with trust", cddG3:"3rd party details (Person transacting on behalf)", cdd3p:"Is there a 3rd party transfer?", cdd3pNo:"No", cdd3pYes:"Yes (fill in the 3rd party details)", cddG4x:"", cPrepName:"Prepared by: Name", cPrepRen:"REN / PEA / REA No.", cPrepDate:"Prepared by: Date", cConcName:"Concurred by (Group Leader): Name (optional)", cConcRen:"Concurred by: REN / PEA / REA No.", cConcDate:"Concurred by: Date", tabLa:"Authorisation", laIntro:"Fill in the details and tap “Download Letter” to get the completed Letter of Authorisation (PDF), in which the purchaser / tenant authorises another person to collect the refunded booking fee from The Roof Realty. The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", laRefund:"Refund amount (RM, blank = same as deposit)", laG5:"Person authorised to collect", laAName:"Authorised person’s name", tabTd:"TA Drafted", tdIntro:"Fill in the details and tap “Download Letter” to get the completed Tenancy Agreement Drafted letter (PDF), signed by both the owner and the tenant to The Roof Realty to confirm they prepare the TA themselves. The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", tdRole:"Letter says “the undersigned being the …”", tabNs:"Not Stamp TA", nsIntro:"Fill in the details and tap “Download Letter” to get the completed Mutual Agreement in relation to Stamping of Tenancy Agreement (PDF), signed by both the owner and the tenant to The Roof Realty to confirm the TA will not be stamped. The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", nsG2:"Owner", nsG3:"Tenant", nsTaDate:"Tenancy agreement dated", nsBearer:"Who pays any late stamping penalty", tabRc:"Release Comm", rcIntro:"Fill in the details and tap “Download Letter” to get the completed Letter Of Consent To Release Commission (PDF), signed by the vendor to The Roof Realty. The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", rcSerial:"Serial Number", rcParty:"Who signs (role in paragraph 1)", rcG2:"Vendor / Landlord", rcG3:"Purchaser / Tenant", rcIcNote:"NRIC only appears in the signature block, never in the Subject section.", rcAmt:"Commission (RM, incl. 8% SST)", rcG5:"Appointed agent", rcAgent:"Agent name", tabRd:"Release Deposit", rdIntro:"Fill in the details and tap “Download Letter” to get the completed Letter of Confirmation to Release Deposit (PDF), sent by the purchaser / tenant to The Roof Realty. The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", rdG2:"From: Purchaser / Tenant", rdG3:"Vendor / Owner", rdTo:"Release the deposit to", rdToOther:"Type who receives the deposit", rdDays:"Release within (days)", tabRb:"Refund Booking Fee", rbIntro:"Fill in the details and tap “Download Letter” to get the completed Letter of Confirmation to Refund the Booking Fee / Deposit (PDF). The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", rbDeal:"Transaction type (Purchase / Tenancy)", rbAmt:"Booking fee amount (RM)", tabFl:"Forfeit Letter", flIntro:"Fill in the details and tap “Download Letter” to get the completed Letter of Confirmation to Forfeit Deposit (PDF). The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", flG1:"Letter details", flG2:"From: Vendor / Owner", flG3:"To: Purchaser / Tenant", flG4:"Transaction details", flDate:"Letter date", flCase:"Case Number", flIc:"NRIC No.", flProp:"Property address (one line)", flType:"Transaction type (point 2)", flDep:"Deposit (RM)", flOffer:"Offer Letter date", flAck:"Purchaser's confirmation date (optional)", flGen:"Download Letter", flMissing:f=>`Please fill in: ${f}`, tabHl:"Hee & Lim TA", taTitleCs:"Chee Sun TA", taTitleHl:"Hee & Lim TA", taIntroHl:"Fill in the customer details and tap “Download TA” to get the completed Hee & Lim Tenancy Agreement (PDF): the cover comes first. The clauses stay unchanged; only the cover, clause 4.1(b) bank account, signature blocks, First Schedule, Second Schedule and Appendix are filled.", taDue:"Rent due on day of each month", taHlG:"Hee & Lim details", taPtype:"Property type (First Schedule Section 4)", taPtitle:"Title / property line on the cover (optional; the property address is used if empty)", taFrent:"Rental for further term (Section 11)", taFixtures:"Landlord's fixtures and fittings (Appendix, one per line; -NIL- if empty)", taSpecialHl:"One per line. Added after the 3 existing special conditions in the Second Schedule, numbered from 4.", tabTa:"Chee Sun TA", taIntro:"Fill in the customer details and tap “Download TA” to get the completed Tenancy Agreement (PDF). The template clauses stay unchanged; only the First Schedule, signature blocks and special conditions are filled.", taCharErr:"Some details contain characters the PDF can't show (for example Chinese). Please type them in English.", taG1:"Part 1 · Agreement date", taG2:"Part 2 · Landlord", taG3:"Part 3 · Tenant", taG4:"Part 4 · Property address", taG5:"Parts 5–7 · Term", taG6:"Parts 8–10 · Rent and deposits", taG7:"Part 8 · Landlord's bank account", taG8:"Special conditions (optional)", taG9:"Part 11 · Permitted use", taUse:"Permitted use", taUseOther:"Others (type your own)", taUseOtherL:"Type the permitted use", taSpecial:"One condition per line; they are numbered automatically. Only added when filled in, under “[The remainder of this page is intentionally left blank]”.",
+  lstTab:"Listing Post", rqTab:"WTB / WTR", rqDone:"Done", rqCondL:"Condition (pick several)", rqStorey:"Storey", rqStoreyO:"Type the storey", rqHBed:"Bedrooms", rqFloorL:"Floor level (pick several)", rqTCat:"Category", rqBuyL:"Buy: budget", rqRentL:"Rent: budget", rqPrice:"Price (RM)", rqFrom:"From (RM)", rqTo:"To (RM)", rqPerMonth:"/mo", rqTypeL:"Type (pick several)", rqLotL:"Lot (pick several)", rqPickMulti:"— Select (multiple) —", rqMarket:"Follow market (no budget figure)", rqIntro:"Post a buyer’s or tenant’s requirement. Fill in the details and the text for your WhatsApp groups is laid out below; tap “Copy” and paste it into the group. Anything left blank is left out. Format and language work the same as in Listing Post.", rqKind:"WTB / WTR", rqUrgent:"Urgent (adds “Urgent 急”)", rqG2:"What they are looking for", rqArea:"Area(s) (separate with commas or /)", rqAreaPh:"e.g. Mount Austin, Setia Indah, Taman Molek", rqTypeHint:"Property type (tap one or more, tap again to remove):", rqTypeO:"Other type (optional)", rqBu:"Minimum built-up (sqft, optional)", rqLand:"Land size (optional)", rqLandPh:"e.g. 22x70 and above / 1 acre", rqBed:"Minimum bedrooms", rqBath:"Minimum bathrooms", rqG3:"Budget", rqBMin:"Buy: min (RM)", rqBMax:"Buy: max (RM)", rqRMin:"Rent: min (RM/month)", rqRMax:"Rent: max (RM/month)", rqBudgetNote:"Max only = “below RM…”; min only = “RM… and above”; both = “RM… – RM…”.", rqGBuy:"Buyer details (optional)", rqFin:"Financing", rqPurpose:"Purpose", rqWhen:"When to buy", rqWhenPh:"e.g. ASAP / Within 3 months", rqGRent:"Tenant details (optional)", rqMove:"Move-in (tick ASAP or pick a date)", rqMovePh:"e.g. ASAP / 1 Dec 2026", rqPeriod:"Tenancy period", rqPax:"Occupants", rqPets:"Pets", rqProfile:"Tenant profile", rqProfilePh:"e.g. Family, working in Singapore", rqG4:"Other", rqRemarks:"Special requirements (one per line, optional)", rqRemarksPh:"e.g. Near school\nNo main road facing", rqCobroke:"Add “If you have any available listing, feel free to contact me”", rqAgentNote:"Agent details are shared with Listing Post; changing one updates the other.", rqClear:"Clear requirement", lstOtherL:"Please specify (others)", lstPUnit:"Price unit", lstLArea:"Land area", lstLUnit:"Unit", lstGLand:"Land details", lstLCat:"Land category", lstConv:"Allow convert?", lstConvTo:"Convert to", lstTerrain:"Terrain", lstRoad:"Road access", lstFront:"Frontage (ft, optional)", lstLStatus:"Current use / planting", lstZone:"Zoning (optional)", lstZonePh:"e.g. Residential zone", lstGInd:"Factory details", lstIType:"Industry type", lstCeil:"Ceiling height (ft)", lstPower:"Power supply", lstLoadF:"Floor loading", lstAccess:"Vehicle access", lstCrane:"Crane (optional)", lstOffice:"Office (optional)", lstOfficePh:"e.g. 2-storey office / Mezzanine", lstCcc:"CCC / CF", lstTag:"Headline (optional, shown right under WTS)", lstTagPh:"e.g. Below market value!", lstLangL:"Text language", lstLangEn:"English", lstLangZh:"Chinese (华语)", lstLangBoth:"English + Chinese (bilingual)", lstCond:"Condition", lstBedX:"Extra room (e.g. 4 + 1)", lstCondReno:"Renovated", lstCondOrig:"Original condition", lstFacing:"Facing (optional)", lstSecurity:"Security (optional)", lstMf:"Maintenance fee (RM/month, optional)", lstCrent:"Current rental (RM/month)", lstIntro:"Fill in the details and the listing text for your WhatsApp groups is laid out below. Tap “Copy” and paste it into the group; on a phone you can also tap “Send to WhatsApp” and pick the group. Anything left blank is left out.", lstG1:"Type and format", lstKind:"WTS / WTL", lstStyle:"Text format", lstStPlain:"Plain (original style)", lstStBold:"Bold highlights (WhatsApp *bold*)", lstStEmoji:"Bold + emoji", lstG2:"Property", lstArea:"Location / taman name", lstAreaPh:"e.g. Jalan Perwira @ Taman Ungku Tun Aminah", lstCn:"Chinese name (optional)", lstCnPh:"e.g. 皇后花园", lstType:"Property type", lstTypeO:"Type the property type", lstLand:"Land size (e.g. 22x70)", lstBu:"Built-up (sqft, optional)", lstBed:"Bedrooms", lstBath:"Bathrooms", lstToilet:"Toilets", lstLot:"Lot", lstFloor:"Floor (high-rise only)", lstFloorPh:"e.g. High floor / 18th floor", lstBumi:"Bumi status", lstTenure:"Tenure", lstLease:"Leasehold years remaining (optional)", lstTitle:"Title (optional)", lstFurn:"Furnishing (optional)", lstStatus:"Current status (optional)", lstG3:"Renovation and highlights", lstRenoHint:"Tap the renovations it has (tap again to remove):", lstRenoX:"Other renovations (one per line)", lstHl:"Highlights / nearby (one per line, optional)", lstHlPh:"e.g. Walking distance to school\nNear AEON Tebrau", lstG4:"Price", lstPrice:"Selling price (RM)", lstBv:"Bank Value (RM, optional)", lstRent:"Monthly rental (RM)", lstNeg:"Negotiable?", lstNegNo:"Don't show", lstNegYes:"Show “Negotiable”", lstPsf:"Show price per sqft (needs built-up or land area)", lstG5:"Agent details", lstAgency:"Agency / team", lstName:"Name", lstPhone:"Phone", lstSlug:"Text after the wasap.my link (auto, editable)", lstWasap:"Add wasap.my link", lstAgentNote:"Agent details are remembered in this browser.", lstG6:"Preview (you can edit it here)", lstEditNote:"Edits made in the preview are copied as-is, but changing the form above lays it out again.", lstSendWa:"Send to WhatsApp", lstClear:"Clear property details", lstCleared:"Property details cleared (agent details kept)", tabTaGroup:"Tenancy (TA)", tabLetters:"Letters", cddTab:"CDD", cddTitle:"Customer Due Diligence (CDD)", cddPick:"— Select —", cddGTfs:"Targeted Financial Sanctions (TFS)", cddTfsAct:"If positive name match (tick all that apply)", cddGCrp:"Customer Risk Profiling (CRP)", cddAdvNote:"Adverse remark: please state", cddGEdd:"EDD (only with a 3rd party)", cddEddName:"Individual name of higher risk customer / PEP", cddSof:"Source of Fund / Source of Wealth", cddQ1:"Last page Q1: is the client suspicious (inform Compliance officer to file STR)?", cddG4:"Last page", oMY:"Malaysia", oSG:"Singapore", oMYn:"Malaysian", bt_private:"Private Limited Company", bt_sole:"Sole Proprietorship", bt_partnership:"Partnership", bt_llp:"Limited Liability Partnership", bt_public:"Public Company", bt_trust:"Trust", bt_club:"Club/Society/Charity", bt_other:"Other", oYes:"Yes", oNo:"No", oREN:"REN", oPEA:"PEA", oREA:"REA", co_tfs_negative:"Negative name match", co_tfs_positive:"Positive name match", co_pep_foreign:"Foreign PEP", co_pep_domestic:"Domestic PEP", co_nat_my:"Malaysian", co_nat_fr:"Foreigner", co_hnw_yes:"Yes", co_hnw_no:"No", co_ctype_new:"New customer", co_ctype_rep:"Repeating customer", co_ctype_occ:"Occasional / One-Off", co_size_large:"Large and complex structure", co_size_small:"Small and simple structure", co_occup_lower:"Lower risk occupation/business", co_occup_higher:"Higher risk (cash intensive)", co_adverse_no:"No", co_adverse_yes:"Yes", co_geo_low:"Low risk countries", co_geo_strategic:"Countries having strategic AML/CFT deficiencies", co_geo_fatf:"Countries subject to a FATF call", co_anon_yes:"Yes", co_anon_no:"No", co_comm_yes:"Yes", co_comm_no:"No", co_complex_yes:"Yes", co_complex_no:"No", co_nominee_yes:"Yes", co_nominee_no:"No", co_nomsh_yes:"Yes", co_nomsh_no:"No", co_cross_yes:"Yes", co_cross_no:"No", co_pay_bank:"Bank transfer or cheques", co_pay_cash:"Physical cash", co_deliv_f2f:"Face-to-face", co_deliv_agent:"Through agent / intermediaries", co_deliv_non:"Non face-to-face", co_overall_low:"Low", co_overall_medium:"Medium", co_overall_high:"High", cOthers:"Others", cOtherCountry:"Type the country", cOtherNat:"Type the nationality", cddDateL:"Date", cq_tfs:"TFS: name screening result", cq_pep:"Foreign or domestic PEP? (leave blank if neither)", cq_nat:"Nationality", cq_hnw:"High Net Worth individual?", cq_ctype:"Type of customer", cq_size:"Size and structure of business", cq_occup:"Type of occupation / business", cq_adverse:"Any adverse remark (e.g. from Google)?", cq_geo:"Geographical risk (country of origin / business)", cq_anon:"Product provides anonymity to the customer?", cq_comm:"Product commensurate with the customer’s profile?", cq_complex:"Complex and unusual transaction?", cq_nominee:"Customer requires nominee services?", cq_nomsh:"Company has nominee shareholder(s) / director(s)?", cq_cross:"Cross-border transactions?", cq_pay:"Mode of payment", cq_deliv:"Delivery channel", cq_overall:"Overall risk assessment", cddIntro:"Fill in the details and tap “Download CDD” to get the completed TRR Customer Due Diligence form (PDF). The form itself is unchanged; the details are typed into its boxes. Choose Individual or Company first: Individual leaves Part 2 blank, Company leaves Part 1 blank. TFS and CRP are ticked from the drop-downs; EDD is filled only when there is a 3rd party; on the last page only Q1 and Prepared by are filled.", cddGen:"Download CDD", cddG0:"Form details", cddAgent:"Agent Name (name, REN and date are also used for Prepared by on the last page)", cddSerial:"Booking Form Serial Number", cddType:"Customer type", cddTInd:"Individual", cddTCo:"Company (Legal Person / Arrangement)", cddG1:"1) Individual", cddG2:"2) Company / Legal Person", cName:"Full Name", cNric:"NRIC / Passport No.", cDob:"Date of Birth", cResAddr:"Residential Address", cTown:"Town", cState:"State", cPost:"Postcode", cCountry:"Country", cMSame:"Mailing address same as above", cPSame:"Principal place of business same as above", cMail:"Mailing Address (if different)", cMTown:"Mailing Town", cMState:"Mailing State", cMPost:"Mailing Postcode", cMCountry:"Mailing Country", cNat:"Nationality", cOcc:"Occupation Type", cEmp:"Name of Employer / Nature of Business", cTel:"Contact Number", cPurpose:"Purpose of Transaction", cCoName:"Company / Business Name", cRegNo:"Business Registration No.", cBType:"Business Type", cBOther:"Other (please state)", cInc:"Country of Incorporation / Registration", cRAddr:"Address of Registered Office", cRTown:"Registered Office Town", cRState:"Registered Office State", cRPost:"Registered Office Postcode", cRCountry:"Registered Office Country", cPAddr:"Principal Place of Business (if different)", cPTown:"Principal Place Town", cPState:"Principal Place State", cPPost:"Principal Place Postcode", cPCountry:"Principal Place Country", cPBiz:"Principle Business", cCoTel:"Contact No.", cDir:"Name of Director(s) / Partner(s)", cShTitle:"Shareholder(s) / Beneficial Owner(s)", cShName:"Shareholder name", cShType:"Types of shares", cShPct:"Percentage %", cBoTitle:"Beneficial Owners through other means (e.g. nominee)", cBoName:"Name", cBoType:"Type of ownership / control / relationship", cSenior:"Name of Senior Management", cLaTitle:"B) Legal Arrangement (trusts only)", cLaName:"Name", cLaId:"ID", cLaAddr:"Address", cTrustRel:"Relationship with trust", cddG3:"3rd party details (Person transacting on behalf)", cdd3p:"Is there a 3rd party transfer?", cdd3pNo:"No", cdd3pYes:"Yes (fill in the 3rd party details)", cddG4x:"", cPrepName:"Prepared by: Name", cPrepRen:"REN / PEA / REA No.", cPrepDate:"Prepared by: Date", cConcName:"Concurred by (Group Leader): Name (optional)", cConcRen:"Concurred by: REN / PEA / REA No.", cConcDate:"Concurred by: Date", tabLa:"Authorisation", laIntro:"Fill in the details and tap “Download Letter” to get the completed Letter of Authorisation (PDF), in which the purchaser / tenant authorises another person to collect the refunded booking fee from The Roof Realty. The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", laRefund:"Refund amount (RM, blank = same as deposit)", laG5:"Person authorised to collect", laAName:"Authorised person’s name", tabTd:"TA Drafted", tdIntro:"Fill in the details and tap “Download Letter” to get the completed Tenancy Agreement Drafted letter (PDF), signed by both the owner and the tenant to The Roof Realty to confirm they prepare the TA themselves. The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", tdRole:"Letter says “the undersigned being the …”", tabNs:"Not Stamp TA", nsIntro:"Fill in the details and tap “Download Letter” to get the completed Mutual Agreement in relation to Stamping of Tenancy Agreement (PDF), signed by both the owner and the tenant to The Roof Realty to confirm the TA will not be stamped. The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", nsG2:"Owner", nsG3:"Tenant", nsTaDate:"Tenancy agreement dated", nsBearer:"Who pays any late stamping penalty", tabRc:"Release Comm", rcIntro:"Fill in the details and tap “Download Letter” to get the completed Letter Of Consent To Release Commission (PDF), signed by the vendor to The Roof Realty. The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", rcSerial:"Serial Number", rcParty:"Who signs (role in paragraph 1)", rcG2:"Vendor / Landlord", rcG3:"Purchaser / Tenant", rcIcNote:"NRIC only appears in the signature block, never in the Subject section.", rcAmt:"Commission (RM, incl. 8% SST)", rcG5:"Appointed agent", rcAgent:"Agent name", tabRd:"Release Deposit", rdIntro:"Fill in the details and tap “Download Letter” to get the completed Letter of Confirmation to Release Deposit (PDF), sent by the purchaser / tenant to The Roof Realty. The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", rdG2:"From: Purchaser / Tenant", rdG3:"Vendor / Owner", rdTo:"Release the deposit to", rdToOther:"Type who receives the deposit", rdDays:"Release within (days)", tabRb:"Refund Booking Fee", rbIntro:"Fill in the details and tap “Download Letter” to get the completed Letter of Confirmation to Refund the Booking Fee / Deposit (PDF). The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", rbDeal:"Transaction type (Purchase / Tenancy)", rbAmt:"Booking fee amount (RM)", tabFl:"Forfeit Letter", flIntro:"Fill in the details and tap “Download Letter” to get the completed Letter of Confirmation to Forfeit Deposit (PDF). The wording stays exactly as the template; only the details that were highlighted in yellow are filled.", flG1:"Letter details", flG2:"From: Vendor / Owner", flG3:"To: Purchaser / Tenant", flG4:"Transaction details", flDate:"Letter date", flCase:"Case Number", flIc:"NRIC No.", flProp:"Property address (one line)", flType:"Transaction type (point 2)", flDep:"Deposit (RM)", flOffer:"Offer Letter date", flAck:"Purchaser's confirmation date (optional)", flGen:"Download Letter", flMissing:f=>`Please fill in: ${f}`, tabHl:"Hee & Lim TA", taTitleCs:"Chee Sun TA", taTitleHl:"Hee & Lim TA", taIntroHl:"Fill in the customer details and tap “Download TA” to get the completed Hee & Lim Tenancy Agreement (PDF): the cover comes first. The clauses stay unchanged; only the cover, clause 4.1(b) bank account, signature blocks, First Schedule, Second Schedule and Appendix are filled.", taDue:"Rent due on day of each month", taHlG:"Hee & Lim details", taPtype:"Property type (First Schedule Section 4)", taPtitle:"Title / property line on the cover (optional; the property address is used if empty)", taFrent:"Rental for further term (Section 11)", taFixtures:"Landlord's fixtures and fittings (Appendix, one per line; -NIL- if empty)", taSpecialHl:"One per line. Added after the 3 existing special conditions in the Second Schedule, numbered from 4.", tabTa:"Chee Sun TA", taIntro:"Fill in the customer details and tap “Download TA” to get the completed Tenancy Agreement (PDF). The template clauses stay unchanged; only the First Schedule, signature blocks and special conditions are filled.", taCharErr:"Some details contain characters the PDF can't show (for example Chinese). Please type them in English.", taG1:"Part 1 · Agreement date", taG2:"Part 2 · Landlord", taG3:"Part 3 · Tenant", taG4:"Part 4 · Property address", taG5:"Parts 5–7 · Term", taG6:"Parts 8–10 · Rent and deposits", taG7:"Part 8 · Landlord's bank account", taG8:"Special conditions (optional)", taG9:"Part 11 · Permitted use", taUse:"Permitted use", taUseOther:"Others (type your own)", taUseOtherL:"Type the permitted use", taSpecial:"One condition per line; they are numbered automatically. Only added when filled in, under “[The remainder of this page is intentionally left blank]”.",
   taDate:"Agreement date", taName:"Name / company name", taIc:"ID number", taName2:"Second person (optional)", taIc2:"Second person's ID number", taIdType:"ID type", taNric:"NRIC", taPass:"Passport", taCo:"Company No. (Co. No)", taAddr:"Address (one line per row)", taPAddr:"Property address (one line per row)",
   taTerm:"Fixed term (years)", taRenew:"Renewal term (years)", taStart:"Commencement date", taEnd:"Expiry date", taRent:"Monthly rent (RM)", taDep:"Rental deposit (RM)", taUtil:"Utilities deposit (RM)",
   taBank:"Bank name (required if account number is filled)", taAccName:"Account holder name", taAccNo:"Bank account number", taGen:"Download TA",
@@ -532,7 +697,7 @@ function applyLang(){
   document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=T(el.dataset.i18n));
   document.querySelectorAll("[data-i18n-ph]").forEach(el=>{el.placeholder=T(el.dataset.i18nPh); el.setAttribute("aria-label",T(el.dataset.i18nPh));});
   document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));
-  if(typeof setTaMode==="function") setTaMode(taMode); renderChips(); renderTopic(); renderLog(); calcSale(); calcRent(); calcRoi(); calcInst(); calcAff();
+  if(typeof setTaMode==="function") setTaMode(taMode); renderChips(); renderTopic(); renderLog(); calcSale(); calcRent(); calcRoi(); calcInst(); calcAff(); if(typeof lstLang==="function") lstLang(); if(typeof rqLang==="function") rqLang();
 }
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{lang=b.dataset.lang; try{localStorage.setItem("eag-lang",lang);}catch(e){} applyLang();});
 
@@ -649,7 +814,7 @@ $("#stop").onclick=()=>ctl?.abort();
 /* ===== 页面切换 ===== */
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
   document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x===t));
-  ["chat","sale","rent","roi","inst","aff","ta","fl","rb","rd","rc","ns","td","la","cdd"].forEach(v=>$("#view-"+v).hidden = v!==t.dataset.view);
+  ["chat","sale","rent","roi","inst","aff","ta","fl","rb","rd","rc","ns","td","la","cdd","lst","rq"].forEach(v=>$("#view-"+v).hidden = v!==t.dataset.view);
   if(t.dataset.view==="ta") setTaMode(taMode);
   if(t.dataset.view==="fl") showLetter(curLetter);
 });
@@ -773,6 +938,422 @@ setupCopy("#s-copy","#s-copied","#s-fallback",()=>saleText);
 setupCopy("#r-copybtn","#r-copied","#r-fallback",()=>rentText);
 document.querySelectorAll("#view-sale input,#view-sale select").forEach(el=>el.addEventListener("input",calcSale));
 document.querySelectorAll("#view-rent input").forEach(el=>el.addEventListener("input",calcRent));
+
+/* ===== 货源分享 Listing Post ===== */
+/* [value, 英文选项, 中文选项, 华语版文字(不填就用中文选项)] */
+const LST_OPTS={
+  kind:[["WTS","For Sale","出售"],["WTL","For Rent","出租"],["WTS / WTL","Sale or Rent","出售 / 出租"]],
+  type:[["","",""],["Single Storey Terrace House","","单层排屋"],["Double Storey Terrace House","","双层排屋"],["1.5 Storey Terrace House","","1.5 层排屋"],["Triple Storey Terrace House","","三层排屋"],["Cluster House","","Cluster 屋","Cluster 双并式排屋"],["Townhouse","","Townhouse","Townhouse 联排屋"],["Single Storey Semi-D","","单层半独立式","单层半独立式洋房"],["Double Storey Semi-D","","双层半独立式","双层半独立式洋房"],["Bungalow","","独立式洋房"],["Condominium","","公寓 Condo","公寓 Condominium"],["Serviced Residence","","服务式公寓"],["Apartment","","Apartment","Apartment 公寓"],["Flat","","组屋 Flat","组屋"],["Shop Lot","","店屋"],["Shop Office","","店面办公室"],["Land","","地皮"],["Detached Factory","","独立式工厂"],["Semi-D Factory","","半独立式工厂"],["Terrace Factory","","排屋式工厂"],["Cluster Factory","","Cluster 工厂"],["Warehouse","","仓库"],["__other","Others","其他"]],
+  lot:[["","",""],["Intermediate lot","","中间","中间单位"],["Corner lot","","角头","角头单位"],["End lot","","尾间","尾间单位"],["Corner lot with extra land","","角头 + 多余地","角头单位（有多余地）"],["Facing open","","面向空地"]],
+  facing:[["","",""],["North","","朝北"],["South","","朝南"],["East","","朝东"],["West","","朝西"],["North East","","朝东北"],["North West","","朝西北"],["South East","","朝东南"],["South West","","朝西南"]],
+  bumi:[["","",""],["Non Bumi","","非土著"],["Bumi lot","","土著地","土著单位 (Bumi lot)"],["Malay Reserve","","马来保留地"]],
+  tenure:[["","",""],["Freehold","","永久地契"],["Leasehold","","租赁地契"]],
+  title:[["","",""],["Individual title","","分契","独立地契"],["Strata title","","分层地契"],["Master title","","总地契"]],
+  furn:[["","",""],["Unfurnished","","没家私"],["Partially furnished","","部分家私"],["Fully furnished","","全家私"]],
+  security:[["","",""],["Gated & Guarded","","门禁保安","门禁保安社区"],["Guarded","","有保安"],["24-hour security","","24 小时保安"]],
+  lunit:[["acres","","英亩"],["sqft","","平方尺"],["hectares","","公顷"]],
+  lcat:[["","",""],["Agriculture","","农业地"],["Residential","","住宅地"],["Commercial","","商业地"],["Industrial","","工业地"],["Mixed Development","","混合发展地"]],
+  conv:[["","",""],["allow","Allow convert","可以转换"],["approval","Convert subject to approval","转换需批准"],["no","Not allowed to convert","不可转换"]],
+  convto:[["","Any / not specified","不指定"],["Residential","","住宅地"],["Commercial","","商业地"],["Industrial","","工业地"],["Mixed Development","","混合发展地"]],
+  terrain:[["","",""],["Flat land","","平地"],["Partially hilly","","部分山坡"],["Hilly","","山坡地"],["Low-lying (need filling)","","低洼地（需要填土）"],["__other","Others","其他"]],
+  road:[["","",""],["Main road frontage","","大路门面"],["Tar road access","","柏油路可进"],["Laterite road access","","红泥路可进"],["No direct road access","","没有直接道路"],["__other","Others","其他"]],
+  lstatus:[["","",""],["Vacant land","","空地"],["Oil palm plantation","","油棕园"],["Durian plantation","","榴莲园"],["Rubber plantation","","橡胶园"],["Fruit orchard","","果园"],["Fish pond","","鱼塘"],["__other","Others","其他"]],
+  punit:[["total","Total (RM)","总价"],["psf","RM / sqft (psf)","每平方尺"],["acre","RM / acre","每英亩"],["hectare","RM / hectare","每公顷"]],
+  itype:[["","",""],["Light industry","","轻工业"],["Medium industry","","中型工业"],["Heavy industry","","重工业"]],
+  access:[["","",""],["40ft container access","","40 尺货柜车可进"],["20ft container access","","20 尺货柜车可进"],["Lorry access","","罗厘可进"]],
+  ccc:[["","",""],["CCC / CF ready","","已有 CCC / CF"],["CCC / CF in progress","","CCC / CF 申请中"]],
+  status:[["","",""],["Vacant","","空屋"],["Tenanted","","有租客"],["Owner occupied","","屋主自住"],["Ready to move in","","可以马上入住"]]
+};
+const LST_RENO=[["Kitchen Extended","厨房扩建"],["Back Extended","后面扩建"],["Fully Extended","全扩建"],["Awning","遮阳棚"],["Plaster Ceiling","石膏天花板"],["Autogate","自动门"],["Grille","铁花"],["Kitchen Cabinet","厨房柜"],["Built-in Wardrobe","嵌入式衣柜"],["Aircond","冷气"],["Water Heater","热水器"],["Solar Panel","太阳能板"],["Tiles Upgraded","换新瓷砖"],["Renovated Bathroom","浴室翻新"]];
+let LST_SEL=new Set(), lstSlugAuto=true;
+function lstLabel(o){ const en=o[1]||o[0]; if(!o[0]&&!o[1]) return T("cddPick"); return lang==="zh"&&o[2]?`${en}（${o[2]}）`:en; }
+function lstZh(key,val){ const o=LST_OPTS[key].find(x=>x[0]===val); return o?(o[3]||o[2]):val; }
+function lstLang(){
+  document.querySelectorAll("[data-lst-opts]").forEach(sel=>{
+    const v=sel.value, list=LST_OPTS[sel.dataset.lstOpts];
+    sel.innerHTML=list.map(o=>`<option value="${esc(o[0])}">${esc(sel.id==="lst-kind"?`${o[0]} · ${lang==="zh"?o[2]:o[1]}`:lstLabel(o))}</option>`).join("");
+    if(list.some(o=>o[0]===v)) sel.value=v;
+  });
+  $("#lst-reno").innerHTML=LST_RENO.map(r=>`<button type="button" class="lst-chip" data-reno="${esc(r[0])}" aria-pressed="${LST_SEL.has(r[0])}">${esc(lang==="zh"?`${r[0]}（${r[1]}）`:r[0])}</button>`).join("");
+  lstRender();
+}
+/* 578000 → RM578k，1250000 → RM1.25mil，1500 → RM1,500 */
+function lstMoney(n){
+  if(!n) return "";
+  if(n>=1e6){ return "RM"+(+(n/1e6).toFixed(3)).toString()+"mil"; }
+  if(n>=1e4){ return "RM"+(+(n/1e3).toFixed(1)).toString()+"k"; }
+  return "RM"+Math.round(n).toLocaleString("en-MY");
+}
+const lstRM = n => "RM"+Math.round(n).toLocaleString("en-MY");
+function lstShort(n){ if(!n) return ""; if(n>=1e6) return (+(n/1e6).toFixed(2))+"m"; if(n>=1e4) return Math.round(n/1e3)+"k"; return String(Math.round(n)); }
+function lstPhone60(p){ let d=String(p).replace(/\D/g,""); if(!d) return ""; if(d.startsWith("0")) d="6"+d; else if(!d.startsWith("6")) d="60"+d; return d; }
+function lstAutoSlug(){
+  let a=$("#lst-area").value; if(a.includes("@")) a=a.split("@").pop();
+  const ini=a.toLowerCase().replace(/[^a-z0-9\s]/g," ").split(/\s+/).filter(Boolean).map(w=>/^\d+$/.test(w)?w:w[0]).join("");
+  const kind=$("#lst-kind").value, pr=num("#lst-price"), rt=num("#lst-rent");
+  const tail = kind==="WTL" ? (rt?"r"+lstShort(rt):"") : lstShort(pr);
+  return (ini+tail).slice(0,30);
+}
+function lstText(){
+  const v=id=>lstOff(id)?"":$(id).value.trim(), num=id=>lstOff(id)?0:Math.max(0, parseFloat(String($(id).value).replace(/,/g,""))||0), cat=lstCat(), st=$("#lst-style").value, B=st!=="plain", E=st==="emoji", M=$("#lst-lang").value;
+  const b=t=>B&&t?`*${t}*`:t, e=(ic,t)=>E&&t?`${ic} ${t}`:t;
+  /* 英文 / 华语 / 双语：tr(英文, 华语, 双语(不填就是 英文 华语)) */
+  const tr=(en,zh,both)=> M==="en"?en : M==="zh"?zh : (both ?? (en===zh?en:`${en} ${zh}`));
+  const opt=(key,id)=>{ const x=v(id); return x?tr(x,lstZh(key,x)):""; };
+  const pl=(n,w)=>`${n} ${w}${n==="1"?"":"s"}`;
+  const kind=$("#lst-kind").value, sale=kind!=="WTL", rent=kind!=="WTS";
+  const out=[b(`${kind} ${lstZh("kind",kind)}`)];
+  const tag=v("#lst-tag"); if(tag) out.push(e("🔥",b(tag)));
+  out.push("");
+  const head=[v("#lst-area"),v("#lst-cn")].filter(Boolean).join(" ");
+  if(head) out.push(e("🏡",b(head)));
+  const lcat=v("#lst-lcat");
+  const ty=$("#lst-type").value==="__other"?v("#lst-typeo"):cat==="land"&&lcat?tr(`${lcat} land`,lstZh("lcat",lcat)):opt("type","#lst-type");
+  if(ty) out.push(e("🏠",ty));
+  const bu=num("#lst-bu"), land=v("#lst-land"), buS=bu.toLocaleString("en-MY");
+  const size=[land?tr(land,`土地 ${land}`,land):"", bu?tr(`Built-up ${buS} sqft`,`建筑面积 ${buS} sqft`,`Built-up 建筑面积 ${buS} sqft`):""].filter(Boolean).join(" | ");
+  const la=num("#lst-larea"), lu=$("#lst-lunit").value, laS=la?(+la.toFixed(4)).toLocaleString("en-MY",{maximumFractionDigits:4}):"";
+  const area=la?tr(`Land area ${laS} ${la===1&&lu==="acres"?"acre":lu}`,`土地面积 ${laS} ${lstZh("lunit",lu)}`,`Land area 土地面积 ${laS} ${lu}`):"";
+  const size2=[area,size].filter(Boolean).join(" | ");
+  if(size2) out.push(e("📐",size2));
+  const laSq = la ? la*({acres:43560,sqft:1,hectares:107639}[lu]||1) : 0;
+  if(cat==="land"){
+    const cv=v("#lst-conv"), ct=v("#lst-convto");
+    if(cv){ const CV={allow:["Allow convert","可以转换","Allow convert 可以转换"],approval:["Convert subject to approval","转换需批准","Convert subject to approval 转换需批准"],no:["Not allowed to convert","不可转换","Not allowed to convert 不可转换"]}[cv];
+      let t=tr(...CV);
+      if(ct&&cv!=="no") t=tr(`${CV[0]} to ${ct}`,`${CV[1]}为${lstZh("convto",ct)}`,`${CV[0]} to ${ct} ${CV[1]}为${lstZh("convto",ct)}`);
+      out.push(e("🔄",t)); }
+    if(v("#lst-zone")) out.push(e("🗺️",tr(`Zoning: ${v("#lst-zone")}`,`规划：${v("#lst-zone")}`,`Zoning 规划: ${v("#lst-zone")}`)));
+    { const x=v("#lst-terrain"); const t=x==="__other"?v("#lst-terraino"):opt("terrain","#lst-terrain"); if(t) out.push(e("⛰️",t)); }
+    { const x=v("#lst-road"); const t=x==="__other"?v("#lst-roado"):opt("road","#lst-road"); if(t) out.push(e("🛣️",t)); }
+    const fr=v("#lst-front"); if(fr) out.push(e("↔️",tr(`Frontage ${fr}ft`,`门面 ${fr} 尺`,`Frontage 门面 ${fr}ft`)));
+    { const x=v("#lst-lstatus"); const t=x==="__other"?v("#lst-lstatuso"):opt("lstatus","#lst-lstatus"); if(t) out.push(e("🌴",t)); }
+  }
+  if(cat==="ind"){
+    if(v("#lst-itype")) out.push(e("🏭",opt("itype","#lst-itype")));
+    const ce=v("#lst-ceil"); if(ce) out.push(e("📏",tr(`Ceiling height ${ce}ft`,`天花板高度 ${ce} 尺`,`Ceiling height 天花板高度 ${ce}ft`)));
+    const pw=v("#lst-power"); if(pw) out.push(e("⚡",tr(`Power supply ${pw}`,`电力 ${pw}`,`Power supply 电力 ${pw}`)));
+    const lf=v("#lst-loadf"); if(lf) out.push(e("🏋️",tr(`Floor loading ${lf}`,`地板承重 ${lf}`,`Floor loading 地板承重 ${lf}`)));
+    if(v("#lst-access")) out.push(e("🚛",opt("access","#lst-access")));
+    const cn=v("#lst-crane"); if(cn) out.push(e("🏗️",tr(`Crane ${cn}`,`吊车 ${cn}`,`Crane 吊车 ${cn}`)));
+    const of=v("#lst-office"); if(of) out.push(e("🏢",tr(`Office: ${of}`,`办公室：${of}`,`Office 办公室: ${of}`)));
+    if(v("#lst-ccc")) out.push(e("📃",opt("ccc","#lst-ccc")));
+  }
+  const bed0=v("#lst-bed"), bedx=v("#lst-bedx");
+  if(bed0==="Studio") out.push(e("🛏️",tr("Studio","单间 Studio","Studio 单间")));
+  else if(bed0){ const bed=bed0+(bedx?"+"+bedx:""); out.push(e("🛏️",tr(pl(bed,"bedroom"),`${bed} 间房`,`${pl(bed,"bedroom")} 房间`))); }
+  const ba=v("#lst-bath"), to=v("#lst-toilet");
+  const bt=[ba?tr(pl(ba,"bathroom"),`${ba} 间浴室`,`${pl(ba,"bathroom")} 浴室`):"", to?tr(pl(to,"toilet"),`${to} 间厕所`,`${pl(to,"toilet")} 厕所`):""].filter(Boolean).join(" + ");
+  if(bt) out.push(e("🛁",bt));
+  if(v("#lst-lot")) out.push(e("📍",opt("lot","#lst-lot")));
+  const fc=v("#lst-facing"); if(fc) out.push(e("🧭",tr(`Facing ${fc}`,lstZh("facing",fc))));
+  const fl=v("#lst-floor"); if(fl) out.push(e("🏢",tr(fl,`楼层：${fl}`,fl)));
+  if(v("#lst-bumi")) out.push(e("📌",opt("bumi","#lst-bumi")));
+  const ten=v("#lst-tenure"), yrs=v("#lst-lease");
+  if(ten) out.push(e("📜",ten==="Leasehold"&&yrs?tr(`Leasehold (${yrs} years remaining)`,`租赁地契（剩 ${yrs} 年）`,`Leasehold 租赁地契 (${yrs} years remaining 剩 ${yrs} 年)`):opt("tenure","#lst-tenure")));
+  if(v("#lst-title")) out.push(e("📄",opt("title","#lst-title")));
+  if(v("#lst-furn")) out.push(e("🛋️",opt("furn","#lst-furn")));
+  if(v("#lst-security")) out.push(e("👮",opt("security","#lst-security")));
+  const mf=num("#lst-mf"); if(mf) out.push(e("🧾",tr(`Maintenance fee ${lstRM(mf)}/month`,`管理费 ${lstRM(mf)}/月`,`Maintenance fee 管理费 ${lstRM(mf)}/month`)));
+  if(v("#lst-status")) out.push(e("🔑",opt("status","#lst-status")));
+  const cr=num("#lst-crent"); if(v("#lst-status")==="Tenanted"&&cr) out.push(e("💵",tr(`Current rental ${lstRM(cr)}/month`,`现租金 ${lstRM(cr)}/月`,`Current rental 现租金 ${lstRM(cr)}/month`)));
+  const orig=cat==="res"&&$("#lst-cond").value==="orig";
+  if(orig) out.push(e("🧱",tr("Original condition","原装（没有装修）","Original condition 原装")));
+  const renoMap=Object.fromEntries(LST_RENO);
+  const reno=(orig||cat!=="res")?[]:[...LST_RENO.map(r=>r[0]).filter(r=>LST_SEL.has(r)).map(r=>tr(r,renoMap[r])), ...v("#lst-renox").split("\n").map(x=>x.trim()).filter(Boolean)];
+  if(reno.length){ out.push("", b(tr("Renovation:","装修：","Renovation 装修:")), ...reno.map(r=>E?`✅ ${r}`:r)); }
+  const hl=v("#lst-hl").split("\n").map(x=>x.trim()).filter(Boolean);
+  if(hl.length){ out.push("", b(tr("Highlights:","卖点：","Highlights 卖点:")), ...hl.map(r=>E?`⭐ ${r}`:r)); }
+  const P=[], pr=num("#lst-price"), bv=num("#lst-bv"), rt=num("#lst-rent");
+  if(sale&&pr){ const base=cat==="land"?laSq:(bu||laSq), pu=$("#lst-punit").value, SP=tr("Selling price","售价","Selling price 售价");
+    const small=n=>"RM"+(n<100&&n%1?n.toFixed(2):Math.round(n).toLocaleString("en-MY"));
+    let t;
+    if(pu==="total"){
+      const psf=$("#lst-psf").checked&&base?small(pr/base):"";
+      t=`${SP} ${lstMoney(pr)}`;
+      if(psf) t+=tr(` (${psf} psf)`,`（每平方尺 ${psf}）`,` (${psf} psf)`);
+    } else {
+      const P1=pu==="psf"?small(pr):lstMoney(pr);
+      const U={psf:["psf","每平方尺","psf 每平方尺"],acre:["per acre","每英亩","per acre 每英亩"],hectare:["per hectare","每公顷","per hectare 每公顷"]}[pu];
+      t=tr(`${SP} ${P1} ${U[0]}`,`${SP} ${U[1]} ${P1}`,`${SP} ${P1} ${U[2]}`);
+      const area = pu==="psf" ? base : pu==="acre" ? laSq/43560 : laSq/107639;
+      if(area){ const tot=lstMoney(pr*area); t+=tr(` (Total ≈ ${tot})`,`（总价约 ${tot}）`,` (Total 总价约 ${tot})`); }
+    }
+    P.push(e("💰",b(t))); }
+  if(sale&&bv) P.push(e("🏦",`${tr("Bank Value","银行估价","Bank Value 银行估价")} ${lstMoney(bv)}`));
+  if(rent&&rt) P.push(e("💰",b(tr(`Rental ${lstRM(rt)}/month`,`月租 ${lstRM(rt)}`,`Rental 月租 ${lstRM(rt)}/month`))));
+  if(P.length&&$("#lst-neg").value) P.push(tr("Negotiable","可议价"));
+  if(P.length) out.push("",...P);
+  const ag=[b(v("#lst-agency")),b(v("#lst-name")),e("📞",v("#lst-phone"))].filter(Boolean);
+  const ph=lstPhone60(v("#lst-phone"));
+  if($("#lst-wasap").checked&&ph) ag.push(`www.wasap.my/${ph}${v("#lst-slug")?"/"+v("#lst-slug").replace(/\s+/g,""):""}`);
+  if(ag.length) out.push("",...ag);
+  return out.join("\n").replace(/\n{3,}/g,"\n\n").trim();
+}
+/* 用 api.whatsapp.com（wa.me 转址时会把 emoji 弄坏） */
+const lstWaUrl = t => "https://api.whatsapp.com/send?text="+encodeURIComponent(t);
+const LST_IND=["Detached Factory","Semi-D Factory","Terrace Factory","Cluster Factory","Warehouse"];
+function lstCat(){ const t=$("#lst-type").value; return t==="Land"?"land":LST_IND.includes(t)?"ind":"res"; }
+function lstOff(id){ const w=$(id).closest("[data-lst-hide]"); return !!(w&&w.hidden); }
+function lstRender(){
+  if(!$("#lst-out")) return;
+  const kind=$("#lst-kind").value;
+  $("#lst-typeo-f").hidden=$("#lst-type").value!=="__other";
+  $("#lst-lease-f").hidden=$("#lst-tenure").value!=="Leasehold";
+  const cat=lstCat();
+  document.querySelectorAll("#view-lst [data-lst-hide]").forEach(w=>w.hidden=w.dataset.lstHide.split(",").includes(cat));
+  $("#lst-reno-box").hidden=cat!=="res"||$("#lst-cond").value==="orig";
+  $("#lst-crent-f").hidden=cat==="land"||$("#lst-status").value!=="Tenanted";
+  ["terrain","road","lstatus"].forEach(k=>$(`#lst-${k}o-f`).hidden=lstOff(`#lst-${k}`)||$(`#lst-${k}`).value!=="__other");
+  $("#lst-punit-f").hidden=kind==="WTL";
+  $("#lst-pp-f").hidden=kind==="WTL";
+  $("#lst-psf-f").hidden=kind==="WTL"||$("#lst-punit").value!=="total";
+  $("#lst-convto-f").hidden=lstOff("#lst-conv")||!["allow","approval"].includes($("#lst-conv").value);
+  $("#lst-price-f").hidden=$("#lst-bv-f").hidden=kind==="WTL";
+  $("#lst-rent-f").hidden=kind==="WTS";
+  if(lstSlugAuto) $("#lst-slug").value=lstAutoSlug();
+  const t=lstText(); $("#lst-out").value=t;
+  $("#lst-wa").href=lstWaUrl(t);
+}
+const LST_AGENT=["lst-agency","lst-name","lst-phone"];
+try{ const a=JSON.parse(localStorage.getItem("eag-lst-agent")||"{}"); LST_AGENT.forEach(k=>{ if(a[k]) $("#"+k).value=a[k]; }); }catch(e){}
+document.querySelectorAll("#view-lst input,#view-lst select,#view-lst textarea:not(#lst-out)").forEach(el=>{
+  const h=()=>{
+    if(el.id==="lst-slug") lstSlugAuto=!el.value.trim();
+    if(LST_AGENT.includes(el.id)){ try{ const a={}; LST_AGENT.forEach(k=>a[k]=$("#"+k).value); localStorage.setItem("eag-lst-agent",JSON.stringify(a)); }catch(e){} }
+    lstRender();
+  };
+  el.addEventListener("input",h); el.addEventListener("change",h);
+});
+$("#lst-reno").addEventListener("click",ev=>{
+  const c=ev.target.closest("[data-reno]"); if(!c) return;
+  const r=c.dataset.reno; LST_SEL.has(r)?LST_SEL.delete(r):LST_SEL.add(r);
+  c.setAttribute("aria-pressed",LST_SEL.has(r)); lstRender();
+});
+$("#lst-out").addEventListener("input",()=>{ $("#lst-wa").href=lstWaUrl($("#lst-out").value); });
+/* 手机：用系统分享（emoji 不会坏，可直接选 WhatsApp 群组）；不支持才开 WhatsApp 链接 */
+$("#lst-wa").addEventListener("click",async ev=>{
+  const text=$("#lst-out").value;
+  let top=false; try{ top=window.top===window; }catch(e){}
+  if(top && navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+    ev.preventDefault();
+    try{ await navigator.share({text}); }
+    catch(err){ if(err && err.name==="AbortError") return; window.open(lstWaUrl(text),"_blank","noopener"); }
+  }
+});
+setupCopy("#lst-copy","#lst-copied","#lst-fallback",()=>$("#lst-out").value);
+$("#lst-clear").onclick=()=>{
+  document.querySelectorAll("#view-lst input:not([type=checkbox]),#view-lst select,#view-lst textarea").forEach(el=>{
+    if(LST_AGENT.includes(el.id)||["lst-style","lst-kind","lst-lang","lst-fallback"].includes(el.id)) return;
+    el.value = el.tagName==="SELECT" ? el.options[0].value : "";
+  });
+  $("#lst-psf").checked=false; LST_SEL.clear(); lstSlugAuto=true;
+  $("#lst-reno").querySelectorAll("[data-reno]").forEach(c=>c.setAttribute("aria-pressed","false"));
+  lstRender(); const st=$("#lst-copied"); st.textContent=T("lstCleared"); clearTimeout(st._t); st._t=setTimeout(()=>{st.textContent="";},4000);
+};
+
+/* ===== 征求产业 WTB / WTR ===== */
+const RQ_OPTS={
+  tcat:[["","",""],["res","Residential","住宅"],["com","Commercial","商业"],["ind","Industrial","工业"],["land","Land","地皮"],["__other","Others","其他"]],
+  storey:[["","",""],["1","1 Storey","1 层"],["1.5","1.5 Storey","1.5 层"],["2","2 Storey","2 层"],["2.5","2.5 Storey","2.5 层"],["3","3 Storey","3 层"],["__other","Others","其他"]],
+  hbed:[["","",""],["Studio","Studio","单间"],["1","1 bedroom","1 房"],["2","2 bedrooms","2 房"],["3","3 bedrooms","3 房"],["4","4 bedrooms","4 房"],["5","5 bedrooms","5 房"]],
+  floor:[["Ground floor","","底层"],["Lower floor","","低楼层"],["Middle floor","","中楼层"],["Upper floor","","高楼层"]],
+  bmode:[["below","Below","以下"],["between","Between","之间"],["market","Follow market","跟市价"]],
+  kind:[["WTB","Want to buy","征求购买"],["WTR","Want to rent","征求租"],["WTB / WTR","Buy or rent","征求购买 / 租"]],
+  tenure:[["","",""],["Freehold only","","只要永久地契"],["Freehold or Leasehold","","永久或租赁地契都可以"]],
+  bumi:[["","",""],["Non Bumi","","非土著"],["Bumi lot","","土著单位"],["Bumi or Non Bumi","","土著 / 非土著都可以"]],
+  lot:[["Intermediate lot","","中间单位"],["Corner lot","","角头单位"],["End lot","","尾间单位"],["Corner lot with extra land","","角头单位（有多余地）"]],
+  cond:[["Renovated preferred","","最好有装修"],["Original condition OK","","原装也可以"],["Ready to move in","","可以马上入住"]],
+  security:[["","",""],["Must be guarded","","需要保安"],["Guarded or non-guarded","","有无保安皆可"]],
+  furn:[["","",""],["Unfurnished","","没家私"],["Partially furnished","","部分家私"],["Fully furnished","","全家私"],["Any furnishing","","家私都可以"]],
+  fin:[["","",""],["Cash buyer","","现金买家"],["Loan pre-approved","","贷款已预先批准"],["Loan buyer","","贷款买家"],["LPPSA buyer","","LPPSA 公务员贷款买家"]],
+  purpose:[["","",""],["Own stay","","自住"],["Investment","","投资"]],
+  period:[["","",""],["1 year","","1 年"],["2 years","","2 年"],["6 months","","6 个月"],["Short term","","短期"]],
+  pets:[["","",""],["No pets","","没有宠物"],["With cat","","有猫"],["With dog","","有狗"]]
+};
+const RQ_SUB={
+  res:[["Terrace House","","排屋"],["Cluster House","","Cluster 屋","Cluster 双并式排屋"],["Semi-D","","半独立式","半独立式洋房"],["Bungalow","","独立式洋房"],["Townhouse","","Townhouse","联排屋 Townhouse"],["Serviced Apartment","","服务式公寓"],["Flat","","组屋"]],
+  com:[["Shop Lot","","店屋"],["Shop Office","","店面办公室"],["Office Unit","","办公室单位"],["Retail Unit","","零售单位"],["SOHO / SOVO","","SOHO / SOVO"],["Hotel","","酒店"]],
+  ind:[["Detached Factory","","独立式工厂"],["Semi-D Factory","","半独立式工厂"],["Terrace Factory","","排屋式工厂"],["Cluster Factory","","Cluster 工厂"],["Warehouse","","仓库"]],
+  land:[["Residential Land","","住宅地"],["Commercial Land","","商业地"],["Industrial Land","","工业地"],["Agriculture Land","","农业地"],["Development Land","","发展地"]]
+};
+const RQ_TYPES=Object.values(RQ_SUB).flat();
+let RQ_TOTHER=false, RQ_FLR=new Set(), RQ_COND=new Set();
+const RQ_LANDED=["Terrace House","Cluster House","Semi-D","Bungalow"], RQ_HIGH=["Townhouse","Serviced Apartment","Flat"];
+let RQ_SEL=new Set(), RQ_LOT=new Set();
+const RQ_SHOP=["Shop Lot","Shop Office"];
+/* 多选下拉：按一下打开，里面直接打勾，可以勾几个 */
+function rqPruneCond(){ const keep=new Set(rqCondList().map(o=>o[0])); [...RQ_COND].forEach(c=>{ if(!keep.has(c)) RQ_COND.delete(c); }); }
+function rqCondList(){ return rqHasRes()?RQ_OPTS.cond:RQ_OPTS.cond.filter(o=>o[0]!=="Ready to move in"); }
+function rqCats(){ const tc=$("#rq-tcat").value, c=new Set(); if(tc&&tc!=="__other") c.add(tc); Object.entries(RQ_SUB).forEach(([k,l])=>{ if(l.some(o=>RQ_SEL.has(o[0]))) c.add(k); }); return c; }
+function rqHasRes(){ const c=rqCats(); return !c.size||c.has("res"); }
+const RQ_MS={
+  type:{el:"#rq-type-ms",set:()=>RQ_SEL,list:()=>[...(RQ_SUB[$("#rq-tcat").value]||[]),["__other","Others","其他"]],all:()=>RQ_TYPES},
+  lot:{el:"#rq-lot-ms",set:()=>RQ_LOT,list:()=>RQ_OPTS.lot,all:()=>RQ_OPTS.lot},
+  flr:{el:"#rq-flr-ms",set:()=>RQ_FLR,list:()=>RQ_OPTS.floor,all:()=>RQ_OPTS.floor},
+  cond:{el:"#rq-cond-ms",set:()=>RQ_COND,list:rqCondList,all:rqCondList}
+};
+function rqMsLabel(k){
+  const m=RQ_MS[k], S=m.set(), names=m.all().filter(o=>S.has(o[0])).map(o=>o[1]||o[0]);
+  if(k==="type"&&RQ_TOTHER) names.push("Others");
+  const btn=$(m.el+" .msel-btn"); btn.textContent=names.length?names.join(", "):T("rqPickMulti"); btn.classList.toggle("ph",!names.length);
+}
+function rqMultiRender(only){
+  Object.entries(RQ_MS).forEach(([k,m])=>{ if(only&&k!==only) return;
+    const S=m.set(), box=$(m.el), open=box.querySelector(".msel-panel")&&!box.querySelector(".msel-panel").hidden;
+    box.innerHTML=`<button type="button" class="msel-btn" aria-haspopup="true"></button><div class="msel-panel"${open?"":" hidden"}>`+
+      m.list().map(o=>{ const on=o[0]==="__other"?RQ_TOTHER:S.has(o[0]); return `<label><input type="checkbox" data-ms="${k}" value="${esc(o[0])}"${on?" checked":""}><span>${esc(o[0]==="__other"?(lang==="zh"?"Others（其他）":"Others"):lstLabel(o))}</span></label>`; }).join("")+
+      `<button type="button" class="msel-done">${esc(T("rqDone"))}</button></div>`;
+    rqMsLabel(k);
+  });
+}
+document.addEventListener("click",ev=>{
+  const ms=ev.target.closest(".msel");
+  document.querySelectorAll("#view-rq .msel-panel").forEach(p=>{ if(!ms||!ms.contains(p)) p.hidden=true; });
+  if(!ms) return;
+  if(ev.target.closest(".msel-btn")){ const p=ms.querySelector(".msel-panel"); p.hidden=!p.hidden; }
+  else if(ev.target.closest(".msel-done")) ms.querySelector(".msel-panel").hidden=true;
+});
+document.getElementById("view-rq").addEventListener("change",ev=>{
+  const cb=ev.target.closest("[data-ms]"); if(!cb) return;
+  const k=cb.dataset.ms, v=cb.value;
+  if(v==="__other"){ RQ_TOTHER=cb.checked; } else { const S=RQ_MS[k].set(); cb.checked?S.add(v):S.delete(v); }
+  rqMsLabel(k);
+  if(k==="type"){ rqPruneCond(); rqMultiRender("cond"); }
+  rqRender();
+  if(v==="__other"&&cb.checked) setTimeout(()=>$("#rq-typeo").focus(),0);
+});
+const rqZh=(key,val)=>{ const o=RQ_OPTS[key].find(x=>x[0]===val); return o?(o[3]||o[2]):val; };
+function rqLang(){
+  document.querySelectorAll("[data-rq-opts]").forEach(sel=>{
+    const v=sel.value, list=RQ_OPTS[sel.dataset.rqOpts];
+    sel.innerHTML=list.map(o=>`<option value="${esc(o[0])}">${esc(sel.id==="rq-kind"?`${o[0]} · ${lang==="zh"?o[2]:o[1]}`:sel.dataset.rqOpts==="bmode"?(lang==="zh"?o[2]:o[1]):lstLabel(o))}</option>`).join("");
+    if(list.some(o=>o[0]===v)) sel.value=v;
+  });
+  rqMultiRender();
+  rqRender();
+}
+function rqText(){
+  const v=id=>{ const w=$(id).closest(".field[hidden],.ta-group[hidden],[data-rq-only][hidden]"); return w?"":$(id).value.trim(); };
+  const n=id=>{ const w=$(id).closest("[data-rq-only]"); return w&&w.hidden?0:num(id); };
+  const st=$("#rq-style").value, B=st!=="plain", E=st==="emoji", M=$("#rq-lang").value;
+  const b=t=>B&&t?`*${t}*`:t, e=(ic,t)=>t?(E?`- ${ic} ${t}`:`- ${t}`):t, e0=(ic,t)=>E&&t?`${ic} ${t}`:t;
+  const tr=(en,zh,both)=> M==="en"?en : M==="zh"?zh : (both ?? (en===zh?en:`${en} ${zh}`));
+  const lab=(en,zh,val)=>tr(`${en}: ${val}`,`${zh}：${val}`,`${en} ${zh}: ${val}`);
+  const opt=(key,id)=>{ const x=v(id); return x?tr(x,rqZh(key,x)):""; };
+  const kind=$("#rq-kind").value;
+  const urg=$("#rq-urgent").checked;
+  const out=[(urg&&E?"🔥 ":"")+b(`${kind} ${rqZh("kind",kind)}${urg?" – Urgent 急":""}`), ""];
+  const area=v("#rq-area").split(/\s*[\n,，、\/]\s*/).filter(Boolean).join(" / ");
+  if(area) out.push(e0("📍",b(area)));
+  const sv=$("#rq-storey-f").hidden?"":$("#rq-storey").value, so=$("#rq-storeyo-f").hidden?"":$("#rq-storeyo").value.trim();
+  const stE=sv==="__other"?so:sv?`${sv} Storey`:"", stZ=sv==="__other"?so:sv?`${sv} 层`:"";
+  const tname=o=>{ const zh=o[3]||o[2]; if(stE&&(RQ_LANDED.includes(o[0])||RQ_SHOP.includes(o[0]))){ const sp=(sv==="__other"||/^[A-Za-z]/.test(zh))?" ":""; return tr(`${stE} ${o[0]}`,`${stZ}${sp}${zh}`,`${stE} ${o[0]} ${stZ}${sp}${zh}`); } return tr(o[0],zh); };
+  const types=[...RQ_TYPES.filter(o=>RQ_SEL.has(o[0])).map(tname), $("#rq-typeo-f").hidden?"":v("#rq-typeo")].filter(Boolean);
+  if(!types.length){ const tc=$("#rq-tcat").value; const o=RQ_OPTS.tcat.find(x=>x[0]===tc); if(o&&tc&&tc!=="__other") types.push(tr(`${o[1]} property`,`${o[2]}产业`,`${o[1]} property ${o[2]}产业`)); }
+  if(types.length) out.push(e("🏠",types.join(" / ")));
+  if(stE&&![...RQ_LANDED,...RQ_SHOP].some(t=>RQ_SEL.has(t))) out.push(e("🏢",tr(stE,stZ)));
+  if(!$("#rq-hbed-f").hidden){ const hb=$("#rq-hbed").value; if(hb) out.push(e("🛏️",hb==="Studio"?tr("Studio","单间 Studio","Studio 单间"):tr(`${hb} bedroom${hb==="1"?"":"s"}`,`${hb} 间房`,`${hb} bedroom${hb==="1"?"":"s"} 房间`))); }
+  if(!$("#rq-flr-f").hidden){ const fl=RQ_OPTS.floor.filter(o=>RQ_FLR.has(o[0])).map(o=>tr(o[0],o[2])); if(fl.length) out.push(e("🏢",fl.join(" / "))); }
+  const bu=$("#rq-bu-f").hidden?0:n("#rq-bu"); if(bu){ const s=bu.toLocaleString("en-MY"); out.push(e("📐",tr(`Built-up ${s} sqft and above`,`建筑面积 ${s} sqft 以上`,`Built-up 建筑面积 ${s} sqft and above 以上`))); }
+  if(!$("#rq-land-f").hidden&&v("#rq-land")) out.push(e("📐",lab("Land size","土地",v("#rq-land"))));
+  const lots=$("#rq-lot-f").hidden?[]:RQ_OPTS.lot.filter(o=>RQ_LOT.has(o[0])).map(o=>tr(o[0],o[3]||o[2]));
+  if(lots.length) out.push(e("📍",lots.join(" / ")));
+  const cds=$("#rq-cond-f").hidden?[]:rqCondList().filter(o=>RQ_COND.has(o[0])).map(o=>tr(o[0],o[2])); if(cds.length) out.push(e("🔨",cds.join(" / ")));
+  if(v("#rq-security")) out.push(e("👮",opt("security","#rq-security")));
+  if(v("#rq-furn")) out.push(e("🛋️",opt("furn","#rq-furn")));
+  /* 买家 / 租客资料 */
+  const pu=v("#rq-purpose"); if(pu) out.push(e("🏡",pu==="Own stay"&&!rqHasRes()?tr("Own use","自用","Own use 自用"):opt("purpose","#rq-purpose")));
+  const who=[];
+  const mvOn=!$("#rq-move").closest("[data-rq-only][hidden]");
+  if(mvOn&&$("#rq-asap").checked) who.push(e("🗓️",lab("Move in","入住",tr("ASAP","尽快","ASAP 尽快"))));
+  else if(mvOn&&$("#rq-move").value){ const d=new Date($("#rq-move").value+"T00:00"); const ds=`${d.getDate()} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getMonth()]} ${d.getFullYear()}`; who.push(e("🗓️",lab("Move in","入住",tr(ds,`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`,ds)))); }
+  if(v("#rq-period")) who.push(e("📝",lab("Tenancy","租期",tr(v("#rq-period"),rqZh("period",v("#rq-period"))))));
+  const pax=v("#rq-pax"); if(pax) who.push(e("👨‍👩‍👧",lab("Occupants","人数",tr(`${pax} pax`,`${pax} 人`,`${pax} pax`))));
+  if(v("#rq-pets")) who.push(e("🐾",opt("pets","#rq-pets")));
+  if(v("#rq-profile")) who.push(e("👤",lab("Tenant","租客",v("#rq-profile"))));
+  if(who.length) out.push("",...who);
+  /* 预算：标题一行，答案下一行 */
+  const both=kind==="WTB / WTR";
+  const bud=(k,fmt,unitEn,unitZh)=>{
+    if($(`#rq-${k}row`).hidden) return null;
+    const m=$(`#rq-${k}mode`).value, a=num(`#rq-${k}1`), c=num(`#rq-${k}2`);
+    let ans="";
+    if(m==="market") ans="Follow market 跟市价";
+    else if(m==="below"&&a) ans=tr(`Below ${fmt(a)}${unitEn}`,`${fmt(a)}${unitZh} 以下`,`Below ${fmt(a)}${unitEn} 以下`);
+    else if(m==="between"&&a&&c) ans=tr(`${fmt(a)} – ${fmt(c)}${unitEn}`,`${fmt(a)} – ${fmt(c)}${unitZh}`,`${fmt(a)} – ${fmt(c)}${unitEn}`);
+    else if(m==="between"&&(a||c)) ans=tr(`Around ${fmt(a||c)}${unitEn}`,`大约 ${fmt(a||c)}${unitZh}`,`Around ${fmt(a||c)}${unitEn} 大约`);
+    if(!ans) return null;
+    const LE=both?(k==="b"?"Buy budget":"Rent budget"):"Budget", LZ=both?(k==="b"?"买预算":"租预算"):"预算";
+    return [e0("💰",b(tr(`${LE}:`,`${LZ}：`,`${LE} ${LZ}:`))), e("",ans).replace("-  ","- ")];
+  };
+  const bb=bud("b",lstMoney,"",""); if(bb) out.push("",...bb);
+  const rb=bud("r",lstRM,"/month","/月"); if(rb) out.push("",...rb);
+  const rm=v("#rq-remarks").split("\n").map(x=>x.trim()).filter(Boolean);
+  if(rm.length) out.push("", e0("📝",b(tr("Special requirements:","特别要求：","Special requirements 特别要求:"))), ...rm.map(r=>`- ${r}`));
+  if($("#rq-cobroke").checked) out.push("", e0("🤝",tr("If you have any available listing, feel free to contact me","如有合适的产业，欢迎联系我","If you have any available listing, feel free to contact me 如有合适的产业，欢迎联系我")));
+  const ag=[b($("#rq-agency").value.trim()),b($("#rq-name").value.trim()),e0("📞",$("#rq-phone").value.trim())].filter(Boolean);
+  const ph=lstPhone60($("#rq-phone").value);
+  if($("#rq-wasap").checked&&ph) ag.push(`www.wasap.my/${ph}/${kind.startsWith("WTR")?"wtr":"wtb"}`);
+  if(ag.length) out.push("",...ag);
+  return out.join("\n").replace(/\n{3,}/g,"\n\n").trim();
+}
+function rqRender(){
+  if(!$("#rq-out")) return;
+  const kind=$("#rq-kind").value, buy=kind!=="WTR", rent=kind!=="WTB";
+  document.querySelectorAll("#view-rq [data-rq-only]").forEach(w=>w.hidden= w.dataset.rqOnly==="buy"?!buy:!rent);
+  const tc=$("#rq-tcat").value;
+  const landed=RQ_LANDED.some(t=>RQ_SEL.has(t)), high=RQ_HIGH.some(t=>RQ_SEL.has(t));
+  const comm=rqCats().has("com"), stOn=landed||comm;
+  { const sel=$("#rq-storey"), want=landed?"full":"com"; if(sel.dataset.mode!==want){ const v=sel.value; const L=RQ_OPTS.storey.filter(o=>want==="full"||["","1","2","3","__other"].includes(o[0])); sel.innerHTML=L.map(o=>`<option value="${esc(o[0])}">${esc(lstLabel(o))}</option>`).join(""); sel.value=L.some(o=>o[0]===v)?v:""; sel.dataset.mode=want; } }
+  $("#rq-storey-f").hidden=!stOn; $("#rq-storeyo-f").hidden=!stOn||$("#rq-storey").value!=="__other";
+  $("#rq-hbed-f").hidden=!high; $("#rq-flr-f").hidden=!high;
+  const cats=new Set(); if(tc&&tc!=="__other") cats.add(tc);
+  Object.entries(RQ_SUB).forEach(([c,l])=>{ if(l.some(o=>RQ_SEL.has(o[0]))) cats.add(c); });
+  const hasRes=!cats.size||cats.has("res"), hasBuilt=hasRes||cats.has("com")||cats.has("ind");
+  $("#rq-bu-f").hidden=!cats.has("ind"); $("#rq-land-f").hidden=!(cats.has("ind")||cats.has("land"));
+  $("#rq-lot-f").hidden=!hasBuilt; $("#rq-cond-f").hidden=!hasBuilt;
+  $("#rq-security-f").hidden=!hasRes; $("#rq-pax-f").hidden=!hasRes; $("#rq-pets-f").hidden=!hasRes;
+  if(!hasRes) $("#rq-furn-f").hidden=true;
+  $("#rq-move").hidden=$("#rq-asap").checked;
+  { const o=$('#rq-purpose option[value="Own stay"]'); if(o) o.textContent=rqHasRes()?lstLabel(["Own stay","","自住"]):(lang==="zh"?"Own use（自用）":"Own use"); }
+  $("#rq-type-pick-f").hidden=!tc||tc==="__other";
+  if(tc==="__other") RQ_TOTHER=false;
+  $("#rq-typeo-f").hidden=!(tc==="__other"||RQ_TOTHER||$("#rq-typeo").value.trim());
+  ["b","r"].forEach(k=>{ const m=$(`#rq-${k}mode`).value;
+    $(`#rq-${k}1-f`).hidden=m==="market"; $(`#rq-${k}2-f`).hidden=m!=="between";
+    $(`#rq-${k}1-l`).textContent=T(m==="between"?"rqFrom":"rqPrice")+(k==="r"?T("rqPerMonth"):""); });
+  const t=rqText(); $("#rq-out").value=t; $("#rq-wa").href=lstWaUrl(t);
+}
+/* Agent 资料跟「货源分享」共用 */
+const RQ_AGENT={"rq-agency":"lst-agency","rq-name":"lst-name","rq-phone":"lst-phone"};
+function rqSyncFromLst(){ Object.entries(RQ_AGENT).forEach(([r,l])=>{ $("#"+r).value=$("#"+l).value; }); }
+rqSyncFromLst();
+Object.entries(RQ_AGENT).forEach(([r,l])=>{
+  $("#"+l).addEventListener("input",()=>{ $("#"+r).value=$("#"+l).value; rqRender(); });
+  $("#"+r).addEventListener("input",()=>{ $("#"+l).value=$("#"+r).value; try{ const a={}; LST_AGENT.forEach(k=>a[k]=$("#"+k).value); localStorage.setItem("eag-lst-agent",JSON.stringify(a)); }catch(e){} lstRender(); });
+});
+document.querySelectorAll("#view-rq input,#view-rq select,#view-rq textarea:not(#rq-out)").forEach(el=>{ el.addEventListener("input",rqRender); el.addEventListener("change",rqRender); });
+$("#rq-tcat").addEventListener("change",()=>{ rqPruneCond(); rqMultiRender(); rqRender(); });
+
+$("#rq-out").addEventListener("input",()=>{ $("#rq-wa").href=lstWaUrl($("#rq-out").value); });
+$("#rq-wa").addEventListener("click",async ev=>{
+  const text=$("#rq-out").value; let top=false; try{ top=window.top===window; }catch(e){}
+  if(top && navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+    ev.preventDefault();
+    try{ await navigator.share({text}); }
+    catch(err){ if(err && err.name==="AbortError") return; window.open(lstWaUrl(text),"_blank","noopener"); }
+  }
+});
+setupCopy("#rq-copy","#rq-copied","#rq-fallback",()=>$("#rq-out").value);
+$("#rq-clear").onclick=()=>{
+  document.querySelectorAll("#view-rq input:not([type=checkbox]),#view-rq select,#view-rq textarea").forEach(el=>{
+    if(RQ_AGENT[el.id]||["rq-style","rq-kind","rq-lang","rq-fallback"].includes(el.id)) return;
+    el.value = el.tagName==="SELECT" ? el.options[0].value : "";
+  });
+  $("#rq-urgent").checked=false; $("#rq-asap").checked=false; RQ_TOTHER=false; RQ_SEL.clear(); RQ_LOT.clear(); RQ_FLR.clear(); RQ_COND.clear(); rqMultiRender();
+  rqRender(); const st=$("#rq-copied"); st.textContent=T("lstCleared"); clearTimeout(st._t); st._t=setTimeout(()=>{st.textContent="";},4000);
+};
 
 /* ===== ROI / 供期 / 购屋能力 ===== */
 let roiText="", instText="", affText="";
