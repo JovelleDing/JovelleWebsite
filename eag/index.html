@@ -139,6 +139,8 @@ html[lang="en"] .zh-only{display:none}
 .item .n{grid-row:span 2;width:22px;height:22px;border-radius:50%;background:var(--brand-soft);color:var(--brand);font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
 .item .lbl{font-weight:500;min-width:0}
 .item .amt{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.rmc{display:inline-grid;grid-template-columns:auto 1fr;column-gap:.3em;max-width:100%;vertical-align:baseline}
+.rmc>span:last-child{text-align:right}
 .item .amt small{display:block;font-size:.72rem;font-weight:500;color:var(--warn)}
 .monthly{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 14px;border-top:1px solid var(--line);background:var(--brand);color:var(--surface)}
 .monthly b{font-size:1.15rem;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -852,6 +854,10 @@ function fmtNum(el){
   try{ if(document.activeElement===el) el.setSelectionRange(pos,pos); }catch(e){}
 }
 document.querySelectorAll("input[data-num]").forEach(el=>{ fmtNum(el); el.addEventListener("input",()=>fmtNum(el)); });
+/* 金额格：RM 靠左、数字靠右，同一个表里宽度一样，所以 RM 会对齐 */
+const rmNum = n => Math.round(n).toLocaleString("en-MY",{maximumFractionDigits:0});
+const rmW = strs => (Math.max(...strs.map(x=>x.length))*0.6+1.9).toFixed(2)+"rem";
+const rmc = (n,suffix,w) => `<span class="rmc" style="width:${w}"><span>RM</span><span>${rmNum(n)}${suffix||""}</span></span>`;
 const row = (label,val,cls="",note="") => `<div class="row ${cls}"><span>${label}${note?`<small>${note}</small>`:""}</span><span>${RM(val)}</span></div>`;
 
 let saleText="", rentText="";
@@ -909,16 +915,19 @@ function calcSale(){
   ];
   const total=items.reduce((t,i)=>t+(i.amt||0),0), hasTbd=items.some(i=>i.amt===null||i.partial);
   const totalLabel = hasTbd ? T("totalExVal") : T("totalL");
+  const sw = rmW([...items.filter(i=>i.amt!==null).map(i=>rmNum(i.amt)+(i.pm?" +/-":"")), rmNum(total)+" +/-", rmNum(monthly)]);
   const amtHtml = it => it.amt===null ? `<span class="amt tbd">${it.tbdText||T("tbd")}</span>`
-    : `<span class="amt">${RM(it.amt)}${it.pm?" +/-":""}${it.partial?`<small>${T("plusLegal")}</small>`:""}</span>`;
+    : `<span class="amt">${rmc(it.amt,it.pm?" +/-":"",sw)}${it.partial?`<small>${T("plusLegal")}</small>`:""}</span>`;
   $("#s-out").innerHTML = `<h3>${T("saleH")}</h3>`
     + `<div class="summary"><span>${T("spaL")} <b>${RM(spa)}</b></span><span>${T("priceL")} <b>${RM(price)}</b></span><span>${T("loanL")} <b>${margin}% · ${RM(loan)}</b></span></div>`
-    + `<div class="monthly"><span>${T("monthly")}<small>${rate}% · ${years} ${T("yearsU")}</small></span><b>${RM(monthly)}</b></div>`
+    + `<div class="monthly"><span>${T("monthly")}<small>${rate}% · ${years} ${T("yearsU")}</small></span><b>${rmc(monthly,"",sw)}</b></div>`
     + items.map((it,i)=>`<div class="item"><span class="n">${i+1}</span><span class="lbl">${it.label}</span>${amtHtml(it)}</div>`).join("")
-    + row(totalLabel,total,"total").replace(/<\/span><\/div>$/," +/-</span></div>");
-  saleText = [T("waSale"), `${T("spaL")}: ${RM(spa)}`, `${T("priceL")}: ${RM(price)}`, `${T("loanL")}: ${margin}% (${RM(loan)})`, "",
+    + `<div class="row total"><span>${totalLabel}</span><span>${rmc(total," +/-",sw)}</span></div>`;
+  /* WhatsApp：金额全部粗体；每一项金额放下一行，对齐 */
+  const IND="     ";
+  saleText = [T("waSale"), `${T("spaL")}: *${RM(spa)}*`, `${T("priceL")}: *${RM(price)}*`, `${T("loanL")}: ${margin}% (*${RM(loan)}*)`, "",
       `*${T("monthly")}: ${RM(monthly)}*`, `(${rate}% · ${years} ${T("yearsU")})`, ""]
-    .concat(items.map((it,i)=>`${i+1}) ${it.label}: ${it.amt===null?(it.tbdText||T("tbd")):RM(it.amt)+(it.pm?" +/-":"")+(it.partial?` (${T("plusLegal")})`:"")}`))
+    .concat(items.flatMap((it,i)=>[`${i+1}) ${it.label}:`, IND+(it.amt===null?(it.tbdText||T("tbd")):`*${RM(it.amt)}${it.pm?" +/-":""}*`+(it.partial?` (${T("plusLegal")})`:""))]))
     .concat(["", `*${totalLabel}: ${RM(total)} +/-*`, "", T("waNote")]).join("\n");
 }
 function calcRent(){
@@ -935,10 +944,11 @@ function calcRent(){
   const total=items.reduce((t,i)=>t+i.amt,0);
   $("#r-out").innerHTML = `<h3>${T("rentH")}</h3>`
     + `<div class="summary"><span>${T("rentL")} <b>${RM(rent)}</b></span><span>${T("termL")} <b>${term} ${T("yearsU")}</b></span></div>`
-    + items.map((it,i)=>`<div class="item"><span class="n">${i+1}</span><span class="lbl">${it.label}</span><span class="amt">${RM(it.amt)}</span></div>`).join("")
-    + row(T("totalL"),total,"total");
-  rentText = [T("waRent"), `${T("rentL")}: ${RM(rent)}`, `${T("termL")}: ${term} ${T("yearsU")}`, ""]
-    .concat(items.map((it,i)=>`${i+1}) ${it.label}: ${RM(it.amt)}`))
+    + (()=>{ const rw=rmW([...items.map(i=>rmNum(i.amt)), rmNum(total)]);
+      return items.map((it,i)=>`<div class="item"><span class="n">${i+1}</span><span class="lbl">${it.label}</span><span class="amt">${rmc(it.amt,"",rw)}</span></div>`).join("")
+      + `<div class="row total"><span>${T("totalL")}</span><span>${rmc(total,"",rw)}</span></div>`; })();
+  rentText = [T("waRent"), `${T("rentL")}: *${RM(rent)}*`, `${T("termL")}: ${term} ${T("yearsU")}`, ""]
+    .concat(items.map((it,i)=>`${i+1}) ${it.label}: *${RM(it.amt)}*`))
     .concat(["", `*${T("totalL")}: ${RM(total)}*`, "", T("waNote")]).join("\n");
 }
 function setupCopy(btnId, statusId, fbId, getText){
