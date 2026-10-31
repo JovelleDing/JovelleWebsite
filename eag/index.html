@@ -73,6 +73,12 @@ textarea{flex:1;min-width:0;resize:none;font:inherit;color:var(--ink);background
 .inv-item img{cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .inv-item.dragging{opacity:.35}.inv-item.over{outline:2px dashed var(--brand);outline-offset:2px}
 .inv-ghost{position:fixed;z-index:999;pointer-events:none;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:.9;aspect-ratio:4/3;object-fit:cover}
+.inv-tbl{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:6px}
+.inv-tr{display:grid;grid-template-columns:34px minmax(0,1fr) 74px 34px;gap:6px;align-items:center;padding:6px 8px;border-top:1px solid var(--line)}
+.inv-th{border-top:0;background:var(--brand-soft);font-weight:600;font-size:13px}
+.inv-no{font-size:13px;color:var(--muted)}
+.inv-tr input{width:100%;min-width:0;box-sizing:border-box;font:inherit;font-size:14px;padding:7px 8px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink)}
+.inv-tr button{font:inherit;border:1px solid var(--line);background:transparent;border-radius:7px;padding:6px 0;color:var(--ink);cursor:pointer}
 .inv-act{display:flex;gap:6px}.inv-act button{flex:1;font:inherit;padding:5px;border:1px solid var(--line);border-radius:7px;background:transparent;color:var(--ink);cursor:pointer}
 .inv-act button:disabled{opacity:.35;cursor:default}
 #pdfv{position:fixed;inset:0;z-index:1000;background:var(--bg,#fff);display:flex;flex-direction:column}
@@ -245,8 +251,10 @@ html[lang="en"] .zh-only{display:none}
         <label class="btn ghost inv-add"><input id="inv-file" type="file" accept="image/*" multiple hidden><span data-i18n="invAdd"></span></label>
         <span class="copied" id="inv-status" role="status"></span>
         <div class="inv-grid" id="inv-grid"></div>
-        <div class="field wide" style="margin-top:14px"><label for="inv-text" data-i18n="invTextL"></label><textarea id="inv-text" rows="7">Inventory List
-</textarea></div></div>
+        <div class="inv-tbl-wrap"><div class="field wide" style="margin-top:14px"><label data-i18n="invTextL"></label></div>
+          <div class="field"><label for="inv-title" data-i18n="invTitleL"></label><input id="inv-title" type="text" value="Inventory List"></div>
+          <div class="inv-tbl"><div class="inv-tr inv-th"><span>No.</span><span>Items</span><span>Units</span><span></span></div><div id="inv-rows"></div></div>
+          <button type="button" class="btn ghost inv-add" id="inv-addrow" data-i18n="invAddRow"></button></div></div>
       <div class="copyrow"><button class="btn" type="button" id="ta-gen" data-i18n="taGen"></button><span class="copied" id="ta-status" role="status"></span></div>
       <p class="fine" data-i18n="taFine"></p>
     </section>
@@ -450,7 +458,7 @@ zh:{
   taTerm:"租期（年）", taRenew:"续约期（年）", taStart:"开始日期", taEnd:"结束日期", taRent:"月租 (RM)", taDep:"租金押金 (RM)", taUtil:"水电押金 (RM)",
   taBank:"Bank Name（有填户口号码就必填）", taAccName:"Account Holder Name", taAccNo:"Bank Account Number", taGen:"下载 TA",
   taFine:"Template 条款页照原文排版（Times New Roman 字体）。结束日期会按开始日期和租期自动算出，也可以自己改。押金默认是 2 个月、水电押金 0.5 个月，可以自己改。金额的英文大写会自动写好。",
-  taMissing:f=>`请先填写：${f}`, taMaking:"正在准备文件…", taSaved:"已下载。", invG:"Inventory List（照片或文字，可不填）", invIntro:"上传屋子的照片，下载 TA 时会自动排在最后几页，每页 6 张，标题是 INVENTORY LIST。可以在每张照片下面写说明（请用英文，例如 Living hall – 1 sofa），要换顺序就按住照片拖到想要的位置（手机：按住照片约半秒再拖）。", invAdd:"＋ 上传照片", invTextL:"或者用文字写 Inventory List（可不填，请用英文）。第一行 “Inventory List” 是标题，从第二行开始写内容；有照片的话，文字清单会排在照片后面。", invDel:"删除", invCapPh:"说明（英文，可不填）", invLoading:"正在处理照片…", invCount:(n,p)=>`共 ${n} 张照片，会占 ${p} 页。`, invBad:n=>`有 ${n} 张照片打不开，请换成 JPG / PNG。`, pvShare:"转发 / 分享", pvDl:"下载", pvOpen:"新视窗打开", pvLoading:"正在显示…", pvTipShare:"按「转发 / 分享」可以直接 WhatsApp、Email 或存进档案。", pvTipDl:"按「下载」存档；手机上也可以按「新视窗打开」再分享。", pvTipFrame:"⚠ 你现在是在预览画面里打开，这里不能下载或分享。请把档案上传到网站后，用手机的 Chrome 或 Safari 打开。", pvShareFail:"这个浏览器不让分享档案。请按「下载」或「新视窗打开」，或改用手机的 Chrome / Safari 打开网站。", taNoDl:"下载失败，请再试一次。", taDeclined:"已取消下载。", taFail:"文件准备失败，请再试一次。",
+  taMissing:f=>`请先填写：${f}`, taMaking:"正在准备文件…", taSaved:"已下载。", invG:"Inventory List（照片或文字，可不填）", invIntro:"上传屋子的照片，下载 TA 时会自动排在最后几页，每页 6 张，标题是 INVENTORY LIST。可以在每张照片下面写说明（请用英文，例如 Living hall – 1 sofa），要换顺序就按住照片拖到想要的位置（手机：按住照片约半秒再拖）。", invAdd:"＋ 上传照片", invTextL:"或者用表格写 Inventory List（可不填，请用英文）。No. 会自动编号；在 Units 按 Enter 会自动加下一行，不要的行按 ✕ 删除。有照片的话，表格排在照片后面。", invTitleL:"标题", invItemPh:"例如 Sofa (3 seater)", invUnitPh:"例如 1", invAddRow:"＋ 加一行", invDel:"删除", invCapPh:"说明（英文，可不填）", invLoading:"正在处理照片…", invCount:(n,p)=>`共 ${n} 张照片，会占 ${p} 页。`, invBad:n=>`有 ${n} 张照片打不开，请换成 JPG / PNG。`, pvShare:"转发 / 分享", pvDl:"下载", pvOpen:"新视窗打开", pvLoading:"正在显示…", pvTipShare:"按「转发 / 分享」可以直接 WhatsApp、Email 或存进档案。", pvTipDl:"按「下载」存档；手机上也可以按「新视窗打开」再分享。", pvTipFrame:"⚠ 你现在是在预览画面里打开，这里不能下载或分享。请把档案上传到网站后，用手机的 Chrome 或 Safari 打开。", pvShareFail:"这个浏览器不让分享档案。请按「下载」或「新视窗打开」，或改用手机的 Chrome / Safari 打开网站。", taNoDl:"下载失败，请再试一次。", taDeclined:"已取消下载。", taFail:"文件准备失败，请再试一次。",
   tabRoi:"ROI 计算", tabInst:"供期计算", tabAff:"购屋能力",
   roiPrice:"房价 (RM)", roiRent:"预计月租 (RM)", roiMaint:"每月管理费 (RM)", roiTax:"每年门牌税 + 地税 (RM)", roiCost:"买房杂费 (RM)",
   roiH:"投资回报", grossY:"毛租金回报率", netY:"净租金回报率", cashflow:"每月现金流", cashRoi:"现金回报率 (ROI)", cashIn:"投入现金（头期 + 杂费）", annualCf:"每年现金流",
@@ -496,7 +504,7 @@ en:{
   taTerm:"Fixed term (years)", taRenew:"Renewal term (years)", taStart:"Commencement date", taEnd:"Expiry date", taRent:"Monthly rent (RM)", taDep:"Rental deposit (RM)", taUtil:"Utilities deposit (RM)",
   taBank:"Bank name (required if account number is filled)", taAccName:"Account holder name", taAccNo:"Bank account number", taGen:"Download TA",
   taFine:"The expiry date is worked out from the start date and term, and you can change it. Deposits default to 2 months' and 0.5 month's rent; you can change them. Amounts in words are filled in automatically.",
-  taMissing:f=>`Please fill in: ${f}`, taMaking:"Preparing the file…", taSaved:"Downloaded.", invG:"Inventory list (photos or text, optional)", invIntro:"Upload photos of the property. They are added as the last pages of the TA, 6 per page, titled INVENTORY LIST. You can add a caption under each photo (English, e.g. Living hall – 1 sofa), drag a photo to reorder (on a phone, press and hold for half a second, then drag).", invAdd:"+ Upload photos", invTextL:"Or type the inventory list (optional, in English). The first line “Inventory List” is the heading; write the items from the second line. With photos, the text list comes after the photos.", invDel:"Remove", invCapPh:"Caption (optional)", invLoading:"Processing photos…", invCount:(n,p)=>`${n} photos, ${p} page(s).`, invBad:n=>`${n} photo(s) could not be opened. Please use JPG / PNG.`, pvShare:"Share / Forward", pvDl:"Download", pvOpen:"Open in new tab", pvLoading:"Loading…", pvTipShare:"Tap “Share / Forward” to send by WhatsApp or email, or save to Files.", pvTipDl:"Tap “Download” to save; on a phone you can also open it in a new tab and share.", pvTipFrame:"⚠ This is a preview window, which blocks downloads and sharing. Upload the file to your website and open it in Chrome or Safari.", pvShareFail:"This browser does not allow sharing files. Tap “Download” or “Open in new tab”, or open the site in Chrome / Safari.", taNoDl:"Download failed. Please try again.", taDeclined:"Download cancelled.", taFail:"Couldn't prepare the file. Please try again.",
+  taMissing:f=>`Please fill in: ${f}`, taMaking:"Preparing the file…", taSaved:"Downloaded.", invG:"Inventory list (photos or text, optional)", invIntro:"Upload photos of the property. They are added as the last pages of the TA, 6 per page, titled INVENTORY LIST. You can add a caption under each photo (English, e.g. Living hall – 1 sofa), drag a photo to reorder (on a phone, press and hold for half a second, then drag).", invAdd:"+ Upload photos", invTextL:"Or fill the inventory list as a table (optional, in English). No. is numbered automatically; press Enter in Units to add the next row, ✕ removes a row. With photos, the table comes after the photos.", invTitleL:"Heading", invItemPh:"e.g. Sofa (3 seater)", invUnitPh:"e.g. 1", invAddRow:"+ Add row", invDel:"Remove", invCapPh:"Caption (optional)", invLoading:"Processing photos…", invCount:(n,p)=>`${n} photos, ${p} page(s).`, invBad:n=>`${n} photo(s) could not be opened. Please use JPG / PNG.`, pvShare:"Share / Forward", pvDl:"Download", pvOpen:"Open in new tab", pvLoading:"Loading…", pvTipShare:"Tap “Share / Forward” to send by WhatsApp or email, or save to Files.", pvTipDl:"Tap “Download” to save; on a phone you can also open it in a new tab and share.", pvTipFrame:"⚠ This is a preview window, which blocks downloads and sharing. Upload the file to your website and open it in Chrome or Safari.", pvShareFail:"This browser does not allow sharing files. Tap “Download” or “Open in new tab”, or open the site in Chrome / Safari.", taNoDl:"Download failed. Please try again.", taDeclined:"Download cancelled.", taFail:"Couldn't prepare the file. Please try again.",
   tabRoi:"ROI", tabInst:"Instalment", tabAff:"Affordability",
   roiPrice:"Property price (RM)", roiRent:"Expected monthly rent (RM)", roiMaint:"Monthly maintenance (RM)", roiTax:"Yearly assessment + quit rent (RM)", roiCost:"Purchase costs (RM)",
   roiH:"Investment return", grossY:"Gross rental yield", netY:"Net rental yield", cashflow:"Monthly cash flow", cashRoi:"Cash-on-cash ROI", cashIn:"Cash invested (downpayment + costs)", annualCf:"Yearly cash flow",
@@ -1230,8 +1238,8 @@ $("#ta-gen").onclick=async()=>{
     const bytes=Uint8Array.from(atob(taMode==="hl"?HL_STATIC_PDF_B64:TA_STATIC_PDF_B64),c=>c.charCodeAt(0));
     let pdf;
     try{ pdf = taMode==="hl" ? await buildHl2Pdf(PDFLib, bytes, d) : await buildTaPdf(PDFLib, bytes, d);
-      let invText=$("#inv-text").value.trim(); if(/^inventory list\s*:?$/i.test(invText)) invText="";
-      if(INV.length || invText) pdf = await appendInventory(PDFLib, pdf, INV, d.paddr.join(", "), invText); }
+      const rows=INV_ROWS.map(r=>({item:r.item.trim(),units:r.units.trim()})).filter(r=>r.item||r.units);
+      if(INV.length || rows.length) pdf = await appendInventory(PDFLib, pdf, INV, d.paddr.join(", "), rows, $("#inv-title").value.trim()); }
     catch(err){ st.textContent = /encode|WinAnsi/i.test(String(err?.message)) ? T("taCharErr") : T("taFail"); return; }
     const blob=new Blob([pdf],{type:"application/pdf"});
     const dl=await downloadsP;
@@ -2060,7 +2068,20 @@ grid.addEventListener("touchmove",e=>{ const t=e.touches[0];
 const invTouchEnd=()=>{ if(invPress){ clearTimeout(invPress.timer); invPress=null; } invEnd(); };
 grid.addEventListener("touchend",invTouchEnd); grid.addEventListener("touchcancel",invTouchEnd);
 grid.addEventListener("contextmenu",e=>{ if(e.target.closest(".inv-item img")) e.preventDefault(); });
-async function appendInventory(PDFLib, bytes, photos, addr, text){
+/* 文字清单：表格编辑（No. 自动编号；在 Units 按 Enter 自动加下一行） */
+let INV_ROWS=[{item:"",units:""}];
+function renderRows(focus){
+  $("#inv-rows").innerHTML=INV_ROWS.map((r,i)=>`<div class="inv-tr"><span class="inv-no">${i+1}.</span><input type="text" data-ri="${i}" data-f="item" value="${esc(r.item)}" placeholder="${T("invItemPh")}" enterkeyhint="next"><input type="text" data-ri="${i}" data-f="units" value="${esc(r.units)}" placeholder="${T("invUnitPh")}" enterkeyhint="next"><button type="button" data-rdel="${i}" aria-label="delete row">✕</button></div>`).join("");
+  if(focus) document.querySelector(`#inv-rows [data-ri="${focus[0]}"][data-f="${focus[1]}"]`)?.focus();
+}
+renderRows();
+$("#inv-rows").addEventListener("input",e=>{ const el=e.target; if(el.dataset.ri!==undefined) INV_ROWS[+el.dataset.ri][el.dataset.f]=el.value; });
+$("#inv-rows").addEventListener("keydown",e=>{ const el=e.target; if(e.key!=="Enter"||el.dataset.ri===undefined) return; e.preventDefault(); const i=+el.dataset.ri;
+  if(el.dataset.f==="item") return renderRows([i,"units"]);
+  if(i===INV_ROWS.length-1) INV_ROWS.push({item:"",units:""}); renderRows([i+1,"item"]); });
+$("#inv-rows").addEventListener("click",e=>{ const b=e.target.closest("[data-rdel]"); if(!b) return; INV_ROWS.splice(+b.dataset.rdel,1); if(!INV_ROWS.length) INV_ROWS.push({item:"",units:""}); renderRows(); });
+$("#inv-addrow").addEventListener("click",()=>{ INV_ROWS.push({item:"",units:""}); renderRows([INV_ROWS.length-1,"item"]); });
+async function appendInventory(PDFLib, bytes, photos, addr, tRows, ttl){
   const {PDFDocument, StandardFonts, rgb}=PDFLib; const doc=await PDFDocument.load(bytes);
   const F=await doc.embedFont(StandardFonts.Helvetica), B=await doc.embedFont(StandardFonts.HelveticaBold);
   const first=doc.getPage(0), W=first.getWidth(), H=first.getHeight();
@@ -2068,9 +2089,7 @@ async function appendInventory(PDFLib, bytes, photos, addr, text){
   const fit=(f,t,size,max)=>{ t=clean(t); while(t && f.widthOfTextAtSize(t,size)>max) t=t.slice(0,-1); return t; };
   const M=40, top=96, bottom=H-40, gapX=16, gapY=14, cols=2, rows=3, capH=16;
   const cw=(W-2*M-gapX)/cols, ch=(bottom-top-gapY*(rows-1))/rows, ih=ch-capH;
-  /* 文字第一行如果是 Inventory List，就当标题（照片页和文字页用同一个标题） */
-  let lines=text?text.split(/\r?\n/):[], title="INVENTORY LIST";
-  { const hi=lines.findIndex(l=>l.trim()); if(hi>=0 && /inventory/i.test(lines[hi])){ title=clean(lines[hi]).toUpperCase()||title; lines=lines.slice(hi+1); } }
+  let title=(clean(ttl)||"Inventory List").toUpperCase();
   /* 页首：标题粗体 + 底线、置中，下面是产业地址（照片页和文字页一样） */
   const header=page=>{ const t=fit(B,title,14,W-2*M), tw=B.widthOfTextAtSize(t,14), tx=(W-tw)/2;
     page.drawText(t,{x:tx,y:H-50,size:14,font:B,color:rgb(0,0,0)});
@@ -2091,19 +2110,23 @@ async function appendInventory(PDFLib, bytes, photos, addr, text){
       const cap=fit(F,`${idx+1}. ${clean(p.cap)}`,9,cw); page.drawText(cap,{x:x0,y:H-yTop-ih-12,size:9,font:F,color:rgb(0,0,0)});
     }
   }
-  /* 2) 文字清单（放在照片后面；一行一行，太长自动换行，同一项尽量不拆页） */
-  if(lines.some(l=>l.trim())){ const FS=10.5, LH=15, maxW=W-2*M;
-    let page=doc.addPage([W,H]); header(page); let y=H-top;
-    for(const raw of lines){ const line=clean(raw.replace(/\t/g,"    "));
-      if(!line){ y-=LH*0.6; continue; }
-      const ind=(line.match(/^(\d+[.)]|[-*])\s+/)||[""])[0], indW=F.widthOfTextAtSize(ind,FS);
-      const words=line.slice(ind.length).split(" "), ls=[]; let cur="";
-      for(const w of words){ const nx=cur?cur+" "+w:w; if(F.widthOfTextAtSize(nx,FS)>maxW-indW && cur){ ls.push(cur); cur=w; } else cur=nx; }
-      ls.push(cur);
-      if(y-LH*(ls.length-1)<60 && ls.length<12){ page=doc.addPage([W,H]); header(page); y=H-top; }
-      ls.forEach((l,i)=>{ if(y<60){ page=doc.addPage([W,H]); header(page); y=H-top; }
-        if(i===0&&ind) page.drawText(ind,{x:M,y,size:FS,font:F,color:rgb(0,0,0)});
-        page.drawText(l,{x:M+indW,y,size:FS,font:F,color:rgb(0,0,0)}); y-=LH; }); } }
+  /* 2) 文字清单：表格 No. | Items | Units（放在照片后面；换页会重复表头） */
+  if(tRows.length){ const FS=10, LH=13, pad=5, colNo=40, colU=80, x0=M, x1=W-M, colI=x1-x0-colNo-colU;
+    const wrapT=(t,w)=>{ const out=[]; let cur=""; for(const wd of clean(t).split(" ")){ const nx=cur?cur+" "+wd:wd;
+      if(F.widthOfTextAtSize(nx,FS)>w && cur){ out.push(cur); cur=wd; } else cur=nx; } out.push(cur); return out; };
+    const line=(a,b,c,d)=>page.drawLine({start:{x:a,y:b},end:{x:c,y:d},thickness:0.6,color:rgb(0,0,0)});
+    let page, y;
+    const head=()=>{ page=doc.addPage([W,H]); header(page); y=H-top; const h=LH+2*pad;
+      page.drawRectangle({x:x0,y:y-h,width:x1-x0,height:h,color:rgb(.9,.9,.9)});
+      [["No.",x0],["Items",x0+colNo],["Units",x0+colNo+colI]].forEach(([t,x])=>page.drawText(t,{x:x+pad,y:y-pad-FS+1.5,size:FS,font:B,color:rgb(0,0,0)}));
+      line(x0,y,x1,y); line(x0,y-h,x1,y-h); [x0,x0+colNo,x0+colNo+colI,x1].forEach(x=>line(x,y,x,y-h)); y-=h; };
+    head();
+    tRows.forEach((r,i)=>{ const it=wrapT(r.item,colI-2*pad), un=wrapT(r.units,colU-2*pad), n=Math.max(it.length,un.length), h=n*LH+2*pad-2;
+      if(y-h<50) head();
+      page.drawText(`${i+1}.`,{x:x0+pad,y:y-pad-FS+1.5,size:FS,font:F,color:rgb(0,0,0)});
+      it.forEach((t,k)=>page.drawText(t,{x:x0+colNo+pad,y:y-pad-FS+1.5-k*LH,size:FS,font:F,color:rgb(0,0,0)}));
+      un.forEach((t,k)=>page.drawText(t,{x:x0+colNo+colI+pad,y:y-pad-FS+1.5-k*LH,size:FS,font:F,color:rgb(0,0,0)}));
+      line(x0,y-h,x1,y-h); [x0,x0+colNo,x0+colNo+colI,x1].forEach(x=>line(x,y,x,y-h)); y-=h; }); }
   return await doc.save();
 }
 
