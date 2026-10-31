@@ -2083,6 +2083,20 @@ async function appendInventory(PDFLib, bytes, photos, addr){
   return await doc.save();
 }
 
+/* ===== IC 号码自动加 -（例如 890909012211 → 890909-01-2211） ===== */
+const IC_IDS=["ta-lic","ta-lic2","ta-tic","ta-tic2","fl-vic","fl-vic2","fl-pic","fl-pic2","rb-vic","rb-vic2","rb-pic","rb-pic2","rd-pic","rd-pic2","rc-vic","rc-vic2","rc-pic","rc-pic2","rc-agentic","ns-oic","ns-oic2","ns-tic","ns-tic2","td-oic","td-oic2","td-tic","td-tic2","la-pic","la-pic2","la-aic","ci-nric","cb-nric","cc-la0i","cc-la1i","cc-la2i","cc-la3i","cc-la4i"];
+const TA_IC_TYPE={"ta-lic":"ta-ltype","ta-lic2":"ta-ltype2","ta-tic":"ta-ttype","ta-tic2":"ta-ttype2"};
+function fmtIC(v){ if(!/^[\d\s-]*$/.test(v)) return v; const d=v.replace(/\D/g,""); if(d.length>12) return v;
+  return d.length>8 ? `${d.slice(0,6)}-${d.slice(6,8)}-${d.slice(8)}` : d.length>6 ? `${d.slice(0,6)}-${d.slice(6)}` : d; }
+IC_IDS.forEach(id=>{ const el=document.getElementById(id); if(!el) return;
+  const isNric=()=>{ const t=TA_IC_TYPE[id] && document.getElementById(TA_IC_TYPE[id]); return !t || t.value==="nric"; };
+  el.addEventListener("input",e=>{ if(!isNric()) return; const atEnd=el.selectionStart===el.value.length, nv=fmtIC(el.value);
+    if(nv!==el.value){ el.value=nv; if(atEnd) el.setSelectionRange(nv.length,nv.length); } });
+  el.setAttribute("inputmode","numeric");
+  const t=TA_IC_TYPE[id] && document.getElementById(TA_IC_TYPE[id]);
+  if(t) t.addEventListener("change",()=>{ el.setAttribute("inputmode", t.value==="nric"?"numeric":"text"); if(t.value==="nric") el.value=fmtIC(el.value); });
+});
+
 samplePromise = (window.claude?.use ? window.claude.use("sample") : Promise.resolve(null)).catch(()=>null);
 /* 只有站长（拥有者）看得到「查看原始资料」 */
 let isOwner = false;
