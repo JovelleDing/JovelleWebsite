@@ -858,6 +858,14 @@ document.querySelectorAll("input[data-num]").forEach(el=>{ fmtNum(el); el.addEve
 const rmNum = n => Math.round(n).toLocaleString("en-MY",{maximumFractionDigits:0});
 const rmW = strs => (Math.max(...strs.map(x=>x.length))*0.6+1.9).toFixed(2)+"rem";
 const rmc = (n,suffix,w) => `<span class="rmc" style="width:${w}"><span>RM</span><span>${rmNum(n)}${suffix||""}</span></span>`;
+/* WhatsApp 冒号对齐：中文字算 2 格、英文数字算 1 格，用全角空格 / 半角空格补齐 */
+const waW = t => [...t].reduce((w,c)=>w+(/[\u2E80-\uFFFF]/.test(c)?2:1),0);
+function waAlign(pairs){ const m=Math.max(...pairs.map(p=>waW(p[0]))); return pairs.map(([l,v])=>{ const d=m-waW(l); return `${l}${"\u3000".repeat(Math.floor(d/2))}${d%2?"\u2002":""}: ${v}`; }); }
+/* WhatsApp 数字靠右对齐：少的位数用数字宽度空格 (U+2007)，少的逗号用标点宽度空格 (U+2008) 补在前面 */
+function waNumPad(nums){ const d=x=>(x.match(/\d/g)||[]).length, c=x=>(x.match(/,/g)||[]).length;
+  const md=Math.max(0,...nums.map(d)), mc=Math.max(0,...nums.map(c));
+  return x=>"\u2007".repeat(md-d(x))+"\u2008".repeat(mc-c(x))+x; }
+const waRM=(n,pad)=>"RM "+(pad?pad(rmNum(n)):rmNum(n));
 const row = (label,val,cls="",note="") => `<div class="row ${cls}"><span>${label}${note?`<small>${note}</small>`:""}</span><span>${RM(val)}</span></div>`;
 
 let saleText="", rentText="";
@@ -925,9 +933,17 @@ function calcSale(){
     + `<div class="row total"><span>${totalLabel}</span><span>${rmc(total," +/-",sw)}</span></div>`;
   /* WhatsApp：金额全部粗体；每一项金额放下一行，对齐 */
   const IND="     ";
-  saleText = [T("waSale"), `${T("spaL")}: *${RM(spa)}*`, `${T("priceL")}: *${RM(price)}*`, `${T("loanL")}: ${margin}% (*${RM(loan)}*)`, "",
+  /* 第 2、3 项（律师费 + 印花税）金额放下一行；其他同一行，冒号对齐 */
+  const nextLine = it => it.label===T("i2") || it.label===T("i3");
+  const padSame=waNumPad(items.filter(i=>!nextLine(i)&&i.amt!==null).map(i=>rmNum(i.amt)));
+  const padNext=waNumPad(items.filter(i=>nextLine(i)&&i.amt!==null).map(i=>rmNum(i.amt)));
+  const amtWa = it => it.amt===null?(it.tbdText||T("tbd")):`*${waRM(it.amt,nextLine(it)?padNext:padSame)}${it.pm?" +/-":""}*`+(it.partial?` (${T("plusLegal")})`:"");
+  const padTop=waNumPad([rmNum(spa),rmNum(price)]);
+  const sameIdx = items.map((it,i)=>i).filter(i=>!nextLine(items[i]));
+  const aligned = waAlign(sameIdx.map(i=>[`${i+1}) ${items[i].label}`, amtWa(items[i])]));
+  saleText = [T("waSale"), ...waAlign([[T("spaL"),`*${waRM(spa,padTop)}*`],[T("priceL"),`*${waRM(price,padTop)}*`],[T("loanL"),`${margin}% (*${RM(loan)}*)`]]), "",
       `*${T("monthly")}: ${RM(monthly)}*`, `(${rate}% · ${years} ${T("yearsU")})`, ""]
-    .concat(items.flatMap((it,i)=>[`${i+1}) ${it.label}:`, IND+(it.amt===null?(it.tbdText||T("tbd")):`*${RM(it.amt)}${it.pm?" +/-":""}*`+(it.partial?` (${T("plusLegal")})`:""))]))
+    .concat(items.flatMap((it,i)=> nextLine(it) ? [`${i+1}) ${it.label}:`, IND+amtWa(it)] : [aligned[sameIdx.indexOf(i)]]))
     .concat(["", `*${totalLabel}: ${RM(total)} +/-*`, "", T("waNote")]).join("\n");
 }
 function calcRent(){
@@ -947,8 +963,8 @@ function calcRent(){
     + (()=>{ const rw=rmW([...items.map(i=>rmNum(i.amt)), rmNum(total)]);
       return items.map((it,i)=>`<div class="item"><span class="n">${i+1}</span><span class="lbl">${it.label}</span><span class="amt">${rmc(it.amt,"",rw)}</span></div>`).join("")
       + `<div class="row total"><span>${T("totalL")}</span><span>${rmc(total,"",rw)}</span></div>`; })();
-  rentText = [T("waRent"), `${T("rentL")}: *${RM(rent)}*`, `${T("termL")}: ${term} ${T("yearsU")}`, ""]
-    .concat(items.map((it,i)=>`${i+1}) ${it.label}: *${RM(it.amt)}*`))
+  rentText = [T("waRent"), ...waAlign([[T("rentL"),`*${RM(rent)}*`],[T("termL"),`${term} ${T("yearsU")}`]]), ""]
+    .concat((()=>{ const pad=waNumPad(items.map(i=>rmNum(i.amt))); return waAlign(items.map((it,i)=>[`${i+1}) ${it.label}`,`*${waRM(it.amt,pad)}*`])); })())
     .concat(["", `*${T("totalL")}: ${RM(total)}*`, "", T("waNote")]).join("\n");
 }
 function setupCopy(btnId, statusId, fbId, getText){
