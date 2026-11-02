@@ -587,7 +587,7 @@ a.btn{text-decoration:none;display:inline-block}
         <div class="field"><label for="aff-dsr" data-i18n="affDsr"></label><input id="aff-dsr" type="text" inputmode="decimal" autocomplete="off" data-num min="0" step="1" value="60"></div>
         <div class="field"><label for="aff-rate" data-i18n="sRate"></label><input id="aff-rate" type="text" inputmode="decimal" autocomplete="off" data-num min="0" step="0.05" value="4"></div>
         <div class="field"><label for="aff-years" data-i18n="sYears"></label><input id="aff-years" type="text" inputmode="decimal" autocomplete="off" data-num min="0" step="1" value="35"></div>
-        <div class="field"><label for="aff-margin" data-i18n="sMargin"></label><input id="aff-margin" type="text" inputmode="decimal" autocomplete="off" data-num min="0" step="1" value="90"></div>
+        <div class="field"><label for="aff-margin" data-i18n="affMargin"></label><input id="aff-margin" type="text" inputmode="decimal" autocomplete="off" data-num min="0" step="1" value="90"></div>
       </div>
       <div class="result" id="aff-out"></div>
       <div class="copyrow"><button class="btn" type="button" id="aff-copybtn" data-i18n="copyWa"></button><span class="copied" id="aff-copied" role="status"></span></div>
@@ -652,7 +652,7 @@ zh:{
   roiFine:"毛回报 = 年租 ÷ 房价；净回报 = (年租 − 管理费 − 门牌地税) ÷ 房价；每月现金流 = 月租 − 供期 − 管理费 − 门牌地税 ÷ 12；现金回报率 = 每年现金流 ÷ 投入现金。不含空置期、维修和所得税。仅供参考。",
   instH:"每月供期", loanAmt2:"贷款额", totalInt:"总利息", totalPay:"总还款额",
   instFine:"按月计算的标准分期公式（Flat EMI）。实际供期以银行批准为准。仅供参考。",
-  affCurDsr:"现有债务占 DSR", affCurDsrNote:l=>`现有每月债务 ÷ 每月净收入（银行上限 ${l}%）`, affLimit:"上限", affDPick:"— 选择债务项目（可多选）—", affDHouse:"现有房贷", affDCar:"车贷", affDPl:"个人贷款", affDPtptn:"PTPTN", affDCc:"信用卡 (5%)", affDCcBal:"信用卡未还余额（按 5% 算）", affDOther:"其他债务", affDTotal:t=>`现有每月债务合计：${t}`, affDTotalL:"债务合计", affIncome:"每月净收入 (RM)", affDebt:"现有每月债务（选项目再填每月金额）", affDsr:"银行可接受 DSR (%)",
+  affMargin:"新的贷款成数 (%)", affCurDsr:"现有债务占 DSR", affCurDsrNote:l=>`现有每月债务 ÷ 每月净收入（银行上限 ${l}%）`, affLimit:"上限", affDPick:"— 选择债务项目（可多选）—", affDHouse:"现有房贷", affDCar:"车贷", affDPl:"个人贷款", affDPtptn:"PTPTN", affDCc:"信用卡 (5%)", affDCcBal:"信用卡未还余额（按 5% 算）", affDOther:"其他债务", affDTotal:t=>`现有每月债务合计：${t}`, affDTotalL:"债务合计", affIncome:"每月净收入 (RM)", affDebt:"现有每月债务（选项目再填每月金额）", affDsr:"银行可接受 DSR (%)",
   affH:"最高可买价位", maxPrice:"最高可买房价", maxLoan:"最高贷款额", maxInst:"还可承担的每月供期", needDown:"需要头期",
   affFine:"最高每月供期 = 每月净收入 × DSR − 现有债务（车贷、PTPTN、信用卡等）。各银行 DSR 标准不同，结果只是估算，以银行批准为准。",
   waRoi:"*投资回报预算*", waInst:"*每月供期预算*", waAff:"*购屋能力预算*",
@@ -698,7 +698,7 @@ en:{
   roiFine:"Gross yield = annual rent ÷ price; net yield = (annual rent − maintenance − assessment and quit rent) ÷ price; monthly cash flow = rent − instalment − maintenance − assessment and quit rent ÷ 12; ROI = yearly cash flow ÷ cash invested. Excludes vacancy, repairs and income tax. For reference only.",
   instH:"Monthly instalment", loanAmt2:"Loan amount", totalInt:"Total interest", totalPay:"Total repayment",
   instFine:"Standard monthly amortisation formula. The bank's approved instalment prevails. For reference only.",
-  affCurDsr:"Current debt DSR", affCurDsrNote:l=>`Existing monthly debts ÷ monthly net income (bank limit ${l}%)`, affLimit:"limit", affDPick:"— Select debts (multiple) —", affDHouse:"Existing housing loan", affDCar:"Car loan", affDPl:"Personal loan", affDPtptn:"PTPTN", affDCc:"Credit card (5%)", affDCcBal:"Credit card outstanding (counted at 5%)", affDOther:"Other debts", affDTotal:t=>`Total existing monthly debts: ${t}`, affDTotalL:"Total debts", affIncome:"Monthly net income (RM)", affDebt:"Existing monthly debts (pick items, then fill in monthly amounts)", affDsr:"Bank DSR limit (%)",
+  affMargin:"New loan margin (%)", affCurDsr:"Current debt DSR", affCurDsrNote:l=>`Existing monthly debts ÷ monthly net income (bank limit ${l}%)`, affLimit:"limit", affDPick:"— Select debts (multiple) —", affDHouse:"Existing housing loan", affDCar:"Car loan", affDPl:"Personal loan", affDPtptn:"PTPTN", affDCc:"Credit card (5%)", affDCcBal:"Credit card outstanding (counted at 5%)", affDOther:"Other debts", affDTotal:t=>`Total existing monthly debts: ${t}`, affDTotalL:"Total debts", affIncome:"Monthly net income (RM)", affDebt:"Existing monthly debts (pick items, then fill in monthly amounts)", affDsr:"Bank DSR limit (%)",
   affH:"Maximum property price", maxPrice:"Maximum property price", maxLoan:"Maximum loan", maxInst:"Available monthly instalment", needDown:"Downpayment needed",
   affFine:"Maximum instalment = monthly net income × DSR − existing debts (car loan, PTPTN, credit cards, etc.). Each bank uses its own DSR, so this is an estimate only. The bank's approval prevails.",
   waRoi:"*Investment Return Estimate*", waInst:"*Monthly Instalment Estimate*", waAff:"*Affordability Estimate*",
@@ -1483,7 +1483,7 @@ function calcAff(){
   const curDsr=income>0?debt/income*100:0;   /* 现有债务占收入的 % */
   const maxPrice= margin>0? maxLoan/(margin/100) : 0;
   $("#aff-out").innerHTML=`<h3>${T("affH")}</h3>`
-    + band(T("maxPrice"),RM(maxPrice),`${T("sMargin").replace(" (%)","")} ${margin}%`)
+    + band(T("maxPrice"),RM(maxPrice),`${T("affMargin").replace(" (%)","")} ${margin}%`)
     + `<div class="row"><span>${T("affCurDsr")}<small>${T("affCurDsrNote")(dsr)}</small></span><span>${curDsr.toFixed(2)}%</span></div>`
     + row(T("maxInst"),maxInst,"",`DSR ${dsr}% − ${curDsr.toFixed(2)}% · ${rate}% · ${years} ${T("yearsU")}`) + row(T("maxLoan"),maxLoan);
   const lab=k=>T(k).replace(/\s*\(RM\)$/,"");
