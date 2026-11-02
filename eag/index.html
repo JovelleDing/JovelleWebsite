@@ -127,7 +127,6 @@ html[lang="en"] .zh-only{display:none}
 .row span:last-child{font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap}
 .row small{display:block;font-size:.75rem}
 .row.total{background:var(--brand-soft)}
-.row.warnrow span{color:var(--warn)!important;font-weight:600}
 .row.total span{color:var(--ink);font-weight:700}
 .row.total span:last-child{color:var(--brand);font-size:1.05rem}
 .fine{font-size:.78rem;color:var(--muted);margin:0;line-height:1.6}
@@ -140,6 +139,10 @@ html[lang="en"] .zh-only{display:none}
 .item .n{grid-row:span 2;width:22px;height:22px;border-radius:50%;background:var(--brand-soft);color:var(--brand);font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
 .item .lbl{font-weight:500;min-width:0}
 .item .amt{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.aff-debts{display:grid;gap:8px;margin-top:8px}.aff-debts:empty{display:none}
+.aff-drow{display:grid;grid-template-columns:1fr 9.5rem;gap:10px;align-items:center}
+.aff-drow label{font-size:.88rem;color:var(--ink)}
+.aff-drow input{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:9px 11px;width:100%;box-sizing:border-box;font-variant-numeric:tabular-nums}
 .rmc{display:inline-grid;grid-template-columns:auto 1fr;column-gap:.3em;max-width:100%;vertical-align:baseline}
 .rmc>span:last-child{text-align:right}
 .item .amt small{display:block;font-size:.72rem;font-weight:500;color:var(--warn)}
@@ -200,7 +203,6 @@ a.btn{text-decoration:none;display:inline-block}
       <button class="tab" role="tab" id="tab-roi" data-view="roi" aria-selected="false" data-i18n="tabRoi"></button>
       <button class="tab" role="tab" id="tab-inst" data-view="inst" aria-selected="false" data-i18n="tabInst"></button>
       <button class="tab" role="tab" id="tab-aff" data-view="aff" aria-selected="false" data-i18n="tabAff"></button>
-      <button class="tab" role="tab" id="tab-dsr" data-view="dsr" aria-selected="false" data-i18n="tabDsr"></button>
       <button class="tab" role="tab" id="tab-ta" data-view="ta" aria-selected="false" data-i18n="tabTaGroup"></button>
       <button class="tab" role="tab" id="tab-letters" data-view="fl" aria-selected="false" data-i18n="tabLetters"></button><button class="tab" role="tab" id="tab-cdd" data-view="cdd" aria-selected="false" data-i18n="cddTab"></button><button class="tab" role="tab" id="tab-lst" data-view="lst" aria-selected="false" data-i18n="lstTab"></button><button class="tab" role="tab" id="tab-rq" data-view="rq" aria-selected="false" data-i18n="rqTab"></button>
     </div>
@@ -577,39 +579,11 @@ a.btn{text-decoration:none;display:inline-block}
       <p class="fine" data-i18n="instFine"></p>
     </section>
   </div>
-  <div class="view" id="view-dsr" hidden>
-    <section class="calc">
-      <p class="fine" data-i18n="dsrIntro"></p>
-      <div class="ta-group"><h3 data-i18n="dsrG1"></h3><div class="fields">
-        <div class="field"><label for="dsr-inc" data-i18n="dsrInc"></label><input id="dsr-inc" type="text" inputmode="decimal" autocomplete="off" data-num value="8000"></div>
-        <div class="field"><label for="dsr-inc2" data-i18n="dsrInc2"></label><input id="dsr-inc2" type="text" inputmode="decimal" autocomplete="off" data-num value=""></div>
-      </div></div>
-      <div class="ta-group"><h3 data-i18n="dsrG2"></h3><div class="fields">
-        <div class="field"><label for="dsr-house" data-i18n="dsrHouse"></label><input id="dsr-house" type="text" inputmode="decimal" autocomplete="off" data-num value=""></div>
-        <div class="field"><label for="dsr-car" data-i18n="dsrCar"></label><input id="dsr-car" type="text" inputmode="decimal" autocomplete="off" data-num value=""></div>
-        <div class="field"><label for="dsr-pl" data-i18n="dsrPl"></label><input id="dsr-pl" type="text" inputmode="decimal" autocomplete="off" data-num value=""></div>
-        <div class="field"><label for="dsr-ptptn" data-i18n="dsrPtptn"></label><input id="dsr-ptptn" type="text" inputmode="decimal" autocomplete="off" data-num value=""></div>
-        <div class="field"><label for="dsr-cc" data-i18n="dsrCc"></label><input id="dsr-cc" type="text" inputmode="decimal" autocomplete="off" data-num value=""></div>
-        <div class="field"><label for="dsr-other" data-i18n="dsrOther"></label><input id="dsr-other" type="text" inputmode="decimal" autocomplete="off" data-num value=""></div>
-      </div><p class="fine" data-i18n="dsrCcNote"></p></div>
-      <div class="ta-group"><h3 data-i18n="dsrG3"></h3><div class="fields">
-        <div class="field"><label for="dsr-price" data-i18n="roiPrice"></label><input id="dsr-price" type="text" inputmode="decimal" autocomplete="off" data-num value="500000"></div>
-        <div class="field"><label for="dsr-margin" data-i18n="sMargin"></label><input id="dsr-margin" type="text" inputmode="decimal" autocomplete="off" data-num value="90"></div>
-        <div class="field"><label for="dsr-rate" data-i18n="sRate"></label><input id="dsr-rate" type="text" inputmode="decimal" autocomplete="off" data-num value="4"></div>
-        <div class="field"><label for="dsr-years" data-i18n="sYears"></label><input id="dsr-years" type="text" inputmode="decimal" autocomplete="off" data-num value="35"></div>
-        <div class="field"><label for="dsr-limit" data-i18n="dsrLimit"></label><input id="dsr-limit" type="text" inputmode="decimal" autocomplete="off" data-num value="70"></div>
-      </div></div>
-      <div class="result" id="dsr-out"></div>
-      <div class="copyrow"><button class="btn" type="button" id="dsr-copybtn" data-i18n="copyWa"></button><span class="copied" id="dsr-copied" role="status"></span></div>
-      <textarea class="fallback" id="dsr-fallback" readonly hidden aria-label="WhatsApp"></textarea>
-      <p class="fine" data-i18n="dsrFine"></p>
-    </section>
-  </div>
   <div class="view" id="view-aff" hidden>
     <section class="calc">
       <div class="fields">
         <div class="field"><label for="aff-income" data-i18n="affIncome"></label><input id="aff-income" type="text" inputmode="decimal" autocomplete="off" data-num min="0" step="100" value="8000"></div>
-        <div class="field"><label for="aff-debt" data-i18n="affDebt"></label><input id="aff-debt" type="text" inputmode="decimal" autocomplete="off" data-num min="0" step="50" value="1000"></div>
+        <div class="field wide"><label data-i18n="affDebt"></label><div class="msel" id="aff-debt-ms"></div><div class="aff-debts" id="aff-debts"></div><p class="fine" id="aff-debt-total"></p></div>
         <div class="field"><label for="aff-dsr" data-i18n="affDsr"></label><input id="aff-dsr" type="text" inputmode="decimal" autocomplete="off" data-num min="0" step="1" value="60"></div>
         <div class="field"><label for="aff-rate" data-i18n="sRate"></label><input id="aff-rate" type="text" inputmode="decimal" autocomplete="off" data-num min="0" step="0.05" value="4"></div>
         <div class="field"><label for="aff-years" data-i18n="sYears"></label><input id="aff-years" type="text" inputmode="decimal" autocomplete="off" data-num min="0" step="1" value="35"></div>
@@ -672,13 +646,13 @@ zh:{
   taBank:"Bank Name（有填户口号码就必填）", taAccName:"Account Holder Name", taAccNo:"Bank Account Number", taGen:"下载 TA",
   taFine:"Template 条款页照原文排版（Times New Roman 字体）。结束日期会按开始日期和租期自动算出，也可以自己改。押金默认是 2 个月、水电押金 0.5 个月，可以自己改。金额的英文大写会自动写好。",
   taMissing:f=>`请先填写：${f}`, taMaking:"正在准备文件…", taSaved:"已下载。", pvBtn:"预览 Preview", pvOpened:"已打开预览，确认没问题再按下载。", pvClose:"关闭预览", pvTipPreview:"这是预览。确认没问题后，关掉这个画面，按「下载」就可以。", invG:"Inventory List（照片或文字，可不填）", invIntro:"上传屋子的照片，下载 TA 时会自动排在最后几页，每页 6 张，标题是 INVENTORY LIST。可以在每张照片下面写说明（请用英文，例如 Living hall – 1 sofa），要换顺序就按住照片拖到想要的位置（手机：按住照片约半秒再拖）。", invAdd:"＋ 上传照片", invTextL:"或者用表格写 Inventory List（可不填，请用英文）。No. 会自动编号；在 Units 按 Enter 会自动加下一行，不要的行按 ✕ 删除。有照片的话，表格排在照片后面。", invTitleL:"标题", invItemPh:"例如 Sofa (3 seater)", invUnitPh:"例如 1", invAddRow:"＋ 加一行", invDel:"删除", invCapPh:"说明（英文，可不填）", invLoading:"正在处理照片…", invCount:(n,p)=>`共 ${n} 张照片，会占 ${p} 页。`, invBad:n=>`有 ${n} 张照片打不开，请换成 JPG / PNG。`, pvShare:"转发 / 分享", pvDl:"下载", pvOpen:"新视窗打开", pvLoading:"正在显示…", pvTipShare:"按「转发 / 分享」可以直接 WhatsApp、Email 或存进档案。", pvTipDl:"按「下载」存档；手机上也可以按「新视窗打开」再分享。", pvTipFrame:"⚠ 你现在是在预览画面里打开，这里不能下载或分享。请把档案上传到网站后，用手机的 Chrome 或 Safari 打开。", pvShareFail:"这个浏览器不让分享档案。请按「下载」或「新视窗打开」，或改用手机的 Chrome / Safari 打开网站。", taNoDl:"下载失败，请再试一次。", taDeclined:"已取消下载。", taFail:"文件准备失败，请再试一次。",
-  tabRoi:"ROI 计算", tabDsr:"DSR 计算", dsrIntro:"DSR（Debt Service Ratio，债务收入比）= 每月总承担 ÷ 每月净收入。填收入、现有贷款和想买的产业，就会算出 DSR，看看有没有超过银行上限。", dsrG1:"每月净收入", dsrInc:"申请人净收入 (RM)", dsrInc2:"联名申请人净收入 (RM，可不填)", dsrG2:"现有每月承担（没有就留空）", dsrHouse:"现有房贷 (RM/月)", dsrCar:"车贷 (RM/月)", dsrPl:"个人贷款 (RM/月)", dsrPtptn:"PTPTN (RM/月)", dsrCc:"信用卡未还余额 (RM)", dsrOther:"其他承担 (RM/月)", dsrCcNote:"信用卡按未还余额的 5% 当每月承担计算（银行一般做法）。", dsrCcM:"信用卡 (5%)", dsrG3:"想买的产业", dsrLimit:"银行 DSR 上限 (%)", dsrH:"DSR 结果", dsrNewInst:"新房贷每月供期", dsrExist:"现有每月承担", dsrTotal:"每月总承担", dsrIncT:"每月净收入", dsrRoom:"还能承担", dsrExceed:"超出上限", dsrMaxLoan:"按上限最高贷款", dsrOk:l=>`✅ 在银行上限 ${l}% 以内`, dsrOver:l=>`⚠ 超过银行上限 ${l}%`, dsrNoInc:"请先填每月净收入", waDsr:"*DSR 计算*", dsrFine:"各银行计算 DSR 的方法和上限不同（一般 60%–70%，收入越高上限越高），有的用净收入、有的用总收入。结果只是估算，以银行批准为准。",  tabInst:"供期计算", tabAff:"购屋能力",
+  tabRoi:"ROI 计算", tabInst:"供期计算", tabAff:"购屋能力",
   roiPrice:"房价 (RM)", roiRent:"预计月租 (RM)", roiMaint:"每月管理费 (RM)", roiTax:"每年门牌税 + 地税 (RM)", roiCost:"买房杂费 (RM)",
   roiH:"投资回报", grossY:"毛租金回报率", netY:"净租金回报率", cashflow:"每月现金流", cashRoi:"现金回报率 (ROI)", cashIn:"投入现金（头期 + 杂费）", annualCf:"每年现金流",
   roiFine:"毛回报 = 年租 ÷ 房价；净回报 = (年租 − 管理费 − 门牌地税) ÷ 房价；每月现金流 = 月租 − 供期 − 管理费 − 门牌地税 ÷ 12；现金回报率 = 每年现金流 ÷ 投入现金。不含空置期、维修和所得税。仅供参考。",
   instH:"每月供期", loanAmt2:"贷款额", totalInt:"总利息", totalPay:"总还款额",
   instFine:"按月计算的标准分期公式（Flat EMI）。实际供期以银行批准为准。仅供参考。",
-  affIncome:"每月净收入 (RM)", affDebt:"现有每月债务 (RM)", affDsr:"银行可接受 DSR (%)",
+  affDPick:"— 选择债务项目（可多选）—", affDHouse:"现有房贷", affDCar:"车贷", affDPl:"个人贷款", affDPtptn:"PTPTN", affDCc:"信用卡 (5%)", affDCcBal:"信用卡未还余额（按 5% 算）", affDOther:"其他债务", affDTotal:t=>`现有每月债务合计：${t}`, affDTotalL:"债务合计", affIncome:"每月净收入 (RM)", affDebt:"现有每月债务（选项目再填每月金额）", affDsr:"银行可接受 DSR (%)",
   affH:"最高可买价位", maxPrice:"最高可买房价", maxLoan:"最高贷款额", maxInst:"最高每月供期", needDown:"需要头期",
   affFine:"最高每月供期 = 每月净收入 × DSR − 现有债务（车贷、PTPTN、信用卡等）。各银行 DSR 标准不同，结果只是估算，以银行批准为准。",
   waRoi:"*投资回报预算*", waInst:"*每月供期预算*", waAff:"*购屋能力预算*",
@@ -718,13 +692,13 @@ en:{
   taBank:"Bank name (required if account number is filled)", taAccName:"Account holder name", taAccNo:"Bank account number", taGen:"Download TA",
   taFine:"The expiry date is worked out from the start date and term, and you can change it. Deposits default to 2 months' and 0.5 month's rent; you can change them. Amounts in words are filled in automatically.",
   taMissing:f=>`Please fill in: ${f}`, taMaking:"Preparing the file…", taSaved:"Downloaded.", pvBtn:"Preview", pvOpened:"Preview opened. Check it, then tap Download.", pvClose:"Close preview", pvTipPreview:"This is a preview. When it looks right, close this and tap Download.", invG:"Inventory list (photos or text, optional)", invIntro:"Upload photos of the property. They are added as the last pages of the TA, 6 per page, titled INVENTORY LIST. You can add a caption under each photo (English, e.g. Living hall – 1 sofa), drag a photo to reorder (on a phone, press and hold for half a second, then drag).", invAdd:"+ Upload photos", invTextL:"Or fill the inventory list as a table (optional, in English). No. is numbered automatically; press Enter in Units to add the next row, ✕ removes a row. With photos, the table comes after the photos.", invTitleL:"Heading", invItemPh:"e.g. Sofa (3 seater)", invUnitPh:"e.g. 1", invAddRow:"+ Add row", invDel:"Remove", invCapPh:"Caption (optional)", invLoading:"Processing photos…", invCount:(n,p)=>`${n} photos, ${p} page(s).`, invBad:n=>`${n} photo(s) could not be opened. Please use JPG / PNG.`, pvShare:"Share / Forward", pvDl:"Download", pvOpen:"Open in new tab", pvLoading:"Loading…", pvTipShare:"Tap “Share / Forward” to send by WhatsApp or email, or save to Files.", pvTipDl:"Tap “Download” to save; on a phone you can also open it in a new tab and share.", pvTipFrame:"⚠ This is a preview window, which blocks downloads and sharing. Upload the file to your website and open it in Chrome or Safari.", pvShareFail:"This browser does not allow sharing files. Tap “Download” or “Open in new tab”, or open the site in Chrome / Safari.", taNoDl:"Download failed. Please try again.", taDeclined:"Download cancelled.", taFail:"Couldn't prepare the file. Please try again.",
-  tabRoi:"ROI", tabDsr:"DSR", dsrIntro:"DSR (Debt Service Ratio) = total monthly commitments ÷ monthly net income. Fill in the income, existing loans and the property to buy to see the DSR and whether it is within the bank’s limit.", dsrG1:"Monthly net income", dsrInc:"Applicant net income (RM)", dsrInc2:"Joint applicant net income (RM, optional)", dsrG2:"Existing monthly commitments (leave blank if none)", dsrHouse:"Existing housing loans (RM/month)", dsrCar:"Car loan (RM/month)", dsrPl:"Personal loan (RM/month)", dsrPtptn:"PTPTN (RM/month)", dsrCc:"Credit card outstanding (RM)", dsrOther:"Other commitments (RM/month)", dsrCcNote:"Credit cards count as 5% of the outstanding balance per month (common bank practice).", dsrCcM:"Credit card (5%)", dsrG3:"Property to buy", dsrLimit:"Bank DSR limit (%)", dsrH:"DSR result", dsrNewInst:"New loan instalment", dsrExist:"Existing commitments", dsrTotal:"Total commitments", dsrIncT:"Monthly net income", dsrRoom:"Room left", dsrExceed:"Over the limit by", dsrMaxLoan:"Max loan at this limit", dsrOk:l=>`✅ Within the bank limit of ${l}%`, dsrOver:l=>`⚠ Over the bank limit of ${l}%`, dsrNoInc:"Fill in the monthly net income first", waDsr:"*DSR Calculation*", dsrFine:"Banks calculate DSR differently and set different limits (usually 60%–70%, higher for higher incomes); some use net income, some gross. This is an estimate only. The bank’s approval prevails.",  tabInst:"Instalment", tabAff:"Affordability",
+  tabRoi:"ROI", tabInst:"Instalment", tabAff:"Affordability",
   roiPrice:"Property price (RM)", roiRent:"Expected monthly rent (RM)", roiMaint:"Monthly maintenance (RM)", roiTax:"Yearly assessment + quit rent (RM)", roiCost:"Purchase costs (RM)",
   roiH:"Investment return", grossY:"Gross rental yield", netY:"Net rental yield", cashflow:"Monthly cash flow", cashRoi:"Cash-on-cash ROI", cashIn:"Cash invested (downpayment + costs)", annualCf:"Yearly cash flow",
   roiFine:"Gross yield = annual rent ÷ price; net yield = (annual rent − maintenance − assessment and quit rent) ÷ price; monthly cash flow = rent − instalment − maintenance − assessment and quit rent ÷ 12; ROI = yearly cash flow ÷ cash invested. Excludes vacancy, repairs and income tax. For reference only.",
   instH:"Monthly instalment", loanAmt2:"Loan amount", totalInt:"Total interest", totalPay:"Total repayment",
   instFine:"Standard monthly amortisation formula. The bank's approved instalment prevails. For reference only.",
-  affIncome:"Monthly net income (RM)", affDebt:"Existing monthly debts (RM)", affDsr:"Bank DSR limit (%)",
+  affDPick:"— Select debts (multiple) —", affDHouse:"Existing housing loan", affDCar:"Car loan", affDPl:"Personal loan", affDPtptn:"PTPTN", affDCc:"Credit card (5%)", affDCcBal:"Credit card outstanding (counted at 5%)", affDOther:"Other debts", affDTotal:t=>`Total existing monthly debts: ${t}`, affDTotalL:"Total debts", affIncome:"Monthly net income (RM)", affDebt:"Existing monthly debts (pick items, then fill in monthly amounts)", affDsr:"Bank DSR limit (%)",
   affH:"Maximum property price", maxPrice:"Maximum property price", maxLoan:"Maximum loan", maxInst:"Maximum monthly instalment", needDown:"Downpayment needed",
   affFine:"Maximum instalment = monthly net income × DSR − existing debts (car loan, PTPTN, credit cards, etc.). Each bank uses its own DSR, so this is an estimate only. The bank's approval prevails.",
   waRoi:"*Investment Return Estimate*", waInst:"*Monthly Instalment Estimate*", waAff:"*Affordability Estimate*",
@@ -745,7 +719,7 @@ function applyLang(){
   document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=T(el.dataset.i18n));
   document.querySelectorAll("[data-i18n-ph]").forEach(el=>{el.placeholder=T(el.dataset.i18nPh); el.setAttribute("aria-label",T(el.dataset.i18nPh));});
   document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));
-  if(typeof setTaMode==="function") setTaMode(taMode); renderChips(); renderTopic(); renderLog(); calcSale(); calcRent(); calcRoi(); calcInst(); calcAff(); calcDsr(); if(typeof lstLang==="function") lstLang(); if(typeof rqLang==="function") rqLang(); if(typeof cpShow==="function") cpShow();
+  if(typeof setTaMode==="function") setTaMode(taMode); renderChips(); renderTopic(); renderLog(); calcSale(); calcRent(); calcRoi(); calcInst(); if(typeof affDebtRender==="function") affDebtRender(); calcAff(); if(typeof lstLang==="function") lstLang(); if(typeof rqLang==="function") rqLang(); if(typeof cpShow==="function") cpShow();
 }
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{lang=b.dataset.lang; try{localStorage.setItem("eag-lang",lang);}catch(e){} applyLang();});
 
@@ -862,7 +836,7 @@ $("#stop").onclick=()=>ctl?.abort();
 /* ===== 页面切换 ===== */
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
   document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x===t));
-  ["chat","sale","rent","roi","inst","aff","dsr","ta","fl","rb","rd","rc","ns","td","la","cp","cdd","lst","rq"].forEach(v=>$("#view-"+v).hidden = v!==t.dataset.view);
+  ["chat","sale","rent","roi","inst","aff","ta","fl","rb","rd","rc","ns","td","la","cp","cdd","lst","rq"].forEach(v=>$("#view-"+v).hidden = v!==t.dataset.view);
   if(t.dataset.view==="ta") setTaMode(taMode);
   if(t.dataset.view==="fl") showLetter(curLetter);
 });
@@ -1306,7 +1280,7 @@ function rqMultiRender(only){
   });
 }
 document.addEventListener("click",ev=>{
-  const ms=ev.target.closest(".msel");
+  const ms=ev.target.closest("#view-rq .msel");
   document.querySelectorAll("#view-rq .msel-panel").forEach(p=>{ if(!ms||!ms.contains(p)) p.hidden=true; });
   if(!ms) return;
   if(ev.target.closest(".msel-btn")){ const p=ms.querySelector(".msel-panel"); p.hidden=!p.hidden; }
@@ -1490,15 +1464,30 @@ function calcInst(){
   instText=[T("waInst"),`${T("roiPrice")}: ${RM(price)}`,`${T("loanAmt2")}: ${RM(loan)} (${margin}%)`,`${T("sRate")}: ${rate}% · ${years} ${T("yearsU")}`,"",
     `*${T("monthly")}: ${RM(inst)}*`,`${T("down")}: ${RM(price-loan)}`,`${T("totalInt")}: ${RM(totalPay-loan)}`,"",T("waNote")].join("\n");
 }
+/* 购屋能力：现有债务（下拉多选，选到的项目旁边填金额，自动加总） */
+const AFF_DEBTS=[["house","affDHouse"],["car","affDCar"],["pl","affDPl"],["ptptn","affDPtptn"],["cc","affDCc"],["other","affDOther"]];
+const AFF_SEL=new Set(["car"]); const AFF_VAL={car:"1,000"};
+function affDebtItems(){ return AFF_DEBTS.filter(([k])=>AFF_SEL.has(k)).map(([k,l])=>{ const v=parseFloat(String(AFF_VAL[k]||"").replace(/,/g,""))||0; return {k,label:T(l),amt:k==="cc"?v*0.05:v}; }); }
+function affDebtRender(){
+  const box=$("#aff-debt-ms"), open=box.querySelector(".msel-panel")&&!box.querySelector(".msel-panel").hidden;
+  box.innerHTML=`<button type="button" class="msel-btn" aria-haspopup="true"></button><div class="msel-panel"${open?"":" hidden"}>`+AFF_DEBTS.map(([k,l])=>`<label><input type="checkbox" data-affd="${k}"${AFF_SEL.has(k)?" checked":""}><span>${esc(T(l))}</span></label>`).join("")+`<button type="button" class="msel-done">${esc(T("rqDone"))}</button></div>`;
+  affDebtLabel();
+  $("#aff-debts").innerHTML=AFF_DEBTS.filter(([k])=>AFF_SEL.has(k)).map(([k,l])=>`<div class="aff-drow"><label for="aff-d-${k}">${esc(T(k==="cc"?"affDCcBal":l))}</label><input id="aff-d-${k}" data-affv="${k}" type="text" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(AFF_VAL[k]||"")}"></div>`).join("");
+}
+function affDebtLabel(){ const n=AFF_DEBTS.filter(([k])=>AFF_SEL.has(k)).map(([,l])=>T(l)); const b=$("#aff-debt-ms .msel-btn"); b.textContent=n.length?n.join(", "):T("affDPick"); b.classList.toggle("ph",!n.length); }
 function calcAff(){
-  const income=num("#aff-income"), debt=num("#aff-debt"), dsr=num("#aff-dsr"), rate=num("#aff-rate"), years=Math.max(1,num("#aff-years")), margin=Math.min(num("#aff-margin"),100);
+  const debts=affDebtItems(), debt=debts.reduce((t,d)=>t+d.amt,0);
+  $("#aff-debt-total").textContent=T("affDTotal")(RM(debt));
+  const income=num("#aff-income"), dsr=num("#aff-dsr"), rate=num("#aff-rate"), years=Math.max(1,num("#aff-years")), margin=Math.min(num("#aff-margin"),100);
   const maxInst=Math.max(0, income*dsr/100 - debt), maxLoan=pvOf(maxInst,rate,years);
   const maxPrice= margin>0? maxLoan/(margin/100) : 0;
   $("#aff-out").innerHTML=`<h3>${T("affH")}</h3>`
     + band(T("maxPrice"),RM(maxPrice),`${T("sMargin").replace(" (%)","")} ${margin}%`)
     + row(T("maxLoan"),maxLoan) + row(T("maxInst"),maxInst,"",`DSR ${dsr}% · ${rate}% · ${years} ${T("yearsU")}`) + row(T("needDown"),maxPrice-maxLoan);
-  affText=[T("waAff"),`${T("affIncome")}: ${RM(income)}`,`${T("affDebt")}: ${RM(debt)}`,"",
-    `*${T("maxPrice")}: ${RM(maxPrice)}*`,`${T("maxLoan")}: ${RM(maxLoan)}`,`${T("maxInst")}: ${RM(maxInst)}`,`${T("needDown")}: ${RM(maxPrice-maxLoan)}`,"",T("waNote")].join("\n");
+  const lab=k=>T(k).replace(/\s*\(RM\)$/,"");
+  const pad=waNumPad([income,debt,...debts.map(d=>d.amt)].map(rmNum));
+  affText=[T("waAff"),...waAlign([[lab("affIncome"),`*${waRM(income,pad)}*`],...debts.map(d=>[d.label,`*${waRM(d.amt,pad)}*`]),[T("affDTotalL"),`*${waRM(debt,pad)}*`]]),"",
+    ...(()=>{ const p2=waNumPad([maxPrice,maxLoan,maxInst,maxPrice-maxLoan].map(rmNum)); return waAlign([[T("maxPrice"),`*${waRM(maxPrice,p2)}*`],[T("maxLoan"),`*${waRM(maxLoan,p2)}*`],[T("maxInst"),`*${waRM(maxInst,p2)}*`],[T("needDown"),`*${waRM(maxPrice-maxLoan,p2)}*`]]); })(),"",T("waNote")].join("\n");
 }
 setupCopy("#roi-copybtn","#roi-copied","#roi-fallback",()=>roiText);
 setupCopy("#inst-copybtn","#inst-copied","#inst-fallback",()=>instText);
@@ -1506,39 +1495,12 @@ setupCopy("#aff-copybtn","#aff-copied","#aff-fallback",()=>affText);
 document.querySelectorAll("#view-roi input").forEach(el=>el.addEventListener("input",calcRoi));
 document.querySelectorAll("#view-inst input").forEach(el=>el.addEventListener("input",calcInst));
 document.querySelectorAll("#view-aff input").forEach(el=>el.addEventListener("input",calcAff));
-/* ===== DSR 计算器 =====
-   DSR = 每月总承担（现有 + 新房贷）÷ 每月净收入 × 100% */
-let dsrText="";
-function calcDsr(){
-  const inc=num("#dsr-inc")+num("#dsr-inc2");
-  const cc=num("#dsr-cc")*0.05;
-  const ex=[["dsrHouse",num("#dsr-house")],["dsrCar",num("#dsr-car")],["dsrPl",num("#dsr-pl")],["dsrPtptn",num("#dsr-ptptn")],["dsrCcM",cc],["dsrOther",num("#dsr-other")]];
-  const exist=ex.reduce((t,x)=>t+x[1],0);
-  const price=num("#dsr-price"), margin=Math.min(num("#dsr-margin"),100), rate=num("#dsr-rate"), years=Math.max(1,num("#dsr-years")), limit=num("#dsr-limit");
-  const loan=price*margin/100, inst=pmt(loan,rate,years), total=exist+inst;
-  const dsr=inc>0?total/inc*100:0, ok=inc>0&&dsr<=limit;
-  const room=inc*limit/100-exist;               /* 按上限还能负担的每月新房贷 */
-  const maxLoan=pvOf(Math.max(0,room),rate,years);
-  const diff=inc*limit/100-total;
-  const W=rmW([rmNum(inst),rmNum(exist),rmNum(total),rmNum(inc),rmNum(Math.abs(diff)),rmNum(maxLoan)]);
-  const r=(l,v,cls="",note="")=>`<div class="row ${cls}"><span>${l}${note?`<small>${note}</small>`:""}</span><span>${rmc(v,"",W)}</span></div>`;
-  const st=inc<=0?T("dsrNoInc"):ok?T("dsrOk")(limit):T("dsrOver")(limit);
-  $("#dsr-out").innerHTML=`<h3>${T("dsrH")}</h3>`
-    + band("DSR",inc>0?dsr.toFixed(2)+"%":"–",st)
-    + r(T("dsrNewInst"),inst,"",`${RM(loan)} · ${rate}% · ${years} ${T("yearsU")}`)
-    + r(T("dsrExist"),exist)
-    + r(T("dsrTotal"),total)
-    + r(T("dsrIncT"),inc)
-    + r(diff>=0?T("dsrRoom"):T("dsrExceed"),Math.abs(diff),diff>=0?"":"warnrow")
-    + r(T("dsrMaxLoan"),maxLoan,"total",`DSR ${limit}% · ${rate}% · ${years} ${T("yearsU")}`);
-  const pad=waNumPad([inst,exist,total,inc,Math.abs(diff),maxLoan].map(rmNum));
-  const L=waAlign([[T("dsrIncT"),`*${waRM(inc,pad)}*`],[T("dsrExist"),`*${waRM(exist,pad)}*`],[T("dsrNewInst"),`*${waRM(inst,pad)}*`],[T("dsrTotal"),`*${waRM(total,pad)}*`]]);
-  dsrText=[T("waDsr"),...L,"",`*DSR: ${inc>0?dsr.toFixed(2)+"%":"–"}*`,`(${st})`,"",
-    ...waAlign([[diff>=0?T("dsrRoom"):T("dsrExceed"),`*${waRM(Math.abs(diff),pad)}*`],[T("dsrMaxLoan"),`*${waRM(maxLoan,pad)}*`]]),"",T("waNote")].join("\n");
-}
-setupCopy("#dsr-copybtn","#dsr-copied","#dsr-fallback",()=>dsrText);
-document.querySelectorAll("#view-dsr input").forEach(el=>el.addEventListener("input",calcDsr));
-
+affDebtRender();
+$("#view-aff").addEventListener("change",ev=>{ const cb=ev.target.closest("[data-affd]"); if(!cb) return; cb.checked?AFF_SEL.add(cb.dataset.affd):AFF_SEL.delete(cb.dataset.affd); affDebtRender(); calcAff(); });
+$("#view-aff").addEventListener("input",ev=>{ const i=ev.target.closest("[data-affv]"); if(!i) return; fmtNum(i); AFF_VAL[i.dataset.affv]=i.value; calcAff(); });
+document.addEventListener("click",ev=>{ const ms=ev.target.closest("#aff-debt-ms"), p=$("#aff-debt-ms .msel-panel"); if(!p) return;
+  if(!ms){ p.hidden=true; return; }
+  if(ev.target.closest(".msel-btn")) p.hidden=!p.hidden; else if(ev.target.closest(".msel-done")) p.hidden=true; });
 
 
 /* ===== Chee Sun TA ===== */
